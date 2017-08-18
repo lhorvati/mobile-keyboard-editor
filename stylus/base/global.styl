@@ -1,0 +1,118 @@
+/* GLOBAL.STYL ======================================= */
+
+
+/* overwrites ========================== */
+html, body, div, table, p, input
+	color: colorDarkGray
+	font-family: font1
+	font-size: 14px
+
+
+.show
+	display: block !important
+.show-flex
+	flexbox()
+	display: flex !important
+.hide
+	display: none !important
+.desktop-hide
+	display: none
+.desktop-show
+	display: block
+.invisible
+	visibility: hidden
+
+section
+	margin: 0 auto
+
+.container
+	max-width: 960px
+	margin: 0 auto
+
+.container-jumbo
+	max-width: 1340px
+	margin: 0 auto
+
+.section-row
+	width: 100%
+	position: relative
+	clear: both
+
+
+.noselect
+	-webkit-touch-callout: none /* iOS Safari */
+	-webkit-user-select: none /* Safari */
+	-khtml-user-select: none /* Konqueror HTML */
+	-moz-user-select: none /* Firefox */
+	-ms-user-select: none /* Internet Explorer/Edge */
+	user-select: none /* Non-prefixed version, currently supported by Chrome and Opera */
+
+
+
+/* H1 - H6 Headings ========================== */
+h2,
+h3,
+h4
+	font-family: font1
+	margin: 0
+	padding: 0
+
+h2
+	font-size: 16px
+	font-weight: 400
+
+h3
+	font-size: 18px
+	color: colorBlue
+	font-weight: 300
+	padding-bottom: 20px
+
+h4
+	font-size: 14px
+	color: colorWhite
+	font-weight: 100
+	opacity: .5
+
+
+
+
+.title--large
+	font-size: 22px
+	color: #000
+
+
+.title--gray
+	font-size: 14px
+	color: #424242
+	opacity: .5
+
+
+// Card Title
+.card-title
+	font-size: 13px
+	font-weight: 400
+	color: #424242
+	margin-bottom: 20px
+	ellipsis()
+
+.card-title2
+	line-height: 18px
+	font-size: 16px
+	font-weight: 400
+	color: colorDarkerBlue
+	ellipsis()
+
+.card-title3
+	line-height: 18px
+	font-size: 16px
+	font-weight: 400
+	color: colorGray2
+	ellipsis()
+
+// Card Button
+.card-btn
+	padding: 0 5px
+	margin-left: auto
+	color: colorPurple
+	text-transform: uppercase
+	cursor: pointer

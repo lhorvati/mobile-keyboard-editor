@@ -1,0 +1,137 @@
+/* MIXINS.STYL ======================================= */
+
+
+
+/* FLEXBOX ======================== */
+
+flexbox()
+	display: -webkit-box
+	display: -webkit-flex
+	display: -moz-flex
+	display: -ms-flexbox
+	display: flex
+
+box-align(value)
+	-webkit-box-align: value
+	-moz-box-align: value
+	-ms-box-align: value
+	-o-box-align: value
+	box-align: value
+
+box-flex(value)
+	-webkit-box-flex: value
+	-moz-box-flex: value
+	-ms-box-flex: value
+	-o-box-flex: value
+	box-flex: value
+
+flex-center()
+	justify-content: center
+	align-items: center
+
+
+
+/* box-sizing: border-box */
+box-sizing()
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	
+
+/* BORDER RADUIS ======================== */
+
+border-radius(value) 
+	-webkit-border-radius: value
+	-moz-border-radius: value
+	-ms-border-radius: value
+	border-radius: value
+
+border-top-left-radius(value)
+	-webkit-border-top-left-radius: value
+	-moz-border-radius-topleft: value
+	-ms-border-top-left-radius: value
+	-o-border-top-left-radius: value
+	border-top-left-radius: value
+
+border-top-right-radius(value)
+	-webkit-border-top-right-radius: value
+	-moz-border-radius-topright: value
+	-ms-border-top-right-radius: value
+	-o-border-top-right-radius: value
+	border-top-right-radius: value
+
+border-bottom-left-radius(value)
+	-webkit-border-bottom-left-radius: value
+	-moz-border-radius-bottomleft: value
+	-ms-border-bottom-left-radius: value
+	-o-border-bottom-left-radius: value
+	border-bottom-left-radius: value
+
+border-bottom-right-radius(value) 
+	-webkit-border-bottom-right-radius: value
+	-moz-border-radius-bottomright: value
+	-ms-border-bottom-right-radius: value
+	-o-border-bottom-right-radius: value
+	border-bottom-right-radius: value
+
+
+
+/* BOX SHADOW ======================== */
+
+/* box-shadow 1 variable */
+box-shadow(value)
+	-webkit-box-shadow: value
+	-moz-box-shadow: value
+	box-shadow: value
+
+/* box-shadow 2 variables */
+box-shadow2(value1, value2)
+	-webkit-box-shadow: value1, value2
+	-moz-box-shadow: value1, value2
+	box-shadow: value1, value2
+	
+
+
+
+/* TEXT ELLIPSIS ... ======================== */
+
+ellipsis()
+	text-overflow: ellipsis
+	overflow: hidden
+	white-space: nowrap
+
+
+
+/* TRANSITION ======================== */
+transition(value)
+	-webkit-transition: all value ease
+	-moz-transition: all value ease
+	-o-transition: all value ease
+	-ms-transition: all value ease
+	transition: all value ease
+
+/* TRANSFORM SCALE ======================== */
+
+transform-scale(value)
+	-webkit-transform:scale(value)
+	-moz-transform:scale(value)
+	-ms-transform:scale(value)
+	-o-transform:scale(value)
+	transform:scale(value)
+
+
+
+/* NOSELECT ======================== */
+
+noselect()
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+
+
+
+
+
