@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="25px" viewBox="0 0 40 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="new-keyboard-layout" transform="translate(-760.000000, -53.000000)" fill="#606060">
+            <g id="keyboard">
+                <g id="Group-2" transform="translate(6.000000, 11.000000)">
+                    <polygon id="down" points="758.699999 42 774 57.2666662 789.3 42 794 46.6999995 774 66.6999995 754 46.6999995"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
