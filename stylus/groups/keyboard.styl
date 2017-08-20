@@ -91,15 +91,16 @@ button:focus:not(:active)::after
                 height: 24px
 
 
-        svg
-            width: 40px
-            height: 40px
 
 
     .keyboard-item.special
 
         &.pressed .pressed-wrap
-            display: flexbox() !important
+            display: flex !important
+
+        svg
+            width: 40px
+            height: 40px
 
         .pressed-wrap
             display: none
