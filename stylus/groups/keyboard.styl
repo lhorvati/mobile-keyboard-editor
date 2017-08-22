@@ -82,21 +82,13 @@ button:focus:not(:active)::after
         overflow: hidden
         noselect()
 
-        &:nth-child(3)
-            svg
-                width: 40px
-        &:nth-child(4)
-            svg
-                width: 30px
-
-
-        &:nth-child(13),
-        &:nth-child(14)
+        &.undo,
+        &.redo
             svg
                 width: 24px
                 height: 24px
 
-        &:nth-child(1)
+        &.tab
             svg
                 width: 18px
                 height: 18px
