@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="40px" viewBox="0 0 25 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>left</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="new-keyboard-layout" transform="translate(-888.000000, -45.000000)" fill="#606060">
+            <g id="keyboard">
+                <g id="Group-2" transform="translate(6.000000, 11.000000)">
+                    <polygon id="left" points="906.699999 69.3000003 891.433333 54 906.699999 38.6999995 902 34 882 54 902 74"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

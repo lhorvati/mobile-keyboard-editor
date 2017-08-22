@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="39px" height="40px" viewBox="0 0 39 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>shift</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="new-keyboard-layout" transform="translate(-161.000000, -45.000000)" fill="#606060">
+            <g id="keyboard">
+                <g id="Group-2" transform="translate(6.000000, 11.000000)">
+                    <path d="M174.339243,43.0894431 L189.133764,57.8839643 L193.678486,53.3392426 L174.339243,34 L155,53.3392426 L159.544722,57.8839643 L174.339243,43.0894431 Z M155,74 L193.678486,74 L193.678486,67.5535857 L155,67.5535857 L155,74 Z" id="shift"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

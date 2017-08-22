@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160px" height="277px" viewBox="0 0 160 277" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="new-keyboard-EDITOR" transform="translate(-818.000000, 0.000000)" fill="#EFEFEF">
+            <g id="keyboard">
+                <path d="M818,10.0087166 C818,4.48105505 822.467352,0 828.008717,0 L967.991283,0 C973.518945,0 978,4.46735199 978,10.0087166 L978,149.991283 C978,155.518945 974.715719,163.04541 970.669212,166.797608 L942.411602,193 L942.411602,266.992688 C942.411602,272.519574 937.937551,277 932.412158,277 L867.242079,277 C861.719538,277 857.242635,272.513492 857.242635,266.992688 L857.242635,193 L825.659534,166.441071 C821.42929,162.883766 818,155.532648 818,149.991283 L818,10.0087166 Z" id="Rectangle-3"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,49 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-screen-orientation": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-apprate": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-background-mode": {
+            "PACKAGE_NAME": "com.editor.beta"
+        },
+        "cordova-plugin-googleplus": {
+            "PACKAGE_NAME": "com.editor.beta"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.editor.beta"
+        }
+    }
+}
