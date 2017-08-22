@@ -23,15 +23,17 @@ $(function() {
 
 $(function() {
   window.input = document.getElementById('test');
-  window.keyboardPlugin = initEditorKeyboard('editor-keyboard-plugin', (e)=>{input.value = e;});
+  var pluginEl = document.getElementById('editor-keyboard-plugin');
+  
+  window.keyboardPlugin = initEditorKeyboard(pluginEl, (e)=>{input.value = e;});
   
 
 });
 
-var initEditorKeyboard = function initEditorKeyboard(wrappID, callback) {
+var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
 
   var self;
-  var pluginEl = document.getElementById(wrappID);
+  
 
   function GetElementInsideContainer(container, childID) {
       var elm = {};
