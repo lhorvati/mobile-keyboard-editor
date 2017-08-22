@@ -117,11 +117,11 @@ var initEditorKeyboard = function initEditorKeyboard(wrappID, callback) {
       selected = 0;
 
       element.keySpec.classList.add('pressed');
-      element.keySpec.addEventListener('touchmove', moveSelect);    
+      element.keySpec.addEventListener('touchmove', moveSelect);
     });
 
     element.keySpec.addEventListener('touchend', (e)=>{
-      element.keySpec.removeEventListener('touchmove', moveSelect);   
+      element.keySpec.removeEventListener('touchmove', moveSelect);
       element.keySpec.classList.remove('pressed'); 
       callback(element.subkeysElements[selected].innerHTML)
     });    
