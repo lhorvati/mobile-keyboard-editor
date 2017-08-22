@@ -34,6 +34,19 @@ var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
 
   var self;
   
+  var tagsToReplace = {
+     '&amp;':'&',
+     '&lt;':'<',
+     '&gt;':'>'
+  };
+
+  function replaceTag(tag) {
+      return tagsToReplace[tag] || tag;
+  }
+
+  function safe_tags_replace(str) {
+      return str.replace(str,replaceTag);
+  }
 
   function GetElementInsideContainer(container, childID) {
       var elm = {};
@@ -132,7 +145,7 @@ var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
     element.keySpec.addEventListener('touchend', (e)=>{
       element.keySpec.removeEventListener('touchmove', moveSelect);   
       element.keySpec.classList.remove('pressed'); 
-      callback(element.subkeysElements[selected()].innerHTML)
+      callback(safe_tags_replace(element.subkeysElements[selected()].innerHTML));
       selected(0);
     });    
   });
