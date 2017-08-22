@@ -24,7 +24,7 @@ $(function() {
 $(function() {
   window.input = document.getElementById('test');
   var pluginEl = document.getElementById('editor-keyboard-plugin');
-  
+
   window.keyboardPlugin = initEditorKeyboard(pluginEl, (e)=>{input.value = e;});
   
 
@@ -59,6 +59,7 @@ var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
 
   keysElements.forEach((element)=>{
     var startPoint;
+    var prevPoint;
     var borders;
     var sIndex;
 
@@ -101,6 +102,7 @@ var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
       }
       else selected(0);
 
+      prevPoint = currentPoint;
       //console.log('selected', selected);
     };
 
