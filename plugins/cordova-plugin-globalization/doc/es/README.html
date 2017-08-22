@@ -1,0 +1,686 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-globalization">cordova-plugin-globalization</h1>
+<p><a href="https://travis-ci.org/apache/cordova-plugin-globalization"><img src="https://travis-ci.org/apache/cordova-plugin-globalization.svg" alt="Build Status"></a></p>
+<p>Este plugin obtiene información y realiza operaciones específicas de la configuración regional del usuario, idioma y zona horaria. Tenga en cuenta la diferencia entre la configuración regional e idioma: controles locale como números, fechas y tiempos se muestran para una región, mientras que el lenguaje determina qué texto aparece como, independientemente de la configuración local. A menudo los desarrolladores utilizan locale para fijar ambos ajustes, pero no hay razón que el usuario no pudo establecer su idioma a &quot;Inglés&quot; locale &quot;Francés&quot;, para que se muestre el texto en inglés, pero las fechas, tiempos, etc., se muestran como son en Francia. Desafortunadamente, las plataformas móviles más actualmente no hacen una distinción entre estos ajustes.</p>
+<p>Este plugin define global <code>navigator.globalization</code> objeto.</p>
+<p>Aunque en el ámbito global, no estará disponible hasta después de la <code>deviceready</code> evento.</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.globalization);
+}
+</code></pre><h2 id="instalaci-n">Instalación</h2>
+<pre><code>cordova plugin add cordova-plugin-globalization
+</code></pre><h2 id="objetos">Objetos</h2>
+<ul>
+<li>GlobalizationError</li>
+</ul>
+<h2 id="m-todos">Métodos</h2>
+<ul>
+<li>navigator.globalization.getPreferredLanguage</li>
+<li>navigator.globalization.getLocaleName</li>
+<li>navigator.globalization.dateToString</li>
+<li>navigator.globalization.stringToDate</li>
+<li>navigator.globalization.getDatePattern</li>
+<li>navigator.globalization.getDateNames</li>
+<li>navigator.globalization.isDayLightSavingsTime</li>
+<li>navigator.globalization.getFirstDayOfWeek</li>
+<li>navigator.globalization.numberToString</li>
+<li>navigator.globalization.stringToNumber</li>
+<li>navigator.globalization.getNumberPattern</li>
+<li>navigator.globalization.getCurrencyPattern</li>
+</ul>
+<h2 id="navigator-globalization-getpreferredlanguage">navigator.globalization.getPreferredLanguage</h2>
+<p>Busque la etiqueta de idioma BCP 47 el idioma actual del cliente.</p>
+<pre><code>navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la etiqueta de identificador de idioma compatible con BCP-47 a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>value</code> propiedad con un <code>String</code> valor.</p>
+<p>Si hay un error al obtener el idioma, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador está configurado la <code>en-US</code> lengua, ésta debe mostrar un cuadro de diálogo emergente con el texto <code>language: en-US</code> :</p>
+<pre><code>navigator.globalization.getPreferredLanguage (función (lengua) {alert (&#39; idioma: &#39; + language.value + &#39;\n&#39;);}, function () {alert (&#39;Error al obtener language\n&#39;);});
+</code></pre><h3 id="rarezas-android">Rarezas Android</h3>
+<ul>
+<li>Devuelve el código de idioma de dos letras 639-1 ISO, mayúsculas código ISO 3166-1 y la variante separada por guiones. Ejemplos: &quot;at&quot;, &quot;en-US&quot;, &quot;US&quot;</li>
+</ul>
+<h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li>Código de idioma devuelve el ISO 639-1 dos letras y código de la ISO 3166-1 de la variante regional correspondiente a la &quot;lengua&quot; ajuste, separados por un guión.</li>
+<li>Tenga en cuenta que la variante regional es una característica de la configuración del &quot;Idioma&quot; y no determinado por el ajuste de &quot;País o región&quot; sin relación en Windows Phone.</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>Código de idioma devuelve el ISO 639-1 dos letras y código de la ISO 3166-1 de la variante regional correspondiente a la &quot;lengua&quot; ajuste, separados por un guión.</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>Falls back on getLocaleName</li>
+</ul>
+<h2 id="navigator-globalization-getlocalename">navigator.globalization.getLocaleName</h2>
+<p>Devuelve la etiqueta compatible con BCP 47 para la configuración regional actual del cliente.</p>
+<pre><code>navigator.globalization.getLocaleName(successCallback, errorCallback);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el identificador BCP 47 local conforme a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>value</code> propiedad con un <code>String</code> valor. La etiqueta de configuración regional consistirá en un código de idioma de dos letras minúsculas, código de país de dos letras mayúsculas y códigos de la variante (no especificados), separados por un guión.</p>
+<p>Si hay un error al obtener la configuración regional, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en-US</code> local, muestra un cuadro de diálogo emergente con el texto<code>locale: en-US</code>.</p>
+<pre><code>navigator.globalization.getLocaleName(
+    function (locale) {alert(&#39;locale: &#39; + locale.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting locale\n&#39;);}
+);
+</code></pre><h3 id="rarezas-android">Rarezas Android</h3>
+<ul>
+<li>Java no distingue entre un conjunto &quot;idioma&quot; y establecer &quot;locale&quot;, así que este método es esencialmente el mismo que<code>navigator.globalizatin.getPreferredLanguage()</code>.</li>
+</ul>
+<h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li>Código de idioma devuelve el ISO 639-1 dos letras y código de la ISO 3166-1 de la variante regional correspondiente a la posición &quot;Formato Regional&quot;, separada por un guión.</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>Puede cambiar configuración regional del Panel de Control-&gt; reloj, idioma y región-&gt; región-&gt; formatos-&gt; formato y en configuración de-&gt; región-&gt; formato Regional en Windows Phone 8.1.</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>IE devuelve la configuración regional del sistema operativo. Chrome y Firefox volver etiqueta de idioma del navegador.</li>
+</ul>
+<h2 id="navigator-globalization-datetostring">navigator.globalization.dateToString</h2>
+<p>Devuelve una fecha con formato como una cadena según la configuración regional del cliente y zona horaria.</p>
+<pre><code>navigator.globalization.dateToString(date, successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la fecha con formato <code>String</code> vía un <code>value</code> propiedad accesible desde el objeto pasado como parámetro para el<code>successCallback</code>.</p>
+<p>Los entrantes <code>date</code> parámetro debe ser del tipo<code>Date</code>.</p>
+<p>Si hay un error de formato de la fecha, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional, y sus valores por defecto son:</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p>El <code>options.formatLength</code> puede ser <code>short</code> , <code>medium</code> , <code>long</code> , o<code>full</code>.</p>
+<p>El <code>options.selector</code> puede ser <code>date</code> , <code>time</code> o<code>date and time</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Si el navegador está configurado la <code>en_US</code> local, muestra un cuadro de diálogo emergente con texto similar a <code>date: 9/25/2012 4:21PM</code> utilizando las opciones predeterminadas:</p>
+<pre><code>navigator.globalization.dateToString(
+    new Date(),
+    function (date) { alert(&#39;date: &#39; + date.value + &#39;\n&#39;); },
+    function () { alert(&#39;Error getting dateString\n&#39;); },
+    { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+);
+</code></pre><h3 id="rarezas-android">Rarezas Android</h3>
+<ul>
+<li><code>formatLength</code>las opciones son un subconjunto de Unicode <a href="http://unicode.org/reports/tr35/tr35-4.html">UTS #35</a>. La opción predeterminada <code>short</code> depende de un formato de fecha seleccionada usuario dentro de <code>Settings -&gt; System -&gt; Date &amp; time -&gt; Choose date format</code> , que proporcionan un <code>year</code> patrón solamente con 4 dígitos, no de 2 dígitos. Esto significa que no está completamente alineado con <a href="http://demo.icu-project.org/icu-bin/locexp?d_=en_US&amp;_=en_US">ICU</a>.</li>
+</ul>
+<h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> los soportes de la opción <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El patrón de selector &#39;fecha y hora&#39; es siempre un formato datetime completo.</p>
+</li>
+<li><p>El valor devuelto puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> los soportes de la opción <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El patrón de selector &#39;fecha y hora&#39; es siempre un formato datetime completo.</p>
+</li>
+<li><p>El valor devuelto puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li><p>79 locales son compatibles porque moment.js se utiliza en este método.</p>
+</li>
+<li><p>El valor devuelto puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+<li><p>selector de <code>time</code> apoya sólo formatLength <code>full</code> y <code>short</code> .</p>
+</li>
+</ul>
+<h3 id="firefox-os-rarezas">Firefox OS rarezas</h3>
+<ul>
+<li><code>formatLength</code>No es distinguir <code>long</code> y<code>full</code> </li>
+<li>Sólo un método de visualización de fecha (no <code>long</code> o <code>full</code> versión)</li>
+</ul>
+<h2 id="navigator-globalization-getcurrencypattern">navigator.globalization.getCurrencyPattern</h2>
+<p>Devuelve una cadena de patrón para analizar valores de divisas según las preferencias del usuario y código de moneda ISO 4217 del cliente y el formato.</p>
+<pre><code> navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el patrón a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe contener las siguientes propiedades:</p>
+<ul>
+<li><p><strong>patrón</strong>: el patrón de la moneda para analizar los valores de la moneda y el formato. Los patrones siguen <a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode técnica estándar #35</a>. <em>(String)</em></p>
+</li>
+<li><p><strong>código</strong>: código de divisa de la ISO 4217 para el patrón. <em>(String)</em></p>
+</li>
+<li><p><strong>fracción</strong>: el número de dígitos fraccionarios a utilizar al análisis sintáctico y el formato de moneda. <em>(Número)</em></p>
+</li>
+<li><p><strong>redondeo</strong>: el redondeo incremento para utilizar al análisis sintáctico y formato. <em>(Número)</em></p>
+</li>
+<li><p><strong>decimal</strong>: el símbolo decimal para analizar y dar formato. <em>(String)</em></p>
+</li>
+<li><p><strong>agrupación</strong>: el símbolo de la agrupación para analizar y dar formato. <em>(String)</em></p>
+</li>
+</ul>
+<p>Los entrantes <code>currencyCode</code> parámetro debe ser un <code>String</code> de uno de los códigos de moneda ISO 4217, por ejemplo &#39;USD&#39;.</p>
+<p>Si hay un error obteniendo el patrón, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador está configurado la <code>en_US</code> local y la moneda seleccionada dólares de Estados Unidos, este ejemplo muestra un cuadro de diálogo emergente con texto similar a los resultados que siguen:</p>
+<pre><code>navigator.globalization.getCurrencyPattern(
+    &#39;USD&#39;,
+    function (pattern) {
+        alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+              &#39;code: &#39;     + pattern.code     + &#39;\n&#39; +
+              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+              &#39;grouping: &#39; + pattern.grouping);
+    },
+    function () { alert(&#39;Error getting pattern\n&#39;); }
+);
+</code></pre><p>Resultado esperado:</p>
+<pre><code>pattern: $#,##0.##;($#,##0.##)
+code: USD
+fraction: 2
+rounding: 0
+decimal: .
+grouping: ,
+</code></pre><h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>Se admiten las propiedades únicas de &#39;código&#39; y la &#39;fracción&#39;</li>
+</ul>
+<h2 id="navigator-globalization-getdatenames">navigator.globalization.getDateNames</h2>
+<p>Devuelve una matriz de los nombres de los meses o días de la semana, dependiendo de las preferencias del usuario y el calendario del cliente.</p>
+<pre><code>navigator.globalization.getDateNames (successCallback, errorCallback, opciones);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la matriz de nombres de la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto contiene un <code>value</code> propiedad con un <code>Array</code> de <code>String</code> valores. Los nombres de funciones de matriz a partir desde el primer mes en el año o el primer día de la semana, dependiendo de la opción seleccionada.</p>
+<p>Si hay un error obteniendo los nombres, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional, y sus valores por defecto son:</p>
+<pre><code>{type:&#39;wide&#39;, item:&#39;months&#39;}
+</code></pre><p>El valor de <code>options.type</code> puede ser <code>narrow</code> o<code>wide</code>.</p>
+<p>El valor de <code>options.item</code> puede ser <code>months</code> o<code>days</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en_US</code> local, este ejemplo muestra una serie de doce diálogos emergente, uno por mes, con un texto similar a <code>month: January</code> :</p>
+<pre><code>navigator.globalization.getDateNames(
+    function (names) {
+        for (var i = 0; i &lt; names.value.length; i++) {
+            alert(&#39;month: &#39; + names.value[i] + &#39;\n&#39;);
+        }
+    },
+    function () { alert(&#39;Error getting names\n&#39;); },
+    { type: &#39;wide&#39;, item: &#39;months&#39; }
+);
+</code></pre><h3 id="firefox-os-rarezas">Firefox OS rarezas</h3>
+<ul>
+<li><code>options.type</code>apoya un <code>genitive</code> valor, importante para algunos idiomas</li>
+</ul>
+<h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li>La matriz de meses contiene 13 elementos.</li>
+<li>La matriz devuelta puede ser no totalmente alineada con ICU dependiendo de una configuración regional del usuario.</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>La matriz de meses contiene 12 elementos.</li>
+<li>La matriz devuelta puede ser no totalmente alineada con ICU dependiendo de una configuración regional del usuario.</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>Nombres fecha no están completamente alineados con ICU</li>
+<li>La matriz de meses contiene 12 elementos.</li>
+</ul>
+<h2 id="navigator-globalization-getdatepattern">navigator.globalization.getDatePattern</h2>
+<p>Devuelve una cadena de patrón para analizar las fechas según las preferencias del cliente usuario y el formato.</p>
+<pre><code>navigator.globalization.getDatePattern(successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el patrón a la <code>successCallback</code> . El objeto se pasa como parámetro contiene las siguientes propiedades:</p>
+<ul>
+<li><p><strong>patrón</strong>: el patrón para analizar las fechas y el formato de fecha y hora. Los patrones siguen <a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode técnica estándar #35</a>. <em>(String)</em></p>
+</li>
+<li><p><strong>zona horaria</strong>: el nombre abreviado de la zona horaria en el cliente. <em>(String)</em></p>
+</li>
+<li><p><strong>utc_offset</strong>: la actual diferencia de segundos entre la zona horaria del cliente y el tiempo universal coordinado. <em>(Número)</em></p>
+</li>
+<li><p><strong>dst_offset</strong>: el desplazamiento horario actual en segundos entre no-horario del cliente de huso horario y día del cliente ahorro de zona horaria. <em>(Número)</em></p>
+</li>
+</ul>
+<p>Si hay un error obteniendo el patrón, el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional y por defecto los siguientes valores:</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p>El <code>options.formatLength</code> puede ser <code>short</code> , <code>medium</code> , <code>long</code> , o <code>full</code> . El <code>options.selector</code> puede ser <code>date</code> , <code>time</code> o<code>date and
+time</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en_US</code> local, este ejemplo muestra un cuadro de diálogo emergente con el texto como <code>pattern: M/d/yyyy h:mm a</code> :</p>
+<pre><code>function checkDatePattern() {
+    navigator.globalization.getDatePattern(
+        function (date) { alert(&#39;pattern: &#39; + date.pattern + &#39;\n&#39;); },
+        function () { alert(&#39;Error getting pattern\n&#39;); },
+        { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+    );
+}
+</code></pre><h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> sólo es compatible con <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El <code>pattern</code> para <code>date and time</code> patrón devuelve sólo formato datetime completo.</p>
+</li>
+<li><p>El <code>timezone</code> devuelve el nombre de zona de tiempo completo.</p>
+</li>
+<li><p>El <code>dst_offset</code> no se admite la propiedad, y siempre devuelve cero.</p>
+</li>
+<li><p>El patrón puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> sólo es compatible con <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El <code>pattern</code> para <code>date and time</code> patrón devuelve sólo formato datetime completo.</p>
+</li>
+<li><p>El <code>timezone</code> devuelve el nombre de zona de tiempo completo.</p>
+</li>
+<li><p>El <code>dst_offset</code> no se admite la propiedad, y siempre devuelve cero.</p>
+</li>
+<li><p>El patrón puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li><p>La propiedad &#39;pattern&#39; no admite y devuelve la cadena vacía.</p>
+</li>
+<li><p>Sólo cromo devuelve &#39;zona horaria&#39; propiedad. Su formato es &quot;Parte del mundo/{City}&quot;. Otros navegadores volver cadena vacía.</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-getfirstdayofweek">navigator.globalization.getFirstDayOfWeek</h2>
+<p>Devuelve el primer día de la semana según las preferencias del usuario y el calendario del cliente.</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Los días de la semana están contados a partir de la 1, donde 1 se supone que es el domingo. Devuelve el día de la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>value</code> propiedad con un <code>Number</code> valor.</p>
+<p>Si hay un error obteniendo el patrón, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en_US</code> local, muestra un cuadro de diálogo emergente con texto similar a<code>day: 1</code>.</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek (función (día) {alert (&#39; día: &#39; + day.value + &#39;\n&#39;);}, function () {alert (&#39;Error al obtener day\n&#39;);});
+</code></pre><h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>En Windows 8.0/8.1 el valor depende de usuario &#39; preferencias del calendario. Windows Phone 8.1 el valor depende de configuración regional actual.</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>79 locales son compatibles porque moment.js se utiliza en este método.</li>
+</ul>
+<h2 id="navigator-globalization-getnumberpattern">navigator.globalization.getNumberPattern</h2>
+<p>Devuelve una cadena de patrón para analizar números según las preferencias del cliente usuario y el formato.</p>
+<pre><code>navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el patrón a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto contiene las siguientes propiedades:</p>
+<ul>
+<li><p><strong>patrón</strong>: el patrón del número a analizar números y el formato. Los patrones siguen <a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode técnica estándar #35</a>. <em>(String)</em></p>
+</li>
+<li><p><strong>símbolo</strong>: el símbolo a usar cuando formateo y análisis, como un símbolo por ciento o moneda. <em>(String)</em></p>
+</li>
+<li><p><strong>fracción</strong>: el número de dígitos fraccionarios a utilizar al análisis sintáctico y el formato de números. <em>(Número)</em></p>
+</li>
+<li><p><strong>redondeo</strong>: el redondeo incremento para utilizar al análisis sintáctico y formato. <em>(Número)</em></p>
+</li>
+<li><p><strong>positivo</strong>: el símbolo para números positivos al análisis sintáctico y formato. <em>(String)</em></p>
+</li>
+<li><p><strong>negativo</strong>: el símbolo para números negativos al análisis sintáctico y formato. <em>(String)</em></p>
+</li>
+<li><p><strong>decimal</strong>: el símbolo decimal para analizar y dar formato. <em>(String)</em></p>
+</li>
+<li><p><strong>agrupación</strong>: el símbolo de la agrupación para analizar y dar formato. <em>(String)</em></p>
+</li>
+</ul>
+<p>Si hay un error obteniendo el patrón, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional, y los valores por defecto son:</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p>El <code>options.type</code> puede ser <code>decimal</code> , <code>percent</code> , o<code>currency</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador está configurado el <code>en_US</code> locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a los resultados que siguen:</p>
+<pre><code>navigator.globalization.getNumberPattern(
+    function (pattern) {alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+                              &#39;symbol: &#39;   + pattern.symbol   + &#39;\n&#39; +
+                              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+                              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+                              &#39;positive: &#39; + pattern.positive + &#39;\n&#39; +
+                              &#39;negative: &#39; + pattern.negative + &#39;\n&#39; +
+                              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+                              &#39;grouping: &#39; + pattern.grouping);},
+    function () {alert(&#39;Error getting pattern\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><p>Resultados:</p>
+<pre><code>patrón: #, ## 0. ### símbolo:.
+fracción: redondeo 0: 0 positivo: negativo: - decimal:.
+agrupación:,
+</code></pre><h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li><p>El <code>pattern</code> no admite la propiedad y devuelve una cadena vacía.</p>
+</li>
+<li><p>El <code>fraction</code> no se admite la propiedad, y devuelve cero.</p>
+</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li>El <code>pattern</code> no admite la propiedad y devuelve una cadena vacía.</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>getNumberPattern es compatible con Chrome la única propiedad definida es <code>patrón</code>.</li>
+</ul>
+<h2 id="navigator-globalization-isdaylightsavingstime">navigator.globalization.isDayLightSavingsTime</h2>
+<p>Indica si el horario de verano es en efecto para una fecha determinada usando la zona horaria y el calendario del cliente.</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime(date, successCallback, errorCallback);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Indica si es o no horario de verano en efecto a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>dst</code> propiedad con un <code>Boolean</code> valor. A <code>true</code> valor indica que el horario de verano es en efecto para la fecha determinada, y <code>false</code> indica que no es.</p>
+<p>El parámetro entrantes <code>date</code> debe ser de tipo<code>Date</code>.</p>
+<p>Si hay un error de lectura de la fecha, entonces el <code>errorCallback</code> se ejecuta. Código esperado del error es<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Durante el verano, y si el navegador está configurado para una zona horaria DST habilitado, esto debería mostrar un cuadro de diálogo emergente con texto similar a <code>dst: true</code> :</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime (new Date(), función (fecha) {alert (&#39;dst: &#39; + date.dst + &#39;\n&#39;);}, function () {alert (&#39;Error al obtener names\n&#39;);});
+</code></pre><h2 id="navigator-globalization-numbertostring">navigator.globalization.numberToString</h2>
+<p>Devuelve un número con formato como una cadena según las preferencias del cliente usuario.</p>
+<pre><code>navigator.globalization.numberToString(number, successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la cadena con formato de número a la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>value</code> propiedad con un <code>String</code> valor.</p>
+<p>Si hay un error de formato del número, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional, y sus valores por defecto son:</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p>El <code>options.type</code> puede ser &#39;decimal&#39;, &#39;%&#39; o &#39;moneda&#39;.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en_US</code> local, muestra un cuadro de diálogo emergente con texto similar a <code>number: 3.142</code> :</p>
+<pre><code>navigator.globalization.numberToString (3.1415926, función (número) {alert (&#39; número: &#39; + number.value + &#39;\n&#39;);}, function () {alert (&#39;Error al obtener number\n&#39;);}, {type:&#39;decimal&#39;});
+</code></pre><h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li><p>Windows 8.0 no soporta redondeo de número, por lo tanto los valores serán no redondeados automáticamente.</p>
+</li>
+<li><p>8.1 de Windows y Windows Phone 8.1 parte fraccional es ser truncado en vez de redondeados en caso de <code>percent</code> tipo de número por lo tanto dígitos fraccionarios Conde se establece en 0.</p>
+</li>
+<li><p><code>percent</code>números no se agrupan como que no se puede analizar en stringToNumber si agrupados.</p>
+</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>no se admite el tipo de <code>currency</code> .</li>
+</ul>
+<h2 id="navigator-globalization-stringtodate">navigator.globalization.stringToDate</h2>
+<p>Analiza una fecha con formato como una cadena, según las preferencias del usuario y calendario usando la zona horaria del cliente, el cliente y devuelve el objeto correspondiente fecha.</p>
+<pre><code>navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la fecha para la devolución de llamada con éxito un <code>properties</code> objeto como parámetro. Ese objeto debe tener las siguientes propiedades:</p>
+<ul>
+<li><p><strong>año</strong>: el año de cuatro dígitos. <em>(Número)</em></p>
+</li>
+<li><p><strong>mes</strong>: mes de (0-11). <em>(Número)</em></p>
+</li>
+<li><p><strong>día</strong>: el día de (1-31). <em>(Número)</em></p>
+</li>
+<li><p><strong>hora</strong>: la hora de (0-23). <em>(Número)</em></p>
+</li>
+<li><p><strong>minuto</strong>: el minuto de (0-59). <em>(Número)</em></p>
+</li>
+<li><p><strong>segundo</strong>: el segundo de (0-59). <em>(Número)</em></p>
+</li>
+<li><p><strong>milisegundo</strong>: los milisegundos (de 0-999), no está disponibles en todas las plataformas. <em>(Número)</em></p>
+</li>
+</ul>
+<p>Los entrantes <code>dateString</code> parámetro debe ser del tipo<code>String</code>.</p>
+<p>El <code>options</code> parámetro es opcional y por defecto los siguientes valores:</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p>El <code>options.formatLength</code> puede ser <code>short</code> , <code>medium</code> , <code>long</code> , o <code>full</code> . El <code>options.selector</code> puede ser <code>date</code> , <code>time</code> o<code>date and
+time</code>.</p>
+<p>Si hay un error al analizar la cadena de fecha, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.PARSING_ERROR</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador se establece en el <code>en_US</code> local, muestra un cuadro de diálogo emergente con texto similar a <code>month:8 day:25 year:2012</code> . Tenga en cuenta que el mes entero es uno menos de la cadena, como el entero mes representa un índice de matriz.</p>
+<pre><code>navigator.globalization.stringToDate(
+    &#39;9/25/2012&#39;,
+    function (date) {alert(&#39;month:&#39; + date.month +
+                           &#39; day:&#39;  + date.day   +
+                           &#39; year:&#39; + date.year  + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting date\n&#39;);},
+    {selector: &#39;date&#39;}
+);
+</code></pre><h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> los soportes de la opción <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El patrón de selector &#39;fecha y hora&#39; es siempre un formato datetime completo.</p>
+</li>
+<li><p>Los entrantes <code>dateString</code> parámetro debe ser formado en cumplimiento de un patrón devuelto por getDatePattern. Este patrón puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li><p>El <code>formatLength</code> los soportes de la opción <code>short</code> y <code>full</code> los valores.</p>
+</li>
+<li><p>El patrón de selector &#39;fecha y hora&#39; es siempre un formato datetime completo.</p>
+</li>
+<li><p>Los entrantes <code>dateString</code> parámetro debe ser formado en cumplimiento de un patrón devuelto por getDatePattern. Este patrón puede ser no totalmente alineado con ICU dependiendo de una configuración regional del usuario.</p>
+</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li><p>79 locales son compatibles porque moment.js se utiliza en este método.</p>
+</li>
+<li><p>Entrantes de la cadena debe estar alineada con el formato de salida de <code>dateToString</code> y mayo no totalmente alineado con ICU según una configuración regional del usuario.</p>
+</li>
+<li><p>selector de <code>time</code> apoya sólo formatLength <code>full</code> y <code>short</code> .</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-stringtonumber">navigator.globalization.stringToNumber</h2>
+<p>Analiza un número con formato como una cadena según las preferencias del cliente usuario y devuelve el número correspondiente.</p>
+<pre><code>navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
+</code></pre><h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el número de la <code>successCallback</code> con un <code>properties</code> objeto como parámetro. Ese objeto debe tener un <code>value</code> propiedad con un <code>Number</code> valor.</p>
+<p>Si hay un error al analizar la cadena de número, entonces el <code>errorCallback</code> se ejecuta con un <code>GlobalizationError</code> objeto como parámetro. Código esperado del error es<code>GlobalizationError.PARSING_ERROR</code>.</p>
+<p>El <code>options</code> parámetro es opcional y por defecto los siguientes valores:</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p>El <code>options.type</code> puede ser <code>decimal</code> , <code>percent</code> , o<code>currency</code>.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando el navegador está configurado el <code>en_US</code> locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a <code>number: 1234.56</code> :</p>
+<pre><code>navigator.globalization.stringToNumber(
+    &#39;1234.56&#39;,
+    function (number) {alert(&#39;number: &#39; + number.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting number\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><h3 id="windows-phone-8-rarezas">Windows Phone 8 rarezas</h3>
+<ul>
+<li>En caso de <code>percent</code> tipo del valor devuelto no está dividido por 100.</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<ul>
+<li><p>La cadena debe cumplir estrictamente con el formato de la localidad. Por ejemplo, el símbolo de porcentaje debe ser separado por espacio de configuración &#39;en-US&#39; si el parámetro de tipo es &#39;%&#39;.</p>
+</li>
+<li><p><code>percent</code>números no deben estar agrupados para ser analizado correctamente.</p>
+</li>
+</ul>
+<h2 id="globalizationerror">GlobalizationError</h2>
+<p>Un objeto que representa un error de la API de la globalización.</p>
+<h3 id="propiedades">Propiedades</h3>
+<ul>
+<li><strong>Código</strong>: Uno de los siguientes códigos que representa el tipo de error <em>(Número)</em> <ul>
+<li>GlobalizationError.UNKNOWN_ERROR: 0</li>
+<li>GlobalizationError.FORMATTING_ERROR: 1</li>
+<li>GlobalizationError.PARSING_ERROR: 2</li>
+<li>GlobalizationError.PATTERN_ERROR: 3</li>
+</ul>
+</li>
+<li><strong>mensaje</strong>: un mensaje de texto que incluye la explicación de los errores o detalles <em>(String)</em></li>
+</ul>
+<h3 id="descripci-n">Descripción</h3>
+<p>Este objeto es creado y poblada por Córdoba y regresó a una devolución de llamada en caso de error.</p>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Cuando se ejecuta el callback de error siguiente, se muestra un cuadro de diálogo emergente con el texto similar a <code>code: 3</code> y<code>message:</code></p>
+<pre><code>function errorCallback(error) {
+    alert(&#39;code: &#39; + error.code + &#39;\n&#39; +
+          &#39;message: &#39; + error.message + &#39;\n&#39;);
+};
+</code></pre>
+      </body>
+    </html>

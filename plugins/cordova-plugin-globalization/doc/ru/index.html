@@ -1,0 +1,515 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-globalization">cordova-plugin-globalization</h1>
+<p>Этот модуль получает информацию и выполняет операции, специфичные для языка, язык и часовой пояс пользователя. Обратите внимание на разницу между и языка: язык элементов, как числа, даты и время отображаются для региона, в то время как язык определяет, какой язык текст отображается в виде, независимо от локали. Часто разработчики используют языковой стандарт для установки обоих параметров, но нет никаких причин, которые пользователь не мог установить ее язык «Английский язык», но языка «Французский», так что текст отображается на английском языке, но даты, время, и т.п., отображаются как они во Франции. К сожалению большинство мобильных платформ в настоящее время не проводится различие между этими параметрами.</p>
+<h2 id="-">Установка</h2>
+<pre><code>cordova plugin add cordova-plugin-globalization
+</code></pre><h2 id="-">Объекты</h2>
+<ul>
+<li>GlobalizationError</li>
+</ul>
+<h2 id="-">Методы</h2>
+<ul>
+<li>navigator.globalization.getPreferredLanguage</li>
+<li>navigator.globalization.getLocaleName</li>
+<li>navigator.globalization.dateToString</li>
+<li>navigator.globalization.stringToDate</li>
+<li>navigator.globalization.getDatePattern</li>
+<li>navigator.globalization.getDateNames</li>
+<li>navigator.globalization.isDayLightSavingsTime</li>
+<li>navigator.globalization.getFirstDayOfWeek</li>
+<li>navigator.globalization.numberToString</li>
+<li>navigator.globalization.stringToNumber</li>
+<li>navigator.globalization.getNumberPattern</li>
+<li>navigator.globalization.getCurrencyPattern</li>
+</ul>
+<h2 id="navigator-globalization-getpreferredlanguage">navigator.globalization.getPreferredLanguage</h2>
+<p>Получите тег языка BCP 47 для клиента текущего языка.</p>
+<pre><code>navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает метку идентификатор совместимого языка BCP-47 к <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>value</code> собственности с <code>String</code> значение.</p>
+<p>Если есть ошибка, как язык, то <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en-US</code> языке, это должно отображать всплывающее диалоговое окно с текстом <code>language: en-US</code> :</p>
+<pre><code>navigator.globalization.getPreferredLanguage(
+    function (language) {alert(&#39;language: &#39; + language.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting language\n&#39;);}
+);
+</code></pre><h3 id="-android">Особенности Android</h3>
+<ul>
+<li>Возвращает ISO 639-двухбуквенный код языка 1, верхний регистр ISO 3166-1 код и вариант, разделенных дефисами. Примеры: «en», «en US», «США»</li>
+</ul>
+<h3 id="-windows-phone-8">Особенности Windows Phone 8</h3>
+<ul>
+<li>Код языка возвращает двухбуквенный ISO 639-1 и ISO 3166-1 код региональный вариант, соответствующий «Язык» установка, разделенных дефисом.</li>
+<li>Обратите внимание, что региональный вариант является свойством параметра «Язык» и не определяется параметром отношения &quot;Страна/регион&quot; на Windows Phone.</li>
+</ul>
+<h2 id="navigator-globalization-getlocalename">navigator.globalization.getLocaleName</h2>
+<p>Возвращает в BCP 47 совместимый тег для текущей локали клиента.</p>
+<pre><code>navigator.globalization.getLocaleName(successCallback, errorCallback);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает строку идентификатор совместимого языка BCP 47 <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>value</code> собственности с <code>String</code> значение. Тег языка будет состоять из двух букв нижнего регистра кода языка, код страны две буквы заглавные и (неопределенные) код варианта, разделенных дефисом.</p>
+<p>Если есть ошибка получения локали, то <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en-US</code> языка, это выводит всплывающее диалоговое окно с текстом<code>locale: en-US</code>.</p>
+<pre><code>navigator.globalization.getLocaleName(
+    function (locale) {alert(&#39;locale: &#39; + locale.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting locale\n&#39;);}
+);
+</code></pre><h3 id="-android">Особенности Android</h3>
+<ul>
+<li>Java не различает набор «langauge» и установить «локаль», поэтому этот метод является по существу таким же, как<code>navigator.globalizatin.getPreferredLanguage()</code>.</li>
+</ul>
+<h3 id="-windows-phone-8">Особенности Windows Phone 8</h3>
+<ul>
+<li>Возвращает ISO 639-1 двухбуквенный код языка и код ISO 3166-1 страны региональный вариант соответствующего параметра «Региональный формат», разделенных дефисом.</li>
+</ul>
+<h2 id="navigator-globalization-datetostring">navigator.globalization.dateToString</h2>
+<p>Возвращает дату в формате строки согласно локали клиента и часовой пояс.</p>
+<pre><code>navigator.globalization.dateToString(date, successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает отформатированную дату <code>String</code> через <code>value</code> свойств, доступных из объекта, переданного в качестве параметра для<code>successCallback</code>.</p>
+<p>Входящий <code>date</code> параметр должен иметь тип<code>Date</code>.</p>
+<p>Если есть ошибка форматирования даты, то <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным, и его значения по умолчанию являются:</p>
+<pre><code>{formatLength: «короткая», селектор: «Дата и время»}
+</code></pre><p><code>options.formatLength</code>Может быть <code>short</code> , <code>medium</code> , <code>long</code> , или<code>full</code>.</p>
+<p><code>options.selector</code>Может быть <code>date</code> , <code>time</code> или<code>date and time</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Если браузер настроен <code>en_US</code> языка, это выводит всплывающее диалоговое окно с текстом, похож на <code>date: 9/25/2012 4:21PM</code> с использованием параметров по умолчанию:</p>
+<pre><code>navigator.globalization.dateToString(
+    new Date(),
+    function (date) { alert(&#39;date: &#39; + date.value + &#39;\n&#39;); },
+    function () { alert(&#39;Error getting dateString\n&#39;); },
+    { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+);
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 причуды</h3>
+<ul>
+<li><code>formatLength</code>Вариант поддерживает только <code>short</code> и <code>full</code> значения.</li>
+</ul>
+<h3 id="firefox-os-">Firefox OS причуды</h3>
+<ul>
+<li><code>formatLength</code>не различать <code>long</code> и<code>full</code> </li>
+<li>только один метод отображения даты (не <code>long</code> или <code>full</code> версия)</li>
+</ul>
+<h2 id="navigator-globalization-getcurrencypattern">navigator.globalization.getCurrencyPattern</h2>
+<p>Возвращает строку шаблона для форматирования и анализа значений валют согласно ISO 4217 код валюты предпочтения пользователя и клиента.</p>
+<pre><code> navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает шаблон для <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен содержать следующие свойства:</p>
+<ul>
+<li><p><strong>шаблон</strong>: валюты шаблон для форматирования и синтаксического анализа значения валюты. Шаблоны следуют <a href="http://unicode.org/reports/tr35/tr35-4.html">технического стандарта Unicode #35</a>. <em>(Строка)</em></p>
+</li>
+<li><p><strong>код</strong>: код валюты ISO 4217 для шаблона. <em>(Строка)</em></p>
+</li>
+<li><p><strong>фракция</strong>: количество дробных разрядов для использования когда синтаксический анализ и форматирование валюты. <em>(Число)</em></p>
+</li>
+<li><p><strong>округления</strong>: округление увеличивается для использования при синтаксического анализа и форматирования. <em>(Число)</em></p>
+</li>
+<li><p><strong>десятичное</strong>: десятичный символ использовать для синтаксического анализа и форматирования. <em>(Строка)</em></p>
+</li>
+<li><p><strong>Группировка</strong>: группировка символ использовать для синтаксического анализа и форматирования. <em>(Строка)</em></p>
+</li>
+</ul>
+<p>Входящий <code>currencyCode</code> параметр должен быть <code>String</code> одного из кодов ISO 4217 валют, например «USD».</p>
+<p>Если есть ошибка получения шаблона, то свойство <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка и выбранной валюты это доллары США, этот пример отображает всплывающее диалоговое окно с текстом аналогичные результаты, которые следуют:</p>
+<pre><code>navigator.globalization.getCurrencyPattern(
+    &#39;USD&#39;,
+    function (pattern) {
+        alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+              &#39;code: &#39;     + pattern.code     + &#39;\n&#39; +
+              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+              &#39;grouping: &#39; + pattern.grouping);
+    },
+    function () { alert(&#39;Error getting pattern\n&#39;); }
+);
+</code></pre><p>Ожидаемый результат:</p>
+<pre><code>pattern: $#,##0.##;($#,##0.##)
+code: USD
+fraction: 2
+rounding: 0
+decimal: .
+grouping: ,
+</code></pre><h2 id="navigator-globalization-getdatenames">navigator.globalization.getDateNames</h2>
+<p>Возвращает массив, содержащий названия месяцев или дней недели, в зависимости от предпочтений пользователя и календарь клиента.</p>
+<pre><code>navigator.globalization.getDateNames(successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает массив имен для <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект содержит <code>value</code> собственности с <code>Array</code> из <code>String</code> значения. Имена функций массива, начиная с либо в первый месяц, в год или в первый день недели, в зависимости от выбранного варианта.</p>
+<p>Если есть ошибка получения имена, а затем <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным, и его значения по умолчанию являются:</p>
+<pre><code>{type:&#39;wide&#39;, item:&#39;months&#39;}
+</code></pre><p>Значение <code>options.type</code> может быть <code>narrow</code> или<code>wide</code>.</p>
+<p>Значение <code>options.item</code> может быть <code>months</code> или<code>days</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, в этом примере отображается ряд двенадцати всплывающих диалоговых окон, один в месяц, с текстом, похож на <code>month: January</code> :</p>
+<pre><code>navigator.globalization.getDateNames(
+    function (names) {
+        for (var i = 0; i &lt; names.value.length; i++) {
+            alert(&#39;month: &#39; + names.value[i] + &#39;\n&#39;);
+        }
+    },
+    function () { alert(&#39;Error getting names\n&#39;); },
+    { type: &#39;wide&#39;, item: &#39;months&#39; }
+);
+</code></pre><h3 id="firefox-os-">Firefox OS причуды</h3>
+<ul>
+<li><code>options.type</code>поддерживает <code>genitive</code> значения, важные для некоторых языков</li>
+</ul>
+<h2 id="navigator-globalization-getdatepattern">navigator.globalization.getDatePattern</h2>
+<p>Возвращает строку шаблона для форматирования и разбора даты согласно предпочтениям пользователя клиента.</p>
+<pre><code>navigator.globalization.getDatePattern(successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает шаблон для <code>successCallback</code> . Объект, переданный в качестве параметра содержит следующие свойства:</p>
+<ul>
+<li><p><strong>шаблон</strong>: Дата и время шаблон для форматирования и разбора дат. Шаблоны следуют <a href="http://unicode.org/reports/tr35/tr35-4.html">технического стандарта Unicode #35</a>. <em>(Строка)</em></p>
+</li>
+<li><p><strong>Часовой пояс</strong>: сокращенное название часового пояса на клиентском компьютере. <em>(Строка)</em></p>
+</li>
+<li><p><strong>utc_offset</strong>: текущий разница в секундах между часовой пояс и время клиента. <em>(Число)</em></p>
+</li>
+<li><p><strong>dst_offset</strong>: текущее смещение в летнее время в секундах между клиента не летнее часовой пояс и летнее клиента сохранение в часовой пояс. <em>(Число)</em></p>
+</li>
+</ul>
+<p>Если есть ошибка получения шаблон, <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным и по умолчанию имеет следующие значения:</p>
+<pre><code>{formatLength: «короткая», селектор: «Дата и время»}
+</code></pre><p><code>options.formatLength</code> может быть <code>short</code>, <code>medium</code>, <code>long</code> или <code>full</code>. <code>options.selector</code>Может быть <code>date</code> , <code>time</code> или<code>date and
+time</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, этот пример отображает всплывающее диалоговое окно с текстом, такие как <code>pattern: M/d/yyyy h:mm a</code> :</p>
+<pre><code>function checkDatePattern() {
+    navigator.globalization.getDatePattern(
+        function (date) { alert(&#39;pattern: &#39; + date.pattern + &#39;\n&#39;); },
+        function () { alert(&#39;Error getting pattern\n&#39;); },
+        { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+    );
+}
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 причуды</h3>
+<ul>
+<li><p><code>formatLength</code>Поддерживает только <code>short</code> и <code>full</code> значения.</p>
+</li>
+<li><p><code>pattern</code>Для <code>date and time</code> модель возвращает только полное datetime формат.</p>
+</li>
+<li><p><code>timezone</code>Возвращает имя зоны полный рабочий день.</p>
+</li>
+<li><p><code>dst_offset</code>Свойство не поддерживается, и всегда возвращает нуль.</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-getfirstdayofweek">navigator.globalization.getFirstDayOfWeek</h2>
+<p>Возвращает первый день недели согласно календаря предпочтения пользователя и клиента.</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
+</code></pre><h3 id="-">Описание</h3>
+<p>Дни недели нумеруются, начиная с 1, где 1 считается воскресенье. Возвращает день в <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>value</code> собственности с <code>Number</code> значение.</p>
+<p>Если есть ошибка получения шаблона, то свойство <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, это выводит всплывающее диалоговое окно с текстом похож на<code>day: 1</code>.</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek(
+    function (day) {alert(&#39;day: &#39; + day.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting day\n&#39;);}
+);
+</code></pre><h2 id="navigator-globalization-getnumberpattern">navigator.globalization.getNumberPattern</h2>
+<p>Возвращает строку шаблона для форматирования и разбора номера согласно предпочтениям пользователя клиента.</p>
+<pre><code>navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает шаблон для <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект содержит следующие свойства:</p>
+<ul>
+<li><p><strong>шаблон</strong>: шаблон номера для форматирования и синтаксического анализа чисел. Шаблоны следуют <a href="http://unicode.org/reports/tr35/tr35-4.html">технического стандарта Unicode #35</a>. <em>(Строка)</em></p>
+</li>
+<li><p><strong>символ</strong>: символ для использования при форматировании и синтаксическом разборе, например символ валюты и процентов. <em>(Строка)</em></p>
+</li>
+<li><p><strong>фракция</strong>: количество дробных разрядов для использования при синтаксического анализа и форматирования чисел. <em>(Число)</em></p>
+</li>
+<li><p><strong>округления</strong>: округление увеличивается для использования при синтаксического анализа и форматирования. <em>(Число)</em></p>
+</li>
+<li><p><strong>положительные</strong>: символ для положительных чисел, когда синтаксический анализ и форматирование. <em>(Строка)</em></p>
+</li>
+<li><p><strong>отрицательные</strong>: символ для отрицательных чисел, когда синтаксический анализ и форматирование. <em>(Строка)</em></p>
+</li>
+<li><p><strong>десятичное</strong>: десятичный символ использовать для синтаксического анализа и форматирования. <em>(Строка)</em></p>
+</li>
+<li><p><strong>Группировка</strong>: группировка символ использовать для синтаксического анализа и форматирования. <em>(Строка)</em></p>
+</li>
+</ul>
+<p>Если есть ошибка получения шаблона, то свойство <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным, и значения по умолчанию являются:</p>
+<pre><code>{Тип: «десятичных»}
+</code></pre><p><code>options.type</code> может быть <code>decimal</code>, <code>percent</code> или <code>currency</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, это должно отображать всплывающее диалоговое окно с текстом аналогичные результаты, которые следуют:</p>
+<pre><code>navigator.globalization.getNumberPattern(
+    function (pattern) {alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+                              &#39;symbol: &#39;   + pattern.symbol   + &#39;\n&#39; +
+                              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+                              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+                              &#39;positive: &#39; + pattern.positive + &#39;\n&#39; +
+                              &#39;negative: &#39; + pattern.negative + &#39;\n&#39; +
+                              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+                              &#39;grouping: &#39; + pattern.grouping);},
+    function () {alert(&#39;Error getting pattern\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><p>Результаты:</p>
+<pre><code>pattern: #,##0.###
+symbol: .
+fraction: 0
+rounding: 0
+positive:
+negative: -
+decimal: .
+grouping: ,
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 причуды</h3>
+<ul>
+<li><p><code>pattern</code>Свойство не поддерживается и retuens является пустой строкой.</p>
+</li>
+<li><p><code>fraction</code>Свойство не поддерживается, и возвращает ноль.</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-isdaylightsavingstime">navigator.globalization.isDayLightSavingsTime</h2>
+<p>Указывает, является ли летнее время в силе для заданной даты, с использованием клиента часовой пояс и календаря.</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime(date, successCallback, errorCallback);
+</code></pre><h3 id="-">Описание</h3>
+<p>Указывает, является ли или не летнее время в силе до <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>dst</code> свойство с <code>Boolean</code> значение. A <code>true</code> значение указывает, что летнее время в силе для заданной даты и <code>false</code> показывает, что это не.</p>
+<p>Входящий параметр <code>date</code> должен иметь тип<code>Date</code>.</p>
+<p>Если есть ошибка чтения даты, то <code>errorCallback</code> выполняет. Ожидаемый код ошибки<code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>В течение лета и если браузер настроен на часовой пояс, летнее время с поддержкой, это должно отображать всплывающее диалоговое окно с текстом похож на <code>dst: true</code> :</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime(
+    new Date(),
+    function (date) {alert(&#39;dst: &#39; + date.dst + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting names\n&#39;);}
+);
+</code></pre><h2 id="navigator-globalization-numbertostring">navigator.globalization.numberToString</h2>
+<p>Возвращает число, которое форматируется как строка согласно предпочтениям пользователя клиента.</p>
+<pre><code>navigator.globalization.numberToString(number, successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает форматируемую строку номер для <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>value</code> собственности с <code>String</code> значение.</p>
+<p>Если есть ошибка форматирования числа, то <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным, и его значения по умолчанию являются:</p>
+<pre><code>{Тип: «десятичных»}
+</code></pre><p><code>options.type</code> может быть &#39;decimal&#39;, &#39;percent&#39; или &#39;currency&#39;.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, это выводит всплывающее диалоговое окно с текстом, похож на <code>number: 3.142</code> :</p>
+<pre><code>navigator.globalization.numberToString(
+    3.1415926,
+    function (number) {alert(&#39;number: &#39; + number.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting number\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><h2 id="navigator-globalization-stringtodate">navigator.globalization.stringToDate</h2>
+<p>Анализирует дату форматированы в виде строки, по словам клиента предпочтения пользователя и календарь с помощью часовой пояс клиента и возвращает соответствующий объект date.</p>
+<pre><code>navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает дату в успех обратного вызова с <code>properties</code> объект в качестве параметра. Этот объект должен иметь следующие свойства:</p>
+<ul>
+<li><p><strong>год</strong>: год четыре цифры. <em>(Число)</em></p>
+</li>
+<li><p><strong>месяц</strong>: на месяц от (0-11). <em>(Число)</em></p>
+</li>
+<li><p><strong>день</strong>: день с (1-31). <em>(Число)</em></p>
+</li>
+<li><p><strong>час</strong>: час (0-23). <em>(Число)</em></p>
+</li>
+<li><p><strong>минута</strong>: минута (0-59). <em>(Число)</em></p>
+</li>
+<li><p><strong>второй</strong>: второй от (0-59). <em>(Число)</em></p>
+</li>
+<li><p><strong>МС</strong>: миллисекунд (от 0-999), не доступны на всех платформах. <em>(Число)</em></p>
+</li>
+</ul>
+<p>Входящий <code>dateString</code> параметр должен иметь тип<code>String</code>.</p>
+<p><code>options</code>Параметр является необязательным и по умолчанию имеет следующие значения:</p>
+<pre><code>{formatLength: «короткая», селектор: «Дата и время»}
+</code></pre><p><code>options.formatLength</code> может быть <code>short</code>, <code>medium</code>, <code>long</code> или <code>full</code>. <code>options.selector</code>Может быть <code>date</code> , <code>time</code> или<code>date and
+time</code>.</p>
+<p>Если есть ошибка при разборе строки даты, то <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.PARSING_ERROR</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, это выводит всплывающее диалоговое окно с текстом, похож на <code>month:8 day:25 year:2012</code> . Обратите внимание, что целое число является один месяц меньше, чем строка, как целое число месяца представляет индекс массива.</p>
+<pre><code>navigator.globalization.stringToDate(
+    &#39;9/25/2012&#39;,
+    function (date) {alert(&#39;month:&#39; + date.month +
+                           &#39; day:&#39;  + date.day   +
+                           &#39; year:&#39; + date.year  + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting date\n&#39;);},
+    {selector: &#39;date&#39;}
+);
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 причуды</h3>
+<ul>
+<li><code>formatLength</code>Вариант поддерживает только <code>short</code> и <code>full</code> значения.</li>
+</ul>
+<h2 id="navigator-globalization-stringtonumber">navigator.globalization.stringToNumber</h2>
+<p>Анализирует число, которое форматируется как строка согласно предпочтениям пользователя клиента и возвращает соответствующий номер.</p>
+<pre><code>navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
+</code></pre><h3 id="-">Описание</h3>
+<p>Возвращает номер для <code>successCallback</code> с <code>properties</code> объект в качестве параметра. Этот объект должен иметь <code>value</code> свойство с <code>Number</code> значение.</p>
+<p>Если есть ошибка при разборе номер строки, а затем <code>errorCallback</code> выполняет с <code>GlobalizationError</code> объект в качестве параметра. Ожидаемый код ошибки<code>GlobalizationError.PARSING_ERROR</code>.</p>
+<p><code>options</code>Параметр является необязательным и по умолчанию имеет следующие значения:</p>
+<pre><code>{Тип: «десятичных»}
+</code></pre><p><code>options.type</code> может быть <code>decimal</code>, <code>percent</code> или <code>currency</code>.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда браузер настроен <code>en_US</code> языка, это должно отображать всплывающее диалоговое окно с текстом, похож на <code>number: 1234.56</code> :</p>
+<pre><code>navigator.globalization.stringToNumber(
+    &#39;1234.56&#39;,
+    function (number) {alert(&#39;number: &#39; + number.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting number\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><h2 id="globalizationerror">GlobalizationError</h2>
+<p>Объект, представляющий ошибку от глобализации API.</p>
+<h3 id="-">Свойства</h3>
+<ul>
+<li><strong>код</strong>: Один из следующих кодов, представляющих тип ошибки <em>(Число)</em> <ul>
+<li>GlobalizationError.UNKNOWN_ERROR: 0</li>
+<li>GlobalizationError.FORMATTING_ERROR: 1</li>
+<li>GlobalizationError.PARSING_ERROR: 2</li>
+<li>GlobalizationError.PATTERN_ERROR: 3</li>
+</ul>
+</li>
+<li><strong>сообщение</strong>: текстовое сообщение, которое включает в себя объяснение ошибки и/или детали <em>(String)</em></li>
+</ul>
+<h3 id="-">Описание</h3>
+<p>Этот объект создается и населенная Cordova и возвращается обратный вызов в случае ошибки.</p>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+</ul>
+<h3 id="-">Пример</h3>
+<p>Когда следующий ошибка обратного вызова выполняется, он отображает всплывающее диалоговое окно с текстом похож на <code>code: 3</code> и<code>message:</code></p>
+<pre><code>function errorCallback(error) {
+    alert(&#39;code: &#39; + error.code + &#39;\n&#39; +
+          &#39;message: &#39; + error.message + &#39;\n&#39;);
+};
+</code></pre>
+      </body>
+    </html>

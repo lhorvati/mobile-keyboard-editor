@@ -1,0 +1,211 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="cordova-plugin-apprate">Cordova-Plugin-Apprate</h1>
+<p>A plugin to provide rate this app functionality into your Cordova / Phonegap application<br></p>
+<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=MS8RQAS2NVVQW&amp;lc=RU&amp;item_name=github%2ecom&amp;item_number=cordova%2dplugin%2dapprate&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">Donate with PayPal</a></p>
+<p><strong>PR&#39;s are greatly appreciated</strong></p>
+<h2 id="supported-platforms">Supported platforms</h2>
+<ul>
+<li>iOS</li>
+<li>Android</li>
+<li>Windows</li>
+<li>Blackberry</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<p>Cordova 3.0.0 or later</p>
+<h2 id="installation">Installation</h2>
+<ul>
+<li>From apache cordova plugins registry: <code>cordova plugins add cordova-plugin-apprate</code></li>
+<li>From github repository: <code>cordova plugins add https://github.com/pushandplay/cordova-plugin-apprate.git</code></li>
+<li>From phonegap build add the following to your config.xml: <code>&lt;gap:plugin name=&quot;cordova-plugin-apprate&quot; /&gt;</code></li>
+</ul>
+<h2 id="customization-and-usage">Customization and usage</h2>
+<h2 id="options-preferences">Options / Preferences</h2>
+<p>These options are available on the <code>AppRate.preferences</code> object. </p>
+<p>Note: All <code>%@</code> patterns in customLocale object will be automatically replaced to your application title</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Option</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Default</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">useLanguage</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">custom BCP 47 language tag</td>
+</tr>
+<tr>
+<td style="text-align:left">displayAppName</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#39;&#39;</td>
+<td style="text-align:left">custom application title</td>
+</tr>
+<tr>
+<td style="text-align:left">promptAgainForEachNewVersion</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">show dialog again when application version will be updated</td>
+</tr>
+<tr>
+<td style="text-align:left">usesUntilPrompt</td>
+<td style="text-align:left">Integer</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">count of runs of application before dialog will be displayed</td>
+</tr>
+<tr>
+<td style="text-align:left">openStoreInApp</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">leave app or no when application page opened in app store (now supported only for iOS)</td>
+</tr>
+<tr>
+<td style="text-align:left">useCustomRateDialog</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">use custom view for rate dialog</td>
+</tr>
+<tr>
+<td style="text-align:left">callbacks.onButtonClicked</td>
+<td style="text-align:left">Function</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">call back function. called when user clicked on rate-dialog buttons</td>
+</tr>
+<tr>
+<td style="text-align:left">callbacks.onRateDialogShow</td>
+<td style="text-align:left">Function</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">call back function. called when rate-dialog showing</td>
+</tr>
+<tr>
+<td style="text-align:left">storeAppURL.ios</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">application id in AppStore</td>
+</tr>
+<tr>
+<td style="text-align:left">storeAppURL.android</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">application URL in GooglePlay</td>
+</tr>
+<tr>
+<td style="text-align:left">storeAppURL.windows</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">application URL in Windows Store</td>
+</tr>
+<tr>
+<td style="text-align:left">storeAppURL.blackberry</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">application URL in AppWorld</td>
+</tr>
+<tr>
+<td style="text-align:left">storeAppURL.windows8</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">application URL in WindowsStore</td>
+</tr>
+<tr>
+<td style="text-align:left">customLocale</td>
+<td style="text-align:left">Object</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">custom locale object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples</h2>
+<p>Makes sure all your calls to the plugin happen after the cordova <code>onDeviceReady</code> event has fired.</p>
+<h3 id="simple-setup-and-call">Simple setup and call</h3>
+<pre><code class="lang-javascript">AppRate.preferences.storeAppURL = {
+  ios: &#39;&lt;my_app_id&gt;&#39;,
+  android: &#39;market://details?id=&lt;package_name&gt;&#39;,
+  windows: &#39;ms-windows-store://pdp/?ProductId=&lt;the apps Store ID&gt;&#39;,
+  blackberry: &#39;appworld://content/[App Id]/&#39;,
+  windows8: &#39;ms-windows-store:Review?name=&lt;the Package Family Name of the application&gt;&#39;
+};
+
+AppRate.promptForRating();
+</code></pre>
+<h3 id="don-t-call-rate-dialog-immediately">Don&#39;t Call rate dialog immediately</h3>
+<pre><code class="lang-javascript">AppRate.promptForRating(false);
+</code></pre>
+<p>If false is not present it will ignore usesUntilPrompt, promptAgainForEachNewVersion, and button logic, it will prompt every time.</p>
+<h3 id="override-dialog-button-callback">Override dialog button callback</h3>
+<pre><code class="lang-javascript">AppRate.preferences.callbacks.onButtonClicked = function(buttonIndex) {
+  console.log(&quot;onButtonClicked -&gt; &quot; + buttonIndex);
+};
+</code></pre>
+<h3 id="set-custom-language">Set custom language</h3>
+<pre><code class="lang-javascript">AppRate.preferences.useLanguage = &#39;ru&#39;;
+</code></pre>
+<h3 id="set-custom-locale-object">Set custom Locale object</h3>
+<pre><code class="lang-javascript">AppRate.preferences.customLocale = {
+  title: &quot;Rate %@&quot;,
+  message: &quot;If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!&quot;,
+  cancelButtonLabel: &quot;No, Thanks&quot;,
+  laterButtonLabel: &quot;Remind Me Later&quot;,
+  rateButtonLabel: &quot;Rate It Now&quot;
+};
+</code></pre>
+<h3 id="full-setup">Full setup</h3>
+<pre><code class="lang-javascript">AppRate.preferences = {
+  openStoreInApp: true,
+  displayAppName: &#39;My custom app title&#39;,
+  usesUntilPrompt: 5,
+  promptAgainForEachNewVersion: false,
+  storeAppURL: {
+    ios: &#39;&lt;my_app_id&gt;&#39;,
+    android: &#39;market://details?id=&lt;package_name&gt;&#39;,
+    windows: &#39;ms-windows-store://pdp/?ProductId=&lt;the apps Store ID&gt;&#39;,
+    blackberry: &#39;appworld://content/[App Id]/&#39;,
+    windows8: &#39;ms-windows-store:Review?name=&lt;the Package Family Name of the application&gt;&#39;
+  },
+  customLocale: {
+    title: &quot;Rate %@&quot;,
+    message: &quot;If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!&quot;,
+    cancelButtonLabel: &quot;No, Thanks&quot;,
+    laterButtonLabel: &quot;Remind Me Later&quot;,
+    rateButtonLabel: &quot;Rate It Now&quot;
+  }
+};
+
+AppRate.promptForRating();
+</code></pre>
+<h3 id="callbacks-setup-and-use-custom-rate-dialog">Callbacks setup and use custom rate-dialog</h3>
+<pre><code class="lang-javascript">AppRate.preferences = {
+  useCustomRateDialog: true,
+  callbacks: {
+    onRateDialogShow: function(callback){
+      callback(1) // cause immediate click on &#39;Rate Now&#39; button
+    },
+    onButtonClicked: function(buttonIndex){
+      console.log(&quot;onButtonClicked -&gt; &quot; + buttonIndex);
+    }
+  }
+};
+</code></pre>
+<h3 id="access-to-locales">Access to locales</h3>
+<pre><code class="lang-javascript">// Getting list of names for available locales
+AppRate.locales.getLocalesNames();
+
+// Getting locale object by name
+AppRate.locales.getLocale(&#39;en&#39;);
+</code></pre>
+<h3 id="list-of-translations">List of translations</h3>
+<p><a href="https://github.com/pushandplay/cordova-plugin-apprate/blob/master/www/locales.js">https://github.com/pushandplay/cordova-plugin-apprate/blob/master/www/locales.js</a></p>
+<h1 id="credits">Credits</h1>
+<p>Currently maintained by <a href="https://github.com/westonganger">@westonganger</a></p>
+<p>Created by <a href="https://github.com/pushandplay">@pushandplay</a></p>
+
+      </body>
+    </html>

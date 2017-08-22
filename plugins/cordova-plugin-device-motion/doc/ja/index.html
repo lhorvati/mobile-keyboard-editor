@@ -1,0 +1,137 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-device-motion">cordova-plugin-device-motion</h1>
+<p>このプラグインは、デバイスの加速度計へのアクセスを提供します。 加速度計の現在のデバイスの向き、 <em>x</em> <em>y</em>、および<em>z</em>軸に沿って 3 つの次元の相対運動の変更 (<em>デルタ</em>) を検出するモーション センサーです。</p>
+<p>アクセスは、グローバル <code>navigator.accelerometer</code> オブジェクトを介して。</p>
+<p>オブジェクトは、グローバル スコープの <code>ナビゲーター</code> に添付、それがないまで <code>deviceready</code> イベントの後。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.accelerometer);
+}
+</code></pre><h2 id="-">インストール</h2>
+<pre><code>cordova plugin add cordova-plugin-device-motion
+</code></pre><h2 id="-">サポートされているプラットフォーム</h2>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>ブラックベリー 10</li>
+<li>ブラウザー</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h2 id="-">メソッド</h2>
+<ul>
+<li>navigator.accelerometer.getCurrentAcceleration</li>
+<li>navigator.accelerometer.watchAcceleration</li>
+<li>navigator.accelerometer.clearWatch</li>
+</ul>
+<h2 id="-">オブジェクト</h2>
+<ul>
+<li>加速</li>
+</ul>
+<h2 id="navigator-accelerometer-getcurrentacceleration">navigator.accelerometer.getCurrentAcceleration</h2>
+<p><em>X</em> <em>y</em>、および <em>z</em> 軸に沿って現在の加速を取得します。</p>
+<p>これらの加速度値が <code>accelerometerSuccess</code> コールバック関数に返されます。</p>
+<pre><code>navigator.accelerometer.getCurrentAcceleration(accelerometerSuccess, accelerometerError);
+</code></pre><h3 id="-">例</h3>
+<pre><code>function onSuccess(acceleration) {
+    alert(&#39;Acceleration X: &#39; + acceleration.x + &#39;\n&#39; +
+          &#39;Acceleration Y: &#39; + acceleration.y + &#39;\n&#39; +
+          &#39;Acceleration Z: &#39; + acceleration.z + &#39;\n&#39; +
+          &#39;Timestamp: &#39;      + acceleration.timestamp + &#39;\n&#39;);
+};
+
+function onError() {
+    alert(&#39;onError!&#39;);
+};
+
+navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+</code></pre><h3 id="-">ブラウザーの癖</h3>
+<p>値 X、Y、Z モーションは、加速度計をシミュレートするためにすべてのランダムに生成される順序です。</p>
+<h3 id="ios-">iOS の癖</h3>
+<ul>
+<li><p>iOS は、任意の時点で現在の加速度を得ることの概念を認識しません。</p>
+</li>
+<li><p>加速度を見るし、データをキャプチャする必要があります指定した時間間隔で。</p>
+</li>
+<li><p>したがって、 <code>getCurrentAcceleration</code> 関数から報告された最後の値が生成されます、 <code>watchAccelerometer</code> を呼び出します。</p>
+</li>
+</ul>
+<h2 id="navigator-accelerometer-watchacceleration">navigator.accelerometer.watchAcceleration</h2>
+<p>たびに <code>accelerometerSuccess</code> コールバック関数を実行する定期的な間隔で、デバイスの現在の <code>Acceleration</code> を取得します。 <code>acceleratorOptions</code> オブジェクトの <code>frquency</code> パラメーターを介してミリ秒単位で間隔を指定します。</p>
+<p>返される時計 ID、加速度計腕時計間隔を参照し、加速度計を見て停止する <code>navigator.accelerometer.clearWatch</code> を使用することができます。</p>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration(accelerometerSuccess,
+                                                       accelerometerError,
+                                                       accelerometerOptions);
+</code></pre><ul>
+<li><strong>accelerometerOptions</strong>: 次のオプションのキーを持つオブジェクト: <ul>
+<li><strong>期間</strong>: ミリ秒単位での加速度データと accelerometerSuccess への呼び出しの要求された期間。<em>(数)</em>(デフォルト: 10000）</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>function onSuccess(acceleration) {
+    alert(&#39;Acceleration X: &#39; + acceleration.x + &#39;\n&#39; +
+          &#39;Acceleration Y: &#39; + acceleration.y + &#39;\n&#39; +
+          &#39;Acceleration Z: &#39; + acceleration.z + &#39;\n&#39; +
+          &#39;Timestamp: &#39;      + acceleration.timestamp + &#39;\n&#39;);
+};
+
+function onError() {
+    alert(&#39;onError!&#39;);
+};
+
+var options = { frequency: 3000 };  // Update every 3 seconds
+
+var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+</code></pre><h3 id="ios-">iOS の癖</h3>
+<p>API は、要求された間隔で、成功コールバック関数を呼び出しますが 40 ms の間デバイスへの要求の範囲を制限し、1000 ミリ秒になります。 たとえば、(ms) 3 秒の間隔を要求した場合、API 1 秒ごとに、デバイスからデータを要求がのみ成功コールバック 3 秒ごとを実行します。</p>
+<h2 id="navigator-accelerometer-clearwatch">navigator.accelerometer.clearWatch</h2>
+<p><code>watchID</code> パラメーターによって参照される <code>加速</code> を見て停止します。</p>
+<pre><code>navigator.accelerometer.clearWatch(watchID);
+</code></pre><ul>
+<li><strong>watchID</strong>: によって返される ID<code>navigator.accelerometer.watchAcceleration</code>.</li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+
+// ... later on ...
+
+navigator.accelerometer.clearWatch(watchID);
+</code></pre><h2 id="-">加速</h2>
+<p>特定の時点でキャプチャした <code>Accelerometer</code> データが含まれています。 加速度値のとおり重力の効果 (9.81 m/s ^2) デバイスにあるフラットと <em>x</em> <em>y</em>、直面していると返された <em>z</em> 値は <code> </code>、および <code>9.81</code> をする必要がありますように、.</p>
+<h3 id="-">プロパティ</h3>
+<ul>
+<li><strong>x</strong>: x 軸の加速度の量です。（m/s ^2)<em>(数)</em></li>
+<li><strong>y</strong>: y 軸の加速度の量です。（m/s ^2)<em>(数)</em></li>
+<li><strong>z</strong>: z 軸の加速度の量です。（m/s ^2)<em>(数)</em></li>
+<li><strong>タイムスタンプ</strong>: 作成時のタイムスタンプ (ミリ秒単位)。<em>（，）</em></li>
+</ul>
+
+      </body>
+    </html>

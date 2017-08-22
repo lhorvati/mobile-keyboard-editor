@@ -1,0 +1,128 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-whitelist">cordova-plugin-whitelist</h1>
+<p>このプラグイン実装コルドバ 4.0 アプリケーション webview をナビゲートするためのホワイト リスト ポリシー</p>
+<h2 id="-">サポートされているコルドバのプラットフォーム</h2>
+<ul>
+<li>アンドロイド 4.0.0 以上</li>
+<li>iOS 4.0.0 以上</li>
+</ul>
+<h2 id="-">ナビゲーションのホワイト リスト</h2>
+<p>WebView 自体に移動に Url を制御します。最上位ナビゲーションのみに適用されます。</p>
+<p>癖: Android にもに適用されますの iframe 非-[http スキーム。</p>
+<p>既定では、ナビゲーション、 <code>file://</code>の Url にのみ許可されます。その他の他の Url を許可するように、 <code>config.xml</code>に<code>&lt;allow-navigation&gt;</code>タグを追加する必要があります。</p>
+<pre><code>&lt;!-- Allow links to example.com --&gt;
+&lt;allow-navigation href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-navigation href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- A wildcard can be used to whitelist the entire network,
+     over HTTP and HTTPS.
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-navigation href=&quot;*&quot; /&gt;
+
+&lt;!-- The above is equivalent to these three declarations --&gt;
+&lt;allow-navigation href=&quot;http://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;https://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;data:*&quot; /&gt;
+</code></pre><h2 id="-">インテントのホワイト リスト</h2>
+<p>どの Url を開くようにシステムを聞いて、アプリに許可を制御します。 既定では、外部 Url 許可されません。</p>
+<p>人造人間、これは型 BROWSEABLE の意図を送信することに相当します。</p>
+<p>このホワイト リストはプラグインのみハイパーリンクおよび<code>window.open()</code>への呼び出しには適用されません。.</p>
+<p><code>Config.xml</code>内の<code>&lt;allow-intent&gt;</code>タグは、このようなを追加します。</p>
+<pre><code>&lt;!-- Allow links to web pages to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://*/*&quot; /&gt;
+&lt;allow-intent href=&quot;https://*/*&quot; /&gt;
+
+&lt;!-- Allow links to example.com to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-intent href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- Allow SMS links to open messaging app --&gt;
+&lt;allow-intent href=&quot;sms:*&quot; /&gt;
+
+&lt;!-- Allow tel: links to open the dialer --&gt;
+&lt;allow-intent href=&quot;tel:*&quot; /&gt;
+
+&lt;!-- Allow geo: links to open maps --&gt;
+&lt;allow-intent href=&quot;geo:*&quot; /&gt;
+
+&lt;!-- Allow all unrecognized URLs to open installed apps
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-intent href=&quot;*&quot; /&gt;
+</code></pre><h2 id="-">ネットワーク要求のホワイト リスト</h2>
+<p>ネットワーク要求コントロール (画像、XHRs 等) (コルドバ ネイティブ フック) を介して行われることが。</p>
+<p>注: より安全なコンテンツ セキュリティ ポリシー (下記参照) を使用してお勧めします。 このホワイト リストほとんどの CSP をサポートしていない web 表示のために歴史的です。</p>
+<p><code>Config.xml</code>内のこのような<code>&lt;access&gt;</code>タグを追加します。</p>
+<pre><code>&lt;!-- Allow images, xhrs, etc. to google.com --&gt;
+&lt;access origin=&quot;http://google.com&quot; /&gt;
+&lt;access origin=&quot;https://google.com&quot; /&gt;
+
+&lt;!-- Access to the subdomain maps.google.com --&gt;
+&lt;access origin=&quot;http://maps.google.com&quot; /&gt;
+
+&lt;!-- Access to all the subdomains on google.com --&gt;
+&lt;access origin=&quot;http://*.google.com&quot; /&gt;
+
+&lt;!-- Enable requests to content: URLs --&gt;
+&lt;access origin=&quot;content:///*&quot; /&gt;
+
+&lt;!-- Don&#39;t block any requests --&gt;
+&lt;access origin=&quot;*&quot; /&gt;
+</code></pre><p><code>&lt;access&gt;</code>タグ、なし<code>file://</code> Url に要求のみを許可します。 ただし、既定のコルドバ アプリケーションが含まれています<code>&lt;access origin=&quot;*&quot;&gt;</code>デフォルトで。</p>
+<p>気まぐれ: アンドロイドも要求できます <a href="https://ssl.gstatic.com/accessibility/javascript/android/デフォルトでは、トークが正常に機能するために必要ですので。">https://ssl.gstatic.com/accessibility/javascript/android/デフォルトでは、トークが正常に機能するために必要ですので。</a></p>
+<h3 id="-">コンテンツのセキュリティ ポリシー</h3>
+<p>ネットワーク要求コントロール (画像、XHRs 等) (直接 webview) を介して行われることが。</p>
+<p>Android と iOS は、ネットワーク要求ホワイト リスト (上記参照) はすべての種類の要求 (例: <code>&lt; ビデオ &gt;</code> &amp; Websocket がふさがれていない) をフィルター処理できません。 だから、ホワイト リストに加えてすべてのページに<a href="http://content-security-policy.com/">コンテンツ セキュリティ ポリシー</a> <code>&lt; meta &gt;</code>タグを使用する必要があります。</p>
+<p>Android 上システム webview 内 CSP サポート キットカットから始まります (しかし横断歩道 WebView を使用してすべてのバージョンで利用可能です)。</p>
+<p><code>.Html</code>ページのいくつかの例 CSP の宣言は次のとおりです。</p>
+<pre><code>&lt;!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS-&gt;native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add &#39;unsafe-inline&#39; to default-src
+        * Enable eval(): add &#39;unsafe-eval&#39; to default-src
+--&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; data: gap: https://ssl.gstatic.com; style-src &#39;self&#39; &#39;unsafe-inline&#39;; media-src *&quot;&gt;
+
+&lt;!-- Allow requests to foo.com --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; foo.com&quot;&gt;
+
+&lt;!-- Enable all requests, inline styles, and eval() --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src *; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39; &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;&gt;
+
+&lt;!-- Allow XHRs via https only --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; https:&quot;&gt;
+
+&lt;!-- Allow iframe to https://cordova.apache.org/ --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; frame-src &#39;self&#39; https://cordova.apache.org&quot;&gt;
+</code></pre>
+      </body>
+    </html>

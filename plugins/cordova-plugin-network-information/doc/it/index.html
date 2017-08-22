@@ -1,0 +1,156 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-network-information">cordova-plugin-network-information</h1>
+<p>Questo plugin fornisce un&#39;implementazione di una vecchia versione dell&#39; <a href="http://www.w3.org/TR/2011/WD-netinfo-api-20110607/">API di informazioni di rete</a>. Fornisce informazioni sul dispositivo cellulare e connessione wifi, e se il dispositivo dispone di una connessione internet.</p>
+<h2 id="installazione">Installazione</h2>
+<pre><code>cordova plugin add cordova-plugin-network-information
+</code></pre><h2 id="piattaforme-supportate">Piattaforme supportate</h2>
+<ul>
+<li>Amazon fuoco OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Browser</li>
+<li>iOS</li>
+<li>Windows Phone 7 e 8</li>
+<li>Tizen</li>
+<li>Windows</li>
+<li>Firefox OS</li>
+</ul>
+<h1 id="connessione">Connessione</h1>
+<blockquote>
+<p>Il <code>connection</code> oggetto, esposto tramite <code>navigator.connection</code> , fornisce informazioni sulla connessione wifi e cellulare del dispositivo.</p>
+</blockquote>
+<h2 id="propriet-">Proprietà</h2>
+<ul>
+<li>connection.type</li>
+</ul>
+<h2 id="costanti">Costanti</h2>
+<ul>
+<li>Connection.UNKNOWN</li>
+<li>Connection.ETHERNET</li>
+<li>Connection.WIFI</li>
+<li>Connection.CELL_2G</li>
+<li>Connection.CELL_3G</li>
+<li>Connection.CELL_4G</li>
+<li>Connection.CELL</li>
+<li>Connection.NONE</li>
+</ul>
+<h2 id="connection-type">connection.type</h2>
+<p>Questa proprietà offre un modo rapido per determinare stato della connessione di rete del dispositivo e il tipo di connessione.</p>
+<h3 id="esempio-rapido">Esempio rapido</h3>
+<pre><code>function checkConnection() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN]  = &#39;Unknown connection&#39;;
+    states[Connection.ETHERNET] = &#39;Ethernet connection&#39;;
+    states[Connection.WIFI]     = &#39;WiFi connection&#39;;
+    states[Connection.CELL_2G]  = &#39;Cell 2G connection&#39;;
+    states[Connection.CELL_3G]  = &#39;Cell 3G connection&#39;;
+    states[Connection.CELL_4G]  = &#39;Cell 4G connection&#39;;
+    states[Connection.CELL]     = &#39;Cell generic connection&#39;;
+    states[Connection.NONE]     = &#39;No network connection&#39;;
+
+    alert(&#39;Connection type: &#39; + states[networkState]);
+}
+
+checkConnection();
+</code></pre><h3 id="cambiamento-di-api">Cambiamento di API</h3>
+<p>Fino a Cordova 2.3.0, il <code>Connection</code> oggetto era accessibile tramite <code>navigator.network.connection</code> , dopo che è stato cambiato in <code>navigator.connection</code> per abbinare la specifica W3C. È ancora disponibile nella sua posizione originale, ma è obsoleto e verrà rimosso alla fine.</p>
+<h3 id="ios-stranezze">iOS stranezze</h3>
+<ul>
+<li>iOS non è possibile rilevare il tipo di connessione di rete cellulare. <ul>
+<li><code>navigator.connection.type</code>è impostata su <code>Connection.CELL</code> per tutti i dati cellulare.</li>
+</ul>
+</li>
+</ul>
+<h3 id="stranezze-di-windows-phone">Stranezze di Windows Phone</h3>
+<ul>
+<li><p>Quando è in esecuzione nell&#39;emulatore, rileva sempre <code>navigator.connection.type</code> come<code>Connection.UNKNOWN</code>.</p>
+</li>
+<li><p>Windows Phone non riesce a rilevare il tipo di connessione di rete cellulare.</p>
+<ul>
+<li><code>navigator.connection.type</code>è impostata su <code>Connection.CELL</code> per tutti i dati cellulare.</li>
+</ul>
+</li>
+</ul>
+<h3 id="stranezze-di-windows">Stranezze di Windows</h3>
+<ul>
+<li>Quando è in esecuzione nell&#39;emulatore Phone 8.1, sempre rileva <code>navigator.connection.type</code> come <code>Connection.ETHERNET</code>.</li>
+</ul>
+<h3 id="tizen-stranezze">Tizen stranezze</h3>
+<ul>
+<li>Tizen può rilevare solo un WiFi o una connessione cellulare. <ul>
+<li><code>navigator.connection.type</code> è impostata su <code>Connection.CELL_2G</code> per tutti i dati cellulare.</li>
+</ul>
+</li>
+</ul>
+<h3 id="firefox-os-stranezze">Firefox OS stranezze</h3>
+<ul>
+<li>Sistema operativo Firefox non riesce a rilevare il tipo di connessione di rete cellulare. <ul>
+<li><code>navigator.connection.type</code>è impostata su <code>Connection.CELL</code> per tutti i dati cellulare.</li>
+</ul>
+</li>
+</ul>
+<h1 id="eventi-relativi-alla-rete">Eventi relativi alla rete</h1>
+<h2 id="offline">offline</h2>
+<p>L&#39;evento viene generato quando un&#39;applicazione passa alla modalità offline, e il dispositivo non è connesso a Internet.</p>
+<pre><code>document.addEventListener(&quot;offline&quot;, yourCallbackFunction, false);
+</code></pre><h3 id="dettagli">Dettagli</h3>
+<p>Il <code>offline</code> evento viene generato quando un dispositivo precedentemente connesso perde una connessione di rete in modo che un&#39;applicazione non è più possibile accedere a Internet. Esso si basa sulle stesse informazioni come l&#39;API di connessione e viene generato quando il valore di <code>connection.type</code> diventa<code>NONE</code>.</p>
+<p>Applicazioni in genere è necessario utilizzare <code>document.addEventListener</code> per fissare un listener di eventi una volta il <code>deviceready</code> evento incendi.</p>
+<h3 id="esempio-rapido">Esempio rapido</h3>
+<pre><code>document.addEventListener(&quot;offline&quot;, onOffline, false);
+
+function onOffline() {
+    // Handle the offline event
+}
+</code></pre><h3 id="ios-stranezze">iOS stranezze</h3>
+<p>Durante l&#39;avvio iniziale, il primo evento offline (se applicabile) richiede almeno un secondo al fuoco.</p>
+<h3 id="windows-phone-7-capricci">Windows Phone 7 capricci</h3>
+<p>Quando è in esecuzione nell&#39;emulatore, il <code>connection.status</code> è sempre sconosciuto, così fa di questo evento <em>non</em> fuoco.</p>
+<h3 id="windows-phone-8-stranezze">Windows Phone 8 stranezze</h3>
+<p>L&#39;emulatore riporta il tipo di connessione come <code>Cellular</code> , che non cambia, così fa l&#39;evento <em>non</em> fuoco.</p>
+<h2 id="online">online</h2>
+<p>Questo evento viene generato quando un&#39;applicazione va online, e il dispositivo diventa collegato a Internet.</p>
+<pre><code>document.addEventListener(&quot;online&quot;, yourCallbackFunction, false);
+</code></pre><h3 id="dettagli">Dettagli</h3>
+<p>Il <code>online</code> evento viene generato quando un dispositivo precedentemente scollegato riceve una connessione di rete per consentire un&#39;accesso di applicazione a Internet. Esso si basa sulle stesse informazioni come l&#39;API di connessione e viene attivato quando il <code>connection.type</code> cambia da <code>NONE</code> a qualsiasi altro valore.</p>
+<p>Applicazioni in genere è necessario utilizzare <code>document.addEventListener</code> per fissare un listener di eventi una volta il <code>deviceready</code> evento incendi.</p>
+<h3 id="esempio-rapido">Esempio rapido</h3>
+<pre><code>document.addEventListener(&quot;online&quot;, onOnline, false);
+
+function onOnline() {
+    // Handle the online event
+}
+</code></pre><h3 id="ios-stranezze">iOS stranezze</h3>
+<p>Durante l&#39;avvio iniziale, il primo <code>online</code> evento (se applicabile) richiede almeno un secondo al fuoco, prima che <code>connection.type</code> è<code>UNKNOWN</code>.</p>
+<h3 id="windows-phone-7-capricci">Windows Phone 7 capricci</h3>
+<p>Quando è in esecuzione nell&#39;emulatore, il <code>connection.status</code> è sempre sconosciuto, così fa di questo evento <em>non</em> fuoco.</p>
+<h3 id="windows-phone-8-stranezze">Windows Phone 8 stranezze</h3>
+<p>L&#39;emulatore riporta il tipo di connessione come <code>Cellular</code> , che non cambia, quindi, non gli eventi <em>non</em> a fuoco.</p>
+
+      </body>
+    </html>

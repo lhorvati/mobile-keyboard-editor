@@ -1,0 +1,305 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-inappbrowser">cordova-plugin-inappbrowser</h1>
+<p>Этот плагин обеспечивает представление веб-браузера, что показывает при вызове<code>window.open()</code>.</p>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><p><strong>Примечание</strong>: InAppBrowser окно ведет себя как стандартный веб-браузер и не может доступ API Cordova.</p>
+<h2 id="-">Установка</h2>
+<pre><code>cordova plugin add cordova-plugin-inappbrowser
+</code></pre><h2 id="window-open">window.open</h2>
+<p>Открывает URL-адрес в новом <code>InAppBrowser</code> например, текущий экземпляр браузера или браузера системы.</p>
+<pre><code>var ref = window.open(url, target, options);
+</code></pre><ul>
+<li><p><strong>ссылка</strong>: ссылка для <code>InAppBrowser</code> окно. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>URL</strong>: URL-адрес для загрузки <em>(String)</em>. Вызвать <code>encodeURI()</code> на это, если URL-адрес содержит символы Unicode.</p>
+</li>
+<li><p><strong>Цель</strong>: цель для загрузки URL-адреса, необязательный параметр, по умолчанию <code>_self</code> . <em>(Строка)</em></p>
+<ul>
+<li><code>_self</code>: Открывается в Cordova WebView, если URL-адрес в белый список, в противном случае он открывается в<code>InAppBrowser</code>.</li>
+<li><code>_blank</code>: Открывает в<code>InAppBrowser</code>.</li>
+<li><code>_system</code>: Открывается в веб-браузера системы.</li>
+</ul>
+</li>
+<li><p><strong>опции</strong>: параметры для <code>InAppBrowser</code> . Необязательный параметр, виновная в: <code>location=yes</code> . <em>(Строка)</em></p>
+<p><code>options</code>Строка не должна содержать каких-либо пустое пространство, и каждая функция пар имя/значение должны быть разделены запятой. Функция имена нечувствительны к регистру. Все платформы поддерживают исходное значение:</p>
+<ul>
+<li><strong>Расположение</strong>: равным <code>yes</code> или <code>no</code> превратить <code>InAppBrowser</code> в адресную строку или выключить.</li>
+</ul>
+<p>Только андроид:</p>
+<ul>
+<li><strong>closebuttoncaption</strong>: задайте строку для использования в качестве заголовка кнопки <strong>сделали</strong> .</li>
+<li><strong>скрытые</strong>: значение <code>yes</code> для создания браузера и загрузки страницы, но не показать его. Событие loadstop возникает, когда загрузка завершена. Опустить или набор <code>no</code> (по умолчанию), чтобы браузер открыть и загрузить нормально.</li>
+<li><strong>ClearCache</strong>: набор <code>yes</code> иметь браузера куки кэш очищен перед открытием нового окна</li>
+<li><strong>clearsessioncache</strong>: значение <code>yes</code> иметь кэш cookie сеанса очищается перед открытием нового окна</li>
+</ul>
+<p>только iOS:</p>
+<ul>
+<li><strong>closebuttoncaption</strong>: задайте строку для использования в качестве заголовка кнопки <strong>сделали</strong> . Обратите внимание, что вам нужно самостоятельно локализовать это значение.</li>
+<li><strong>disallowoverscroll</strong>: значение <code>yes</code> или <code>no</code> (по умолчанию <code>no</code> ). Включает/отключает свойство UIWebViewBounce.</li>
+<li><strong>скрытые</strong>: значение <code>yes</code> для создания браузера и загрузки страницы, но не показать его. Событие loadstop возникает, когда загрузка завершена. Опустить или набор <code>no</code> (по умолчанию), чтобы браузер открыть и загрузить нормально.</li>
+<li><strong>ClearCache</strong>: набор <code>yes</code> иметь браузера куки кэш очищен перед открытием нового окна</li>
+<li><strong>clearsessioncache</strong>: значение <code>yes</code> иметь кэш cookie сеанса очищается перед открытием нового окна</li>
+<li><strong>панели инструментов</strong>: набор <code>yes</code> или <code>no</code> для включения панели инструментов или выключить InAppBrowser (по умолчанию<code>yes</code>)</li>
+<li><strong>enableViewportScale</strong>: значение <code>yes</code> или <code>no</code> для предотвращения просмотра, масштабирования через тег meta (по умолчанию<code>no</code>).</li>
+<li><strong>mediaPlaybackRequiresUserAction</strong>: значение <code>yes</code> или <code>no</code> для предотвращения HTML5 аудио или видео от Автовоспроизведение (по умолчанию<code>no</code>).</li>
+<li><strong>allowInlineMediaPlayback</strong>: значение <code>yes</code> или <code>no</code> чтобы разрешить воспроизведение мультимедиа HTML5 в строки, отображения в окне браузера, а не конкретного устройства воспроизведения интерфейс. HTML <code>video</code> элемент должен также включать <code>webkit-playsinline</code> атрибут (по умолчанию<code>no</code>)</li>
+<li><strong>keyboardDisplayRequiresUserAction</strong>: значение <code>yes</code> или <code>no</code> чтобы открыть клавиатуру, когда формы элементы получают фокус через JavaScript в <code>focus()</code> вызов (по умолчанию<code>yes</code>).</li>
+<li><strong>suppressesIncrementalRendering</strong>: значение <code>yes</code> или <code>no</code> ждать, пока все новое содержание представление получено до визуализации (по умолчанию<code>no</code>).</li>
+<li><strong>presentationstyle</strong>: набор <code>pagesheet</code> , <code>formsheet</code> или <code>fullscreen</code> чтобы задать <a href="http://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalPresentationStyle">стиль презентации</a> (по умолчанию<code>fullscreen</code>).</li>
+<li><strong>transitionstyle</strong>: набор <code>fliphorizontal</code> , <code>crossdissolve</code> или <code>coververtical</code> чтобы задать <a href="http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalTransitionStyle">стиль перехода</a> (по умолчанию<code>coververtical</code>).</li>
+<li><strong>toolbarposition</strong>: значение <code>top</code> или <code>bottom</code> (по умолчанию <code>bottom</code> ). Вызывает панели инструментов, чтобы быть в верхней или нижней части окна.</li>
+</ul>
+<p>Windows только:</p>
+<ul>
+<li><strong>скрытые</strong>: значение <code>yes</code> для создания браузера и загрузки страницы, но не показать его. Событие loadstop возникает, когда загрузка завершена. Опустить или набор <code>no</code> (по умолчанию), чтобы браузер открыть и загрузить нормально.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+<li>Windows Phone 7 и 8</li>
+</ul>
+<h3 id="-">Пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var ref2 = window.open(encodeURI(&#39;http://ja.m.wikipedia.org/wiki/ハングル&#39;), &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><h3 id="-firefox-os">Особенности Firefox OS</h3>
+<p>Как плагин не применять любой дизайн есть необходимость добавить некоторые правила CSS, если открыт с <code>target=&#39;_blank&#39;</code> . Правила может выглядеть как эти</p>
+<pre><code> css
+.inAppBrowserWrap {
+  background-color: rgba(0,0,0,0.75);
+  color: rgba(235,235,235,1.0);
+}
+.inAppBrowserWrap menu {
+  overflow: auto;
+  list-style-type: none;
+  padding-left: 0;
+}
+.inAppBrowserWrap menu li {
+  font-size: 25px;
+  height: 25px;
+  float: left;
+  margin: 0 10px;
+  padding: 3px 10px;
+  text-decoration: none;
+  color: #ccc;
+  display: block;
+  background: rgba(30,30,30,0.50);
+}
+.inAppBrowserWrap menu li.disabled {
+    color: #777;
+}
+</code></pre><h2 id="-">Внутренний браузер</h2>
+<p>Объект, возвращаемый из вызова<code>window.open</code>.</p>
+<h3 id="-">Методы</h3>
+<ul>
+<li>addEventListener</li>
+<li>removeEventListener</li>
+<li>close</li>
+<li>show</li>
+<li>executeScript</li>
+<li>insertCSS</li>
+</ul>
+<h2 id="addeventlistener">addEventListener</h2>
+<blockquote>
+<p>Добавляет прослушиватель для события от<code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.addEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ссылка</strong>: ссылка для <code>InAppBrowser</code> окно <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>EventName</strong>: событие для прослушивания <em>(String)</em></p>
+<ul>
+<li><strong>loadstart</strong>: событие возникает, когда <code>InAppBrowser</code> начинает для загрузки URL-адреса.</li>
+<li><strong>loadstop</strong>: событие возникает, когда <code>InAppBrowser</code> завершит загрузку URL-адреса.</li>
+<li><strong>loaderror</strong>: событие возникает, когда <code>InAppBrowser</code> обнаруживает ошибку при загрузке URL-адреса.</li>
+<li><strong>выход</strong>: возникает событие, когда <code>InAppBrowser</code> окно закрыто.</li>
+</ul>
+</li>
+<li><p><strong>обратного вызова</strong>: функция, которая выполняется, когда возникает событие. Функция передается <code>InAppBrowserEvent</code> объект в качестве параметра.</p>
+</li>
+</ul>
+<h3 id="inappbrowserevent-">InAppBrowserEvent свойства</h3>
+<ul>
+<li><p><strong>тип</strong>: eventname, либо <code>loadstart</code> , <code>loadstop</code> , <code>loaderror</code> , или <code>exit</code> . <em>(Строка)</em></p>
+</li>
+<li><p><strong>URL</strong>: URL-адрес, который был загружен. <em>(Строка)</em></p>
+</li>
+<li><p><strong>код</strong>: код ошибки, только в случае <code>loaderror</code> . <em>(Число)</em></p>
+</li>
+<li><p><strong>сообщение</strong>: сообщение об ошибке, только в случае <code>loaderror</code> . <em>(Строка)</em></p>
+</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+<li>Windows Phone 7 и 8</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstart&#39;, function(event) { alert(event.url); });
+</code></pre><h2 id="-removeeventlistener">метод removeEventListener</h2>
+<blockquote>
+<p>Удаляет прослушиватель для события от<code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.removeEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ссылка</strong>: ссылка для <code>InAppBrowser</code> окно. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>EventName</strong>: событие прекратить прослушивание. <em>(Строка)</em></p>
+<ul>
+<li><strong>loadstart</strong>: событие возникает, когда <code>InAppBrowser</code> начинает для загрузки URL-адреса.</li>
+<li><strong>loadstop</strong>: событие возникает, когда <code>InAppBrowser</code> завершит загрузку URL-адреса.</li>
+<li><strong>loaderror</strong>: событие возникает, когда <code>InAppBrowser</code> обнаруживает ошибку загрузки URL-адреса.</li>
+<li><strong>выход</strong>: возникает событие, когда <code>InAppBrowser</code> окно закрывается.</li>
+</ul>
+</li>
+<li><p><strong>обратного вызова</strong>: функция, выполняемая когда это событие наступает. Функция передается <code>InAppBrowserEvent</code> объект.</p>
+</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+<li>Windows Phone 7 и 8</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var myCallback = function(event) { alert(event.url); }
+ref.addEventListener(&#39;loadstart&#39;, myCallback);
+ref.removeEventListener(&#39;loadstart&#39;, myCallback);
+</code></pre><h2 id="close">close</h2>
+<blockquote>
+<p>Закрывает <code>InAppBrowser</code> окно.</p>
+</blockquote>
+<pre><code>Ref.Close();
+</code></pre><ul>
+<li><strong>ссылка</strong>: ссылка на <code>InAppBrowser</code> окно <em>(InAppBrowser)</em></li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+<li>Windows Phone 7 и 8</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.close();
+</code></pre><h2 id="show">show</h2>
+<blockquote>
+<p>Отображается окно InAppBrowser, был открыт скрытые. Вызов это не имеет эффекта при InAppBrowser уже был виден.</p>
+</blockquote>
+<pre><code>Ref.Show();
+</code></pre><ul>
+<li><strong>ссылка</strong>: ссылка на окно (InAppBrowser<code>InAppBrowser</code>)</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;hidden=yes&#39;);
+// some time later...
+ref.show();
+</code></pre><h2 id="executescript">executeScript</h2>
+<blockquote>
+<p>Вставляет код JavaScript в <code>InAppBrowser</code> окно</p>
+</blockquote>
+<pre><code>ref.executeScript(details, callback);
+</code></pre><ul>
+<li><p><strong>ссылка</strong>: ссылка на <code>InAppBrowser</code> окно. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>: подробности сценария для запуска, указав либо <code>file</code> или <code>code</code> ключ. <em>(Объект)</em></p>
+<ul>
+<li><strong>файл</strong>: URL-адрес сценария вставки.</li>
+<li><strong>код</strong>: текст сценария для вставки.</li>
+</ul>
+</li>
+<li><p><strong>обратного вызова</strong>: функция, которая выполняет после вводят JavaScript-код.</p>
+<ul>
+<li>Если введенный скрипт имеет тип <code>code</code> , обратный вызов выполняется с одним параметром, который является возвращаемое значение сценария, завернутые в <code>Array</code> . Для многострочных сценариев это возвращаемое значение последнего оператора, или последнее вычисленное выражение.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 и 8.1</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.executeScript({file: &quot;myscript.js&quot;});
+});
+</code></pre><h2 id="insertcss">insertCSS</h2>
+<blockquote>
+<p>Внедряет CSS в <code>InAppBrowser</code> окно.</p>
+</blockquote>
+<pre><code>ref.insertCSS(details, callback);
+</code></pre><ul>
+<li><p><strong>ссылка</strong>: ссылка на <code>InAppBrowser</code> окно <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>: детали сценария для запуска, указав либо <code>file</code> или <code>code</code> ключ. <em>(Объект)</em></p>
+<ul>
+<li><strong>файл</strong>: URL-адрес таблицы стилей для вставки.</li>
+<li><strong>код</strong>: текст таблицы стилей для вставки.</li>
+</ul>
+</li>
+<li><p><strong>обратного вызова</strong>: функция, которая выполняет после вводят CSS.</p>
+</li>
+</ul>
+<h3 id="-">Поддерживаемые платформы</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+</ul>
+<h3 id="-">Краткий пример</h3>
+<pre><code>var ref = window.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.insertCSS({file: &quot;mystyles.css&quot;});
+});
+</code></pre>
+      </body>
+    </html>

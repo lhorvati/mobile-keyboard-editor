@@ -1,0 +1,319 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-inappbrowser">cordova-plugin-inappbrowser</h1>
+<p>このプラグインは <code>コルドバを呼び出すときに表示される web ブラウザーのビューを提供します。InAppBrowser.open()</code>.</p>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><p><code>コルドバ。InAppBrowser.open()</code> <code>window.open()</code> 関数との交換を定義する関数。 既存の <code>window.open()</code> 呼び出しは、window.open を置き換えることによって InAppBrowser ウィンドウを使用できます。</p>
+<pre><code>window.open = cordova.InAppBrowser.open;
+</code></pre><p>InAppBrowser ウィンドウは標準的な web ブラウザーのように動作し、コルドバ Api にアクセスできません。 この理由から、InAppBrowser お勧めする場合はメインのコルドバの webview を読み込むのではなくサード パーティ (信頼されていない) コンテンツをロードする必要があります。 InAppBrowser、ホワイト リストの対象ではないも、システムのブラウザーでリンクを開くです。</p>
+<p>InAppBrowser を提供しますデフォルトで GUI コントロール (戻る、進む、行う)。</p>
+<p>後方互換性、このプラグインは、また <code>window.open</code> をフックのため。 ただし、<code>window.open</code> のプラグイン インストール フックを持つことができます意図しない副作用 （特に場合は、このプラグインは別のプラグインの依存関係としてのみ含まれています)。 <code>window.open</code> のフックは、将来のメジャー リリースで削除されます。 プラグインから、フックが削除されるまでアプリはデフォルトの動作を手動で復元できます。</p>
+<pre><code>delete window.open // Reverts the call back to it&#39;s prototype&#39;s default
+</code></pre><p><code>window.open</code> はグローバル スコープでは、InAppBrowser は、<code>deviceready</code> イベントの後まで利用できません。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(&quot;window.open works well&quot;);
+}
+</code></pre><h2 id="-">インストール</h2>
+<pre><code>cordova plugin add cordova-plugin-inappbrowser
+</code></pre><p>InAppBrowser を通過するアプリですべてのページの読み込みをする場合は初期化中に <code>window.open</code> を単にフックできます。たとえば。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    window.open = cordova.InAppBrowser.open;
+}
+</code></pre><h2 id="cordova-inappbrowser-open">cordova.InAppBrowser.open</h2>
+<p>新しい <code>InAppBrowser</code> インスタンスを現在のブラウザー インスタンスまたはシステムのブラウザーで URL を開きます。</p>
+<pre><code>var ref = cordova.InAppBrowser.open(url, target, options);
+</code></pre><ul>
+<li><p><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ。<em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>url</strong>: <em>(文字列)</em>をロードする URL。電話 <code>encodeURI()</code> 場合は、この上の URL は Unicode 文字を含みます。</p>
+</li>
+<li><p><strong>ターゲット</strong>: ターゲット URL は、既定値は、省略可能なパラメーターをロードするを <code>_self</code> 。<em>(文字列)</em></p>
+<ul>
+<li><code>_self</code>: コルドバ WebView URL がホワイト リストにある場合で開きます、それ以外の場合で開きます、<code>InAppBrowser</code>.</li>
+<li><code>_blank</code>: で開きます、<code>InAppBrowser</code>.</li>
+<li><code>_system</code>: システムの web ブラウザーで開きます。</li>
+</ul>
+</li>
+<li><p><strong>オプション</strong>: おぷしょん、 <code>InAppBrowser</code> 。省略可能にする: <code>location=yes</code> 。<em>(文字列)</em></p>
+<p><code>options</code>文字列にはする必要があります任意の空白スペースが含まれていないと、各機能の名前と値のペアをコンマで区切る必要があります。 機能名では大文字小文字を区別します。 以下の値をサポートするプラットフォーム。</p>
+<ul>
+<li><strong>場所</strong>： に設定 <code>yes</code> または <code>no</code> を有効にする、 <code>InAppBrowser</code> の場所バー オンまたはオフにします。</li>
+</ul>
+<p>アンドロイドのみ：</p>
+<ul>
+<li><strong>非表示</strong>: 設定 <code>yes</code> ブラウザーを作成して、ページの読み込みが表示されません。 Loadstop イベントは、読み込みが完了すると発生します。 省略するか設定 <code>no</code> (既定値) を開くし、通常読み込みブラウザーを持っています。</li>
+<li><strong>clearcache</strong>: に設定されている <code>yes</code> 、ブラウザーのクッキー キャッシュ クリア新しいウィンドウが開く前に</li>
+<li><strong>clearsessioncache</strong>： に設定されている <code>yes</code> はセッション cookie のキャッシュをオフにすると、新しいウィンドウが開く前に</li>
+</ul>
+<p>iOS のみ:</p>
+<ul>
+<li><strong>closebuttoncaption</strong>: [<strong>完了</strong>] ボタンのキャプションとして使用する文字列に設定します。自分でこの値をローカライズする必要があることに注意してください。</li>
+<li><strong>disallowoverscroll</strong>： に設定されている <code>yes</code> または <code>no</code> (既定値は <code>no</code> )。/UIWebViewBounce プロパティをオフにします。</li>
+<li><strong>非表示</strong>: 設定 <code>yes</code> ブラウザーを作成して、ページの読み込みが表示されません。 Loadstop イベントは、読み込みが完了すると発生します。 省略するか設定 <code>no</code> (既定値) を開くし、通常読み込みブラウザーを持っています。</li>
+<li><strong>clearcache</strong>: に設定されている <code>yes</code> 、ブラウザーのクッキー キャッシュ クリア新しいウィンドウが開く前に</li>
+<li><strong>clearsessioncache</strong>： に設定されている <code>yes</code> はセッション cookie のキャッシュをオフにすると、新しいウィンドウが開く前に</li>
+<li><strong>ツールバー</strong>: に設定されている <code>yes</code> または <code>no</code> InAppBrowser (デフォルトのツールバーのオンまたはオフを有効にするには<code>yes</code>)</li>
+<li><strong>enableViewportScale</strong>： に設定されている <code>yes</code> または <code>no</code> を (デフォルトではメタタグを介してスケーリング ビューポートを防ぐために<code>no</code>).</li>
+<li><strong>mediaPlaybackRequiresUserAction</strong>： に設定されている <code>yes</code> または <code>no</code> を HTML5 オーディオまたはビデオを自動再生 （初期設定から防ぐために<code>no</code>).</li>
+<li><strong>allowInlineMediaPlayback</strong>： に設定されている <code>yes</code> または <code>no</code> ラインで HTML5 メディア再生には、デバイス固有再生インターフェイスではなく、ブラウザー ウィンドウ内に表示するようにします。 HTML の <code>video</code> 要素を含める必要がありますまた、 <code>webkit-playsinline</code> 属性 (デフォルトは<code>no</code>)</li>
+<li><strong>keyboardDisplayRequiresUserAction</strong>： に設定されている <code>yes</code> または <code>no</code> をフォーム要素の JavaScript を介してフォーカスを受け取るときに、キーボードを開く <code>focus()</code> コール （デフォルトは<code>yes</code>).</li>
+<li><strong>suppressesIncrementalRendering</strong>： に設定されている <code>yes</code> または <code>no</code> (デフォルトでは表示される前にビューのすべての新しいコンテンツを受信するまで待機するには<code>no</code>).</li>
+<li><strong>presentationstyle</strong>： に設定されている <code>pagesheet</code> 、 <code>formsheet</code> または <code>fullscreen</code> (デフォルトでは、<a href="http://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalPresentationStyle">プレゼンテーション スタイル</a>を設定するには<code>fullscreen</code>).</li>
+<li><strong>transitionstyle</strong>： に設定されている <code>fliphorizontal</code> 、 <code>crossdissolve</code> または <code>coververtical</code> (デフォルトでは、<a href="http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalTransitionStyle">トランジションのスタイル</a>を設定するには<code>coververtical</code>).</li>
+<li><strong>toolbarposition</strong>： に設定されている <code>top</code> または <code>bottom</code> (既定値は <code>bottom</code> )。上部またはウィンドウの下部にツールバーが発生します。</li>
+</ul>
+<p>Windows のみ：</p>
+<ul>
+<li><strong>非表示</strong>: 設定 <code>yes</code> ブラウザーを作成して、ページの読み込みが表示されません。 Loadstop イベントは、読み込みが完了すると発生します。 省略するか設定 <code>no</code> (既定値) を開くし、通常読み込みブラウザーを持っています。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>ブラックベリー 10</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+<li>Windows Phone 7 と 8</li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var ref2 = cordova.InAppBrowser.open(encodeURI(&#39;http://ja.m.wikipedia.org/wiki/ハングル&#39;), &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><h3 id="firefox-os-">Firefox OS 癖</h3>
+<p>開かれた場合にいくつかの CSS ルールを追加する必要があるプラグインは任意のデザインを適用しないと <code>target =&#39;_blank&#39;</code>。これらのような規則になります。</p>
+<pre><code> css
+.inAppBrowserWrap {
+  background-color: rgba(0,0,0,0.75);
+  color: rgba(235,235,235,1.0);
+}
+.inAppBrowserWrap menu {
+  overflow: auto;
+  list-style-type: none;
+  padding-left: 0;
+}
+.inAppBrowserWrap menu li {
+  font-size: 25px;
+  height: 25px;
+  float: left;
+  margin: 0 10px;
+  padding: 3px 10px;
+  text-decoration: none;
+  color: #ccc;
+  display: block;
+  background: rgba(30,30,30,0.50);
+}
+.inAppBrowserWrap menu li.disabled {
+    color: #777;
+}
+</code></pre><h2 id="inappbrowser">InAppBrowser</h2>
+<p><code>コルドバへの呼び出しから返されるオブジェクト。InAppBrowser.open</code>.</p>
+<h3 id="-">メソッド</h3>
+<ul>
+<li>addEventListener</li>
+<li>removeEventListener</li>
+<li>close</li>
+<li>show</li>
+<li>executeScript</li>
+<li>insertCSS</li>
+</ul>
+<h2 id="addeventlistener">addEventListener</h2>
+<blockquote>
+<p>イベントのリスナーを追加します、<code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.addEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ<em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>eventname</strong>: <em>(文字列)</em>をリッスンするイベント</p>
+<ul>
+<li><em>**</em>： イベントが発生するとき、 <code>InAppBrowser</code> の URL の読み込みが開始します。</li>
+<li><strong>loadstop</strong>： イベントが発生するとき、 <code>InAppBrowser</code> URL の読み込みが完了します。</li>
+<li><strong>loaderror</strong>： イベントが発生するとき、 <code>InAppBrowser</code> URL の読み込みでエラーが発生します。</li>
+<li><strong>終了</strong>: イベントが発生するとき、 <code>InAppBrowser</code> ウィンドウが閉じられます。</li>
+</ul>
+</li>
+<li><p><strong>コールバック</strong>: イベントが発生したときに実行される関数。関数に渡されますが、 <code>InAppBrowserEvent</code> オブジェクトをパラメーターとして。</p>
+</li>
+</ul>
+<h3 id="inappbrowserevent-">InAppBrowserEvent プロパティ</h3>
+<ul>
+<li><p><strong>タイプ</strong>: eventname どちらか <code>loadstart</code> 、 <code>loadstop</code> 、 <code>loaderror</code> 、または <code>exit</code> 。<em>(文字列)</em></p>
+</li>
+<li><p><strong>url</strong>: URL が読み込まれました。<em>(文字列)</em></p>
+</li>
+<li><p><strong>コード</strong>: の場合にのみ、エラー コード <code>loaderror</code> 。<em>(数)</em></p>
+</li>
+<li><p><strong>メッセージ</strong>: の場合にのみ、エラー メッセージ <code>loaderror</code> 。<em>(文字列)</em></p>
+</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+<li>Windows Phone 7 と 8</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstart&#39;, function(event) { alert(event.url); });
+</code></pre><h2 id="removeeventlistener">removeEventListener</h2>
+<blockquote>
+<p>イベントのリスナーを削除します、<code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.removeEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ。<em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>eventname</strong>: イベントのリッスンを停止します。<em>(文字列)</em></p>
+<ul>
+<li><em>**</em>： イベントが発生するとき、 <code>InAppBrowser</code> の URL の読み込みが開始します。</li>
+<li><strong>loadstop</strong>： イベントが発生するとき、 <code>InAppBrowser</code> URL の読み込みが完了します。</li>
+<li><strong>loaderror</strong>： イベントが発生するとき、 <code>InAppBrowser</code> URL の読み込みエラーが発生します。</li>
+<li><strong>終了</strong>: イベントが発生するとき、 <code>InAppBrowser</code> ウィンドウが閉じられます。</li>
+</ul>
+</li>
+<li><p><strong>コールバック</strong>: イベントが発生するときに実行する関数。関数に渡されますが、 <code>InAppBrowserEvent</code> オブジェクト。</p>
+</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+<li>Windows Phone 7 と 8</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var myCallback = function(event) { alert(event.url); }
+ref.addEventListener(&#39;loadstart&#39;, myCallback);
+ref.removeEventListener(&#39;loadstart&#39;, myCallback);
+</code></pre><h2 id="close">close</h2>
+<blockquote>
+<p>閉じる、 <code>InAppBrowser</code> ウィンドウ。</p>
+</blockquote>
+<pre><code>ref.close();
+</code></pre><ul>
+<li><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ<em>(InAppBrowser)</em></li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+<li>Windows Phone 7 と 8</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.close();
+</code></pre><h2 id="show">show</h2>
+<blockquote>
+<p>隠された開かれた InAppBrowser ウィンドウが表示されます。この関数を呼び出すは影響しません、InAppBrowser が既に表示されている場合。</p>
+</blockquote>
+<pre><code>ref.show();
+</code></pre><ul>
+<li><strong>ref</strong>: InAppBrowser ウィンドウ (への参照<code>InAppBrowser</code>)</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;hidden=yes&#39;);
+// some time later...
+ref.show();
+</code></pre><h2 id="executescript">executeScript</h2>
+<blockquote>
+<p>JavaScript コードに挿入します、 <code>InAppBrowser</code> ウィンドウ</p>
+</blockquote>
+<pre><code>ref.executeScript(details, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ。<em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>： 詳細を実行するスクリプトのいずれかを指定する、 <code>file</code> または <code>code</code> キー。<em>(オブジェクト)</em></p>
+<ul>
+<li><strong>ファイル</strong>： スクリプトの URL を注入します。</li>
+<li><strong>コード</strong>: スクリプトのテキストを挿入します。</li>
+</ul>
+</li>
+<li><p><strong>コールバック</strong>: JavaScript コードを注入した後に実行される関数。</p>
+<ul>
+<li>挿入されたスクリプトが型の場合 <code>code</code> 、スクリプトの戻り値は、1 つのパラメーターでコールバックを実行するのに包まれて、 <code>Array</code> 。 マルチライン スクリプトについては、最後のステートメントでは、または評価した最後の式の戻り値です。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>iOS</li>
+<li>Windows 8 および 8.1</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.executeScript({file: &quot;myscript.js&quot;});
+});
+</code></pre><h2 id="insertcss">insertCSS</h2>
+<blockquote>
+<p>CSS に注入する、 <code>InAppBrowser</code> ウィンドウ。</p>
+</blockquote>
+<pre><code>ref.insertCSS(details, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: への参照を <code>InAppBrowser</code> ウィンドウ<em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>： 詳細を実行するスクリプトのいずれかを指定する、 <code>file</code> または <code>code</code> キー。<em>(オブジェクト)</em></p>
+<ul>
+<li><strong>ファイル</strong>: 注入するスタイル シートの URL。</li>
+<li><strong>コード</strong>: 注入するスタイル シートのテキスト。</li>
+</ul>
+</li>
+<li><p><strong>コールバック</strong>: CSS の注入後に実行される関数。</p>
+</li>
+</ul>
+<h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>iOS</li>
+</ul>
+<h3 id="-">簡単な例</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.insertCSS({file: &quot;mystyles.css&quot;});
+});
+</code></pre>
+      </body>
+    </html>

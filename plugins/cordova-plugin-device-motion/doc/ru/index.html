@@ -1,0 +1,131 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-device-motion">cordova-plugin-device-motion</h1>
+<p>Этот плагин обеспечивает доступ к акселерометру устройства. Акселерометр является датчиком движения, который обнаруживает изменение (<em>дельта</em>) в движении относительно текущей ориентации устройства, в трех измерениях вдоль осей <em>x</em>, <em>y</em> и <em>z</em> .</p>
+<h2 id="-">Установка</h2>
+<pre><code>cordova plugin add cordova-plugin-device-motion
+</code></pre><h2 id="-">Поддерживаемые платформы</h2>
+<ul>
+<li>Amazon Fire ОС</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Обозреватель</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 и 8</li>
+<li>Windows 8</li>
+</ul>
+<h2 id="-">Методы</h2>
+<ul>
+<li>navigator.accelerometer.getCurrentAcceleration</li>
+<li>navigator.accelerometer.watchAcceleration</li>
+<li>navigator.accelerometer.clearWatch</li>
+</ul>
+<h2 id="-">Объекты</h2>
+<ul>
+<li>Acceleration</li>
+</ul>
+<h2 id="navigator-accelerometer-getcurrentacceleration">navigator.accelerometer.getCurrentAcceleration</h2>
+<p>Возвращает текущее ускорение вдоль осей <em>x</em>, <em>y</em> и <em>z</em>.</p>
+<p>Значения ускорения передаются функции обратного вызова <code>accelerometerSuccess</code>.</p>
+<pre><code>navigator.accelerometer.getCurrentAcceleration(accelerometerSuccess, accelerometerError);
+</code></pre><h3 id="-">Пример</h3>
+<pre><code>function onSuccess(acceleration) {
+    alert(&#39;Acceleration X: &#39; + acceleration.x + &#39;\n&#39; +
+          &#39;Acceleration Y: &#39; + acceleration.y + &#39;\n&#39; +
+          &#39;Acceleration Z: &#39; + acceleration.z + &#39;\n&#39; +
+          &#39;Timestamp: &#39;      + acceleration.timestamp + &#39;\n&#39;);
+};
+
+function onError() {
+    alert(&#39;onError!&#39;);
+};
+
+navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+</code></pre><h3 id="-">Браузер причуды</h3>
+<p>Значения X, Y, Z движения являются все случайным в целях моделирования акселерометра.</p>
+<h3 id="-ios">Особенности iOS</h3>
+<ul>
+<li><p>iOS не поддерживает автоматическое обновление значений для ускорения.</p>
+</li>
+<li><p>Вы должны самостоятельно отслеживать изменение ускорения и считывать данные через определенные интервалы времени.</p>
+</li>
+<li><p>Таким образом функция <code>getCurrentAcceleration</code> возвращает последнее значение, полученное при вызове <code>watchAccelerometer</code>.</p>
+</li>
+</ul>
+<h2 id="navigator-accelerometer-watchacceleration">navigator.accelerometer.watchAcceleration</h2>
+<p>Извлекает текущая устройство <code>Acceleration</code> с постоянным интервалом, выполнение <code>accelerometerSuccess</code> функция обратного вызова каждый раз. Задайте интервал в миллисекундах, через <code>acceleratorOptions</code> объекта <code>frequency</code> параметр.</p>
+<p>Возвращаемый смотреть ссылки ID акселерометр часы интервал и может быть использован с <code>navigator.accelerometer.clearWatch</code> чтобы остановить просмотр акселерометр.</p>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration(accelerometerSuccess,
+                                                       accelerometerError,
+                                                       accelerometerOptions);
+</code></pre><ul>
+<li><strong>accelerometerOptions</strong>: Объект с следующие необязательные свойствами: <ul>
+<li><strong>период</strong>: запрошенный период звонков на accelerometerSuccess с ускорение данных в миллисекундах. <em>(Число)</em> (По умолчанию: 10000)</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">Пример</h3>
+<pre><code>function onSuccess(acceleration) {
+    alert(&#39;Acceleration X: &#39; + acceleration.x + &#39;\n&#39; +
+          &#39;Acceleration Y: &#39; + acceleration.y + &#39;\n&#39; +
+          &#39;Acceleration Z: &#39; + acceleration.z + &#39;\n&#39; +
+          &#39;Timestamp: &#39;      + acceleration.timestamp + &#39;\n&#39;);
+};
+
+function onError() {
+    alert(&#39;onError!&#39;);
+};
+
+var options = { frequency: 3000 };  // Update every 3 seconds
+
+var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+</code></pre><h3 id="-ios">Особенности iOS</h3>
+<p>API вызывает функцию обратного вызова с указанным интервалом, но имеет ограничение по частоте запросов к устройству от 40 мс и до 1000 мс. Например если вы запрашиваете интервал 3 секунды, (3000 мс), API запрашивает данные от устройства каждую секунду, но функция обратного вызова будет срабатывать только каждые 3 секунды.</p>
+<h2 id="navigator-accelerometer-clearwatch">navigator.accelerometer.clearWatch</h2>
+<p>Останавливает отслеживание изменений объекта <code>Acceleration</code>, на который ссылается параметр <code>watchID</code>.</p>
+<pre><code>navigator.accelerometer.clearWatch(watchID);
+</code></pre><ul>
+<li><strong>watchID</strong>: идентификатор, возвращенный<code>navigator.accelerometer.watchAcceleration</code>.</li>
+</ul>
+<h3 id="-">Пример</h3>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+
+// ... later on ...
+
+navigator.accelerometer.clearWatch(watchID);
+</code></pre><h2 id="acceleration">Acceleration</h2>
+<p>Содержит данные полученные от акселерометра на определенный момент времени. Ускорение значения включают эффект гравитации (9,81 м/с ^ 2), так что когда устройство лежит плоская и вверх, <em>x</em>, <em>y</em>, и <em>z</em> значения, возвращаемые должны быть <code>,</code> , и<code>9.81</code>.</p>
+<h3 id="-">Параметры</h3>
+<ul>
+<li><strong>x</strong>: величина ускорение по оси x. (в м/с ^ 2) <em>(Число)</em></li>
+<li><strong>y</strong>: величина ускорение по оси y. (в м/с ^ 2) <em>(Число)</em></li>
+<li><strong>z</strong>: величина ускорение по оси z. (в м/с ^ 2) <em>(Число)</em></li>
+<li><strong>timestamp</strong>: временая метка в миллисекундах. <em>(DOMTimeStamp)</em></li>
+</ul>
+
+      </body>
+    </html>

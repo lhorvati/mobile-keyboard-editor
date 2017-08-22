@@ -1,0 +1,246 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-dialogs">cordova-plugin-dialogs</h1>
+<p><a href="https://travis-ci.org/apache/cordova-plugin-dialogs"><img src="https://travis-ci.org/apache/cordova-plugin-dialogs.svg" alt="Build Status"></a></p>
+<p>Dieses Plugin ermöglicht den Zugriff auf einige native Dialog-UI-Elemente über eine globale <code>navigator.notification</code>-Objekt.</p>
+<p>Obwohl das Objekt mit der globalen Gültigkeitsbereich <code>navigator</code> verbunden ist, steht es nicht bis nach dem <code>Deviceready</code>-Ereignis.</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.notification);
+}
+</code></pre><h2 id="installation">Installation</h2>
+<pre><code>cordova plugin add cordova-plugin-dialogs
+</code></pre><h2 id="methoden">Methoden</h2>
+<ul>
+<li><code>navigator.notification.alert</code></li>
+<li><code>navigator.notification.confirm</code></li>
+<li><code>navigator.notification.prompt</code></li>
+<li><code>navigator.notification.beep</code></li>
+</ul>
+<h2 id="navigator-notification-alert">navigator.notification.alert</h2>
+<p>Zeigt eine benutzerdefinierte Warnung oder Dialogfeld Feld. Die meisten Implementierungen von Cordova ein native Dialogfeld für dieses Feature verwenden, jedoch einige Plattformen des Browsers-<code>alert</code>-Funktion, die in der Regel weniger anpassbar ist.</p>
+<pre><code>navigator.notification.alert(message, alertCallback, [title], [buttonName])
+</code></pre><ul>
+<li><p><strong>Nachricht</strong>: Dialogfeld Nachricht. <em>(String)</em></p>
+</li>
+<li><p><strong>AlertCallback</strong>: Callback aufgerufen wird, wenn Warnungs-Dialogfeld geschlossen wird. <em>(Funktion)</em></p>
+</li>
+<li><p><strong>Titel</strong>: Dialog &quot;Titel&quot;. <em>(String)</em> (Optional, Standard ist<code>Alert</code>)</p>
+</li>
+<li><p><strong>ButtonName</strong>: Name der Schaltfläche. <em>(String)</em> (Optional, Standard ist<code>OK</code>)</p>
+</li>
+</ul>
+<h3 id="beispiel">Beispiel</h3>
+<pre><code>function alertDismissed() {
+    // do something
+}
+
+navigator.notification.alert(
+    &#39;You are the winner!&#39;,  // message
+    alertDismissed,         // callback
+    &#39;Game Over&#39;,            // title
+    &#39;Done&#39;                  // buttonName
+);
+</code></pre><h3 id="unterst-tzte-plattformen">Unterstützte Plattformen</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 und 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-und-8-eigenarten">Windows Phone 7 und 8 Eigenarten</h3>
+<ul>
+<li><p>Es gibt keine eingebaute Datenbanksuchroutine-Warnung, aber Sie können binden, wie folgt zu nennen <code>alert()</code> im globalen Gültigkeitsbereich:</p>
+<pre><code>window.alert = navigator.notification.alert;
+</code></pre></li>
+</ul>
+<ul>
+<li>Beide <code>alert</code> und <code>confirm</code> sind nicht blockierende Aufrufe, die Ergebnisse davon nur asynchron sind.</li>
+</ul>
+<h3 id="firefox-os-macken-">Firefox OS Macken:</h3>
+<p>Native blockierenden <code>window.alert()</code> und nicht-blockierende <code>navigator.notification.alert()</code> zur Verfügung.</p>
+<h3 id="blackberry-10-macken">BlackBerry 10 Macken</h3>
+<p><code>navigator.notification.alert (&#39;Text&#39;, Rückruf, &#39;Titel&#39;, &#39;Text&#39;)</code> Callback-Parameter wird die Zahl 1 übergeben.</p>
+<h2 id="navigator-notification-confirm">navigator.notification.confirm</h2>
+<p>Zeigt das Dialogfeld anpassbare Bestätigung.</p>
+<pre><code>navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+</code></pre><ul>
+<li><p><strong>Nachricht</strong>: Dialogfeld Nachricht. <em>(String)</em></p>
+</li>
+<li><p><strong>ConfirmCallback</strong>: Callback aufgerufen wird, mit Index gedrückt (1, 2 oder 3) oder wenn das Dialogfeld geschlossen wird, ohne einen Tastendruck (0). <em>(Funktion)</em></p>
+</li>
+<li><p><strong>Titel</strong>: Dialog &quot;Titel&quot;. <em>(String)</em> (Optional, Standard ist<code>Confirm</code>)</p>
+</li>
+<li><p><strong>ButtonLabels</strong>: Array von Zeichenfolgen, die Schaltflächenbezeichnungen angeben. <em>(Array)</em> (Optional, Standard ist [ <code>OK,Cancel</code> ])</p>
+</li>
+</ul>
+<h3 id="confirmcallback">confirmCallback</h3>
+<p>Die <code>confirmCallback</code> wird ausgeführt, wenn der Benutzer eine der Schaltflächen im Dialogfeld zur Bestätigung drückt.</p>
+<p>Der Rückruf dauert das Argument <code>buttonIndex</code> <em>(Anzahl)</em>, die der Index der Schaltfläche gedrückt ist. Beachten Sie, dass der Index 1-basierte Indizierung, sodass der Wert <code>1</code>, <code>2</code>, <code>3</code> usw. ist.</p>
+<h3 id="beispiel">Beispiel</h3>
+<pre><code>function onConfirm(buttonIndex) {
+    alert(&#39;You selected button &#39; + buttonIndex);
+}
+
+navigator.notification.confirm(
+    &#39;You are the winner!&#39;, // message
+     onConfirm,            // callback to invoke with index of button pressed
+    &#39;Game Over&#39;,           // title
+    [&#39;Restart&#39;,&#39;Exit&#39;]     // buttonLabels
+);
+</code></pre><h3 id="unterst-tzte-plattformen">Unterstützte Plattformen</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 und 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-und-8-eigenarten">Windows Phone 7 und 8 Eigenarten</h3>
+<ul>
+<li><p>Es gibt keine integrierte Browser-Funktion für <code>window.confirm</code> , aber Sie können es binden, indem Sie zuweisen:</p>
+<pre><code>window.confirm = navigator.notification.confirm;
+</code></pre></li>
+</ul>
+<ul>
+<li>Aufrufe von <code>alert</code> und <code>confirm</code> sind nicht blockierend, so dass das Ergebnis nur asynchron zur Verfügung steht.</li>
+</ul>
+<h3 id="windows-eigenheiten">Windows-Eigenheiten</h3>
+<ul>
+<li><p>Auf Windows8/8.1 kann nicht mehr als drei Schaltflächen MessageDialog-Instanz hinzu.</p>
+</li>
+<li><p>Auf Windows Phone 8.1 ist es nicht möglich, Dialog mit mehr als zwei Knöpfen zeigen.</p>
+</li>
+</ul>
+<h3 id="firefox-os-macken-">Firefox OS Macken:</h3>
+<p>Native blockierenden <code>window.confirm()</code> und nicht-blockierende <code>navigator.notification.confirm()</code> zur Verfügung.</p>
+<h2 id="navigator-notification-prompt">navigator.notification.prompt</h2>
+<p>Zeigt eine native Dialogfeld, das mehr als <code>Prompt</code>-Funktion des Browsers anpassbar ist.</p>
+<pre><code>navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+</code></pre><ul>
+<li><p><strong>Nachricht</strong>: Dialogfeld Nachricht. <em>(String)</em></p>
+</li>
+<li><p><strong>promptCallback</strong>: Callback aufgerufen wird, mit Index gedrückt (1, 2 oder 3) oder wenn das Dialogfeld geschlossen wird, ohne einen Tastendruck (0). <em>(Funktion)</em></p>
+</li>
+<li><p><strong>title</strong>: Dialog Title <em>(String)</em> (Optional, Standard ist <code>Prompt</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>: Array von Zeichenfolgen angeben Schaltfläche Etiketten <em>(Array)</em> (Optional, Standard ist <code>[&quot;OK&quot;, &quot;Abbrechen&quot;]</code>)</p>
+</li>
+<li><p><strong>defaultText</strong>: Standard-Textbox Eingabewert (<code>String</code>) (Optional, Standard: leere Zeichenfolge)</p>
+</li>
+</ul>
+<h3 id="promptcallback">promptCallback</h3>
+<p>Die <code>promptCallback</code> wird ausgeführt, wenn der Benutzer eine der Schaltflächen im Eingabedialogfeld drückt. <code>Des Objekts an den Rückruf übergeben</code> enthält die folgenden Eigenschaften:</p>
+<ul>
+<li><p><strong>buttonIndex</strong>: der Index der Schaltfläche gedrückt. <em>(Anzahl)</em> Beachten Sie, dass der Index 1-basierte Indizierung, sodass der Wert <code>1</code>, <code>2</code>, <code>3</code> usw. ist.</p>
+</li>
+<li><p><strong>input1</strong>: in Eingabedialogfeld eingegebenen Text. <em>(String)</em></p>
+</li>
+</ul>
+<h3 id="beispiel">Beispiel</h3>
+<pre><code>function onPrompt(results) {
+    alert(&quot;You selected button number &quot; + results.buttonIndex + &quot; and entered &quot; + results.input1);
+}
+
+navigator.notification.prompt(
+    &#39;Please enter your name&#39;,  // message
+    onPrompt,                  // callback to invoke
+    &#39;Registration&#39;,            // title
+    [&#39;Ok&#39;,&#39;Exit&#39;],             // buttonLabels
+    &#39;Jane Doe&#39;                 // defaultText
+);
+</code></pre><h3 id="unterst-tzte-plattformen">Unterstützte Plattformen</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 7 und 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="android-eigenarten">Android Eigenarten</h3>
+<ul>
+<li><p>Android unterstützt maximal drei Schaltflächen und mehr als das ignoriert.</p>
+</li>
+<li><p>Auf Android 3.0 und höher, werden die Schaltflächen in umgekehrter Reihenfolge für Geräte angezeigt, die das Holo-Design verwenden.</p>
+</li>
+</ul>
+<h3 id="windows-eigenheiten">Windows-Eigenheiten</h3>
+<ul>
+<li>Unter Windows ist Prompt Dialogfeld html-basierten mangels solcher native api.</li>
+</ul>
+<h3 id="firefox-os-macken-">Firefox OS Macken:</h3>
+<p>Native blockierenden <code>window.prompt()</code> und nicht-blockierende <code>navigator.notification.prompt()</code> zur Verfügung.</p>
+<h2 id="navigator-notification-beep">navigator.notification.beep</h2>
+<p>Das Gerät spielt einen Signalton sound.</p>
+<pre><code>navigator.notification.beep(times);
+</code></pre><ul>
+<li><strong>times</strong>: die Anzahl der Wiederholungen des Signaltons. <em>(Anzahl)</em></li>
+</ul>
+<h3 id="beispiel">Beispiel</h3>
+<pre><code>// Beep twice!
+navigator.notification.beep(2);
+</code></pre><h3 id="unterst-tzte-plattformen">Unterstützte Plattformen</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 und 8</li>
+<li>Windows 8</li>
+</ul>
+<h3 id="amazon-fire-os-macken">Amazon Fire OS Macken</h3>
+<ul>
+<li>Amazon Fire OS spielt die Standardeinstellung <strong>Akustische Benachrichtigung</strong> unter <strong>Einstellungen/Display &amp; Sound</strong> Bereich angegeben.</li>
+</ul>
+<h3 id="android-eigenarten">Android Eigenarten</h3>
+<ul>
+<li>Android spielt die Standardeinstellung <strong>Benachrichtigung Klingelton</strong> unter <strong>Einstellungen/Sound &amp; Display</strong>-Panel angegeben.</li>
+</ul>
+<h3 id="windows-phone-7-und-8-eigenarten">Windows Phone 7 und 8 Eigenarten</h3>
+<ul>
+<li>Stützt sich auf eine generische Piepton-Datei aus der Cordova-Distribution.</li>
+</ul>
+<h3 id="tizen-macken">Tizen Macken</h3>
+<ul>
+<li><p>Tizen implementiert Signaltöne durch Abspielen einer Audiodatei über die Medien API.</p>
+</li>
+<li><p>Die Beep-Datei muss kurz sein, in einem <code>sounds</code>-Unterverzeichnis des Stammverzeichnisses der Anwendung befinden muss und muss den Namen <code>beep.wav</code>.</p>
+</li>
+</ul>
+
+      </body>
+    </html>

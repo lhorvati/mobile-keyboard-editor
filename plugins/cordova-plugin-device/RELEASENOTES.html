@@ -1,0 +1,198 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>RELEASENOTES.md</title>
+      </head>
+      <body>
+        <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+-->
+<h1 id="release-notes">Release Notes</h1>
+<h3 id="1-1-6-apr-27-2017-">1.1.6 (Apr 27, 2017)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-12622">CB-12622</a> Added <strong>Android 6.0</strong> build badge to <code>README</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-12685">CB-12685</a> added <code>package.json</code> to tests folder</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-12105">CB-12105</a> (browser) Properly detect Edge</li>
+</ul>
+<h3 id="1-1-5-feb-28-2017-">1.1.5 (Feb 28, 2017)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-12353">CB-12353</a> Corrected merges usage in <code>plugin.xml</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-12369">CB-12369</a> Add plugin typings from <code>DefinitelyTyped</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-12363">CB-12363</a> Added build badges for <strong>iOS 9.3</strong> and <strong>iOS 10.0</strong></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-12230">CB-12230</a> Removed <strong>Windows 8.1</strong> build badges</li>
+</ul>
+<h3 id="1-1-4-dec-07-2016-">1.1.4 (Dec 07, 2016)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-12224">CB-12224</a> Updated version and RELEASENOTES.md for release 1.1.4</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-11917">CB-11917</a> - Remove pull request template checklist item: &quot;iCLA has been submitted…&quot;</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-11832">CB-11832</a> Incremented plugin version.</li>
+</ul>
+<h3 id="1-1-3-sep-08-2016-">1.1.3 (Sep 08, 2016)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-11795">CB-11795</a> Add &#39;protective&#39; entry to cordovaDependencies</li>
+<li>Add badges for paramedic builds on Jenkins</li>
+<li>Add pull request template.</li>
+<li>Readme: Add fenced code blocks with langauage hints</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10996">CB-10996</a> Adding front matter to <code>README.md</code></li>
+</ul>
+<h3 id="1-1-2-apr-15-2016-">1.1.2 (Apr 15, 2016)</h3>
+<ul>
+<li>Use passed device, follow create policy forf <code>CFUUIDCreate</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10631">CB-10631</a> Fix for <code>device.uuid</code> in <strong>iOS 5.1.1</strong></li>
+<li>Updating the comment to exclude URL</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10636">CB-10636</a> Add <code>JSHint</code> for plugins</li>
+<li>Refactored <code>deviceInfo</code> on <strong>iOS</strong> for better readability.</li>
+</ul>
+<h3 id="1-1-1-jan-15-2016-">1.1.1 (Jan 15, 2016)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-10238">CB-10238</a> <strong>OSX</strong> Move <code>device-plugin</code> out from <code>cordovalib</code> to the plugin repository</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9923">CB-9923</a> Update <code>device.platform</code> documentation for <strong>Browser</strong> platform</li>
+</ul>
+<h3 id="1-1-0-nov-18-2015-">1.1.0 (Nov 18, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-10035">CB-10035</a> Updated <code>RELEASENOTES</code> to be newest to oldest</li>
+<li>Add <code>isVirtual</code> for <strong>Windows Phone 8.x</strong></li>
+<li>Added basic <strong>Android</strong> support for hardware serial number</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9865">CB-9865</a> Better simulator detection for <strong>iOS</strong></li>
+<li>Fixing contribute link.</li>
+<li>Added <strong>WP8</strong> implementation</li>
+<li>update to use <code>TARGET_OS_SIMULATOR</code> as <code>TARGET_IPHONE_SIMULATOR</code> is deprecated.</li>
+<li>update code to use &#39;isVirtual&#39;</li>
+<li>create test to verify existence and type of new property &#39;isVirtual&#39;</li>
+<li>add <code>isSimulator</code> for <strong>iOS</strong> &amp; <strong>Android</strong> device</li>
+<li>Updated documentation to mention backwards compatibility</li>
+<li>Updated <strong>README</strong> to reflect new behaviour and quirks on <strong>iOS</strong></li>
+<li>Check user defaults first to maintain backwards compatibility</li>
+<li>Changed <code>UUID</code> to use <code>[UIDevice identifierForVendor]</code></li>
+</ul>
+<h3 id="1-0-1-jun-17-2015-">1.0.1 (Jun 17, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-9128">CB-9128</a> cordova-plugin-device documentation translation: cordova-plugin-device</li>
+<li>Attempts to corrent npm markdown issue</li>
+</ul>
+<h3 id="1-0-0-apr-15-2015-">1.0.0 (Apr 15, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-8746">CB-8746</a> gave plugin major version bump</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8683">CB-8683</a> changed plugin-id to pacakge-name</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> properly updated translated docs to use new id</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> updated translated docs to use new id</li>
+<li>Use TRAVIS_BUILD_DIR, install paramedic by npm</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> Updated Readme</li>
+<li>remove defunct windows8 version</li>
+<li>add travis badge</li>
+<li>Add cross-plugin ios paramedic test running for TravisCI</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8538">CB-8538</a> Added package.json file</li>
+</ul>
+<h3 id="0-3-0-feb-04-2015-">0.3.0 (Feb 04, 2015)</h3>
+<ul>
+<li>Added device.manufacturer property for Android, iOS, Blackberry, WP8</li>
+<li>Support for Windows Phone 8 ANID2 ANID is only supported up to Windows Phone 7.5</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8351">CB-8351</a> Use a local copy of uniqueAppInstanceIdentifier rather than CordovaLib&#39;s version</li>
+<li>browser: Fixed a bug that caused an &quot;cannot call method of undefined&quot; error if the browser&#39;s user agent wasn&#39;t recognized</li>
+</ul>
+<h3 id="0-2-13-dec-02-2014-">0.2.13 (Dec 02, 2014)</h3>
+<ul>
+<li>Changing <code>device.platform</code> to always report the platform as &quot;browser&quot;.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5892">CB-5892</a> - Remove deprecated <code>window.Settings</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7700">CB-7700</a> cordova-plugin-device documentation translation: cordova-plugin-device</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7571">CB-7571</a> Bump version of nested plugin to match parent plugin</li>
+</ul>
+<h3 id="0-2-12-sep-17-2014-">0.2.12 (Sep 17, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-7471">CB-7471</a> cordova-plugin-device documentation translation</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7552">CB-7552</a> device.name docs have not been removed</li>
+<li>[fxos] Fix cordova version</li>
+<li>added status box and documentation to manual tests</li>
+<li>[fxos] Fix cordova version</li>
+<li>added status box and documentation to manual tests</li>
+<li>Added plugin support for the browser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7262">CB-7262</a> Adds support for universal windows apps.</li>
+</ul>
+<h3 id="0-2-11-aug-06-2014-">0.2.11 (Aug 06, 2014)</h3>
+<ul>
+<li>[FFOS] update DeviceProxy.js</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6127">CB-6127</a> Updated translations for docs</li>
+<li>Use Windows system calls to get better info</li>
+</ul>
+<h3 id="0-2-10-jun-05-2014-">0.2.10 (Jun 05, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-6127">CB-6127</a> Spanish and French Translations added. Github close #12</li>
+<li>Changing 1.5 to 2.0</li>
+<li>added firefoxos version - conversion</li>
+<li>added firefoxos version</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6800">CB-6800</a> Add license</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6491">CB-6491</a> add CONTRIBUTING.md</li>
+</ul>
+<h3 id="0-2-9-apr-17-2014-">0.2.9 (Apr 17, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5105">CB-5105</a>: [Android, windows8, WP, BlackBerry10] Removed dead code for device.version</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6422">CB-6422</a>: [windows8] use cordova/exec/proxy</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6460">CB-6460</a>: Update license headers</li>
+<li>Add NOTICE file</li>
+</ul>
+<h3 id="0-2-8-feb-05-2014-">0.2.8 (Feb 05, 2014)</h3>
+<ul>
+<li>Tizen support added</li>
+</ul>
+<h3 id="0-2-7-jan-07-2014-">0.2.7 (Jan 07, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5737">CB-5737</a> Fix exception on close caused by left over telephony code from <a href="https://issues.apache.org/jira/browse/CB-5504">CB-5504</a></li>
+</ul>
+<h3 id="0-2-6-jan-02-2014-">0.2.6 (Jan 02, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5658">CB-5658</a> Add doc/index.md for Device plugin</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5504">CB-5504</a> Moving Telephony Logic out of Device</li>
+</ul>
+<h3 id="0-2-5-dec-4-2013-">0.2.5 (Dec 4, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5316">CB-5316</a> Spell Cordova as a brand unless it&#39;s a command or script</li>
+<li>[ubuntu] use cordova/exec/proxy</li>
+<li>add ubuntu platform</li>
+<li>Modify Device.platform logic to use amazon-fireos as the platform for Amazon Devices</li>
+<li><ol>
+<li>Added amazon-fireos platform. 2. Change to use cordova-amazon-fireos as the platform if user agent contains &#39;cordova-amazon-fireos&#39;</li>
+</ol>
+</li>
+</ul>
+<h3 id="0-2-4-oct-28-2013-">0.2.4 (Oct 28, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5128">CB-5128</a>: added repo + issue tag in plugin.xml for device plugin</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5085">CB-5085</a> device.cordova returning wrong value</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4915">CB-4915</a> Incremented plugin version on dev branch.</li>
+</ul>
+<h3 id="0-2-3-sept-25-2013-">0.2.3 (Sept 25, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-4889">CB-4889</a> bumping&amp;resetting version</li>
+<li>[windows8] commandProxy has moved</li>
+<li>[BlackBerry10] removed uneeded permission tags in plugin.xml</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4889">CB-4889</a> renaming org.apache.cordova.core.device to org.apache.cordova.device</li>
+<li>Rename CHANGELOG.md -&gt; RELEASENOTES.md</li>
+<li>updated to use commandProxy for ffos</li>
+<li>add firefoxos support</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4752">CB-4752</a> Incremented plugin version on dev branch. </li>
+</ul>
+<h3 id="0-2-1-sept-5-2013-">0.2.1 (Sept 5, 2013)</h3>
+<ul>
+<li>removed extraneous print statement</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4432">CB-4432</a> copyright notice change</li>
+</ul>
+
+      </body>
+    </html>

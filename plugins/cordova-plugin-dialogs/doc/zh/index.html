@@ -1,0 +1,245 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-dialogs">cordova-plugin-dialogs</h1>
+<p>這個外掛程式提供對一些本機對話方塊使用者介面元素，通過全球 <code>navigator.notification</code> 物件的訪問。</p>
+<p>雖然該物件附加到全球範圍內 <code>導航器</code>，它不可用直到 <code>deviceready</code> 事件之後。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.notification);
+}
+</code></pre><h2 id="-">安裝</h2>
+<pre><code>cordova plugin add cordova-plugin-dialogs
+</code></pre><h2 id="-">方法</h2>
+<ul>
+<li><code>navigator.notification.alert</code></li>
+<li><code>navigator.notification.confirm</code></li>
+<li><code>navigator.notification.prompt</code></li>
+<li><code>navigator.notification.beep</code></li>
+</ul>
+<h2 id="navigator-notification-alert">navigator.notification.alert</h2>
+<p>顯示一個自訂的警報或對話方塊框。 大多數的科爾多瓦實現使用本機的對話方塊為此功能，但某些平臺上使用瀏覽器的 <code>alert</code> 功能，這是通常不那麼可自訂。</p>
+<pre><code>navigator.notification.alert(message, alertCallback, [title], [buttonName])
+</code></pre><ul>
+<li><p><strong>message</strong>： 消息對話方塊。<em>（String）</em></p>
+</li>
+<li><p><strong>alertCallback</strong>： 當警報對話方塊的被解雇時要調用的回檔。<em>（函數）</em></p>
+</li>
+<li><p><strong>title</strong>： 標題對話方塊。<em>（String）</em>（可選，預設值為<code>Alert</code>)</p>
+</li>
+<li><p><strong>buttonName</strong>： 按鈕名稱。<em>（字串）</em>（可選，預設值為<code>OK</code>)</p>
+</li>
+</ul>
+<h3 id="-">示例</h3>
+<pre><code>function alertDismissed() {
+    // do something
+}
+
+navigator.notification.alert(
+    &#39;You are the winner!&#39;,  // message
+    alertDismissed,         // callback
+    &#39;Game Over&#39;,            // title
+    &#39;Done&#39;                  // buttonName
+);
+</code></pre><h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 和 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 和 8 怪癖</h3>
+<ul>
+<li><p>有沒有內置瀏覽器警報，但你可以綁定一個，如下所示調用 <code>alert()</code> 在全球範圍內：</p>
+<pre><code>window.alert = navigator.notification.alert;
+</code></pre></li>
+</ul>
+<ul>
+<li>兩個 <code>alert</code> 和 <code>confirm</code> 的非阻塞的調用，其中的結果才是可用的非同步。</li>
+</ul>
+<h3 id="-">火狐瀏覽器作業系統怪癖：</h3>
+<p>本機阻止 <code>window.alert()</code> 和非阻塞的 <code>navigator.notification.alert()</code> 都可。</p>
+<h3 id="-10-">黑莓 10 怪癖</h3>
+<p><code>navigator.notification.alert (&#39;message&#39;、 confirmCallback、 &#39;title&#39;、 &#39;buttonLabels&#39;)</code> 回檔參數被傳遞的數位 1。</p>
+<h2 id="navigator-notification-confirm">navigator.notification.confirm</h2>
+<p>顯示一個可自訂的確認對話方塊。</p>
+<pre><code>navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+</code></pre><ul>
+<li><p><strong>message</strong>： 消息對話方塊。<em>（字串）</em></p>
+</li>
+<li><p><strong>confirmCallback</strong>: 要用索引 （1、 2 或 3） 按下的按鈕，或者在沒有按下按鈕 (0) 駁回了對話方塊中時調用的回檔。<em>（函數）</em></p>
+</li>
+<li><p><strong>title</strong>： 標題對話方塊。<em>（字串）</em>（可選，預設值為<code>Confirm</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>： 指定按鈕標籤的字串陣列。<em>（陣列）</em>（可選，預設值為 [ <code>OK,Cancel</code> ])</p>
+</li>
+</ul>
+<h3 id="confirmcallback">confirmCallback</h3>
+<p>當使用者按下確認對話方塊中的按鈕之一時，將執行 <code>confirmCallback</code>。</p>
+<p>回檔需要參數 <code>buttonIndex</code> <em>（編號）</em>，即按下的按鈕的索引。 請注意索引使用一個基於索引，因此值 <code>1</code>、 <code>2</code>、 <code>3</code> 等。</p>
+<h3 id="-">示例</h3>
+<pre><code>function onConfirm(buttonIndex) {
+    alert(&#39;You selected button &#39; + buttonIndex);
+}
+
+navigator.notification.confirm(
+    &#39;You are the winner!&#39;, // message
+     onConfirm,            // callback to invoke with index of button pressed
+    &#39;Game Over&#39;,           // title
+    [&#39;Restart&#39;,&#39;Exit&#39;]     // buttonLabels
+);
+</code></pre><h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 和 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 和 8 怪癖</h3>
+<ul>
+<li><p>有沒有內置的瀏覽器功能的 <code>window.confirm</code> ，但你可以將它綁定通過分配：</p>
+<pre><code>window.confirm = navigator.notification.confirm;
+</code></pre></li>
+</ul>
+<ul>
+<li>調用到 <code>alert</code> 和 <code>confirm</code> 的非阻塞，所以結果就是只可用以非同步方式。</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p>在 Windows8/8.1 它是不可能將超過三個按鈕添加到 MessageDialog 實例。</p>
+</li>
+<li><p>在 Windows Phone 8.1 它是不可能顯示有超過兩個按鈕的對話方塊。</p>
+</li>
+</ul>
+<h3 id="-">火狐瀏覽器作業系統怪癖：</h3>
+<p>本機阻止 <code>window.confirm()</code> 和非阻塞的 <code>navigator.notification.confirm()</code> 都可。</p>
+<h2 id="navigator-notification-prompt">navigator.notification.prompt</h2>
+<p>顯示本機的對話方塊，是可定制的比瀏覽器的 <code>prompt</code> 功能。</p>
+<pre><code>navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+</code></pre><ul>
+<li><p><strong>message</strong>： 消息對話方塊。<em>（String）</em></p>
+</li>
+<li><p><strong>promptCallback</strong>： 要用指數 （1、 2 或 3） 按下的按鈕或對話方塊中解雇無 (0) 按下一個按鈕時調用的回檔。<em>（函數）</em></p>
+</li>
+<li><p><strong>title</strong>： 標題對話方塊。<em>（String）</em>（可選，預設值為<code>Alert</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>： 指定按鈕標籤 (可選，預設值為 <code>[&quot;OK&quot;，&quot;Cancel&quot;]</code> <em>（陣列）</em> 的字串陣列)</p>
+</li>
+<li><p><strong>defaultText</strong>: 預設文字方塊中輸入值 （<code>字串</code>） (可選，預設值： 空字串）</p>
+</li>
+</ul>
+<h3 id="promptcallback">promptCallback</h3>
+<p>當使用者按下其中一個提示對話方塊中的按鈕時，將執行 <code>promptCallback</code>。傳遞給回檔的 <code>results</code> 物件包含以下屬性：</p>
+<ul>
+<li><p><strong>buttonIndex</strong>： 按下的按鈕的索引。<em>（數）</em>請注意索引使用一個基於索引，因此值 <code>1</code>、 <code>2</code>、 <code>3</code> 等。</p>
+</li>
+<li><p><strong>input1</strong>： 在提示對話方塊中輸入的文本。<em>（字串）</em></p>
+</li>
+</ul>
+<h3 id="-">示例</h3>
+<pre><code>function onPrompt(results) {
+    alert(&quot;You selected button number &quot; + results.buttonIndex + &quot; and entered &quot; + results.input1);
+}
+
+navigator.notification.prompt(
+    &#39;Please enter your name&#39;,  // message
+    onPrompt,                  // callback to invoke
+    &#39;Registration&#39;,            // title
+    [&#39;Ok&#39;,&#39;Exit&#39;],             // buttonLabels
+    &#39;Jane Doe&#39;                 // defaultText
+);
+</code></pre><h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 7 和 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="android-">Android 的怪癖</h3>
+<ul>
+<li><p>Android 支援最多的三個按鈕，並忽略任何更多。</p>
+</li>
+<li><p>在 Android 3.0 及更高版本，使用全息主題的設備以相反的順序顯示按鈕。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>在 Windows 上提示對話方塊是基於 html 的缺乏這種本機 api。</li>
+</ul>
+<h3 id="-">火狐瀏覽器作業系統怪癖：</h3>
+<p>本機阻止 <code>window.prompt()</code> 和非阻塞的 <code>navigator.notification.prompt()</code> 都可。</p>
+<h2 id="navigator-notification-beep">navigator.notification.beep</h2>
+<p>該設備播放提示音的聲音。</p>
+<pre><code>navigator.notification.beep(times);
+</code></pre><ul>
+<li><strong>beep</strong>： 次數重複在嗶嗶聲。<em>（數）</em></li>
+</ul>
+<h3 id="-">示例</h3>
+<pre><code>// Beep twice!
+navigator.notification.beep(2);
+</code></pre><h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 和 8</li>
+<li>Windows 8</li>
+</ul>
+<h3 id="-os-">亞馬遜火 OS 怪癖</h3>
+<ul>
+<li>亞馬遜火 OS 播放預設 <strong>設置/顯示和聲音</strong> 板下指定的 <strong>通知聲音</strong>。</li>
+</ul>
+<h3 id="android-">Android 的怪癖</h3>
+<ul>
+<li>安卓系統播放預設 <strong>通知鈴聲</strong> <strong>設置/聲音和顯示</strong> 面板下指定。</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 和 8 怪癖</h3>
+<ul>
+<li>依賴于泛型蜂鳴音檔從科爾多瓦分佈。</li>
+</ul>
+<h3 id="tizen-">Tizen 怪癖</h3>
+<ul>
+<li><p>Tizen 通過播放音訊檔通過媒體 API 實現的蜂鳴聲。</p>
+</li>
+<li><p>蜂鳴音檔必須很短，必須位於應用程式的根目錄中，一個 <code>聲音</code> 子目錄和必須將命名為 <code>beep.wav</code>.</p>
+</li>
+</ul>
+
+      </body>
+    </html>

@@ -1,0 +1,128 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-whitelist">cordova-plugin-whitelist</h1>
+<p>這個外掛程式實現一個用於導航在科爾多瓦 4.0 應用程式 web 視圖的白名單策略</p>
+<h2 id="-">支援的科爾多瓦平臺</h2>
+<ul>
+<li>Android 4.0.0 或以上</li>
+<li>iOS 4.0.0 或以上</li>
+</ul>
+<h2 id="-">導航白名單</h2>
+<p>控制 web 視圖本身可以導航到的 Url。適用于頂級導航只。</p>
+<p>怪癖: 在 Android 上它也適用于 iframe 的非-結計畫。</p>
+<p>預設情況下，只有到<code>file://</code> Url 導航允許。若要允許其他其他 Url，必須將<code>&lt;allow-navigation&gt;</code>標籤添加到您的<code>config.xml</code>:</p>
+<pre><code>&lt;!-- Allow links to example.com --&gt;
+&lt;allow-navigation href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-navigation href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- A wildcard can be used to whitelist the entire network,
+     over HTTP and HTTPS.
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-navigation href=&quot;*&quot; /&gt;
+
+&lt;!-- The above is equivalent to these three declarations --&gt;
+&lt;allow-navigation href=&quot;http://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;https://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;data:*&quot; /&gt;
+</code></pre><h2 id="-">科爾多瓦-外掛程式-白名單</h2>
+<p>控制應用程式允許讓系統打開的 Url。 預設情況下，沒有外部 Url 允許。</p>
+<p>在 android 系統，這相當於發送類型 BROWSEABLE 的意圖。</p>
+<p>此白名單並不適用于只超連結和對<code>window.open ()</code>調用的外掛程式.</p>
+<p>在<code>config.xml</code>中添加<code>&lt;allow-intent&gt;</code>標籤，像這樣:</p>
+<pre><code>&lt;!-- Allow links to web pages to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://*/*&quot; /&gt;
+&lt;allow-intent href=&quot;https://*/*&quot; /&gt;
+
+&lt;!-- Allow links to example.com to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-intent href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- Allow SMS links to open messaging app --&gt;
+&lt;allow-intent href=&quot;sms:*&quot; /&gt;
+
+&lt;!-- Allow tel: links to open the dialer --&gt;
+&lt;allow-intent href=&quot;tel:*&quot; /&gt;
+
+&lt;!-- Allow geo: links to open maps --&gt;
+&lt;allow-intent href=&quot;geo:*&quot; /&gt;
+
+&lt;!-- Allow all unrecognized URLs to open installed apps
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-intent href=&quot;*&quot; /&gt;
+</code></pre><h2 id="-">網路請求白名單</h2>
+<p>網路請求的控制項 (圖像，XHRs 等) 允許 (通過科爾多瓦本機掛鉤)。</p>
+<p>注意: 我們建議你使用內容的安全性原則 (見下文)，這是更安全。 此白名單大多是為 webviews 不支援 CSP 的歷史。</p>
+<p>在<code>config.xml</code>中添加<code>&lt;access&gt;</code>標記，像這樣:</p>
+<pre><code>&lt;!-- Allow images, xhrs, etc. to google.com --&gt;
+&lt;access origin=&quot;http://google.com&quot; /&gt;
+&lt;access origin=&quot;https://google.com&quot; /&gt;
+
+&lt;!-- Access to the subdomain maps.google.com --&gt;
+&lt;access origin=&quot;http://maps.google.com&quot; /&gt;
+
+&lt;!-- Access to all the subdomains on google.com --&gt;
+&lt;access origin=&quot;http://*.google.com&quot; /&gt;
+
+&lt;!-- Enable requests to content: URLs --&gt;
+&lt;access origin=&quot;content:///*&quot; /&gt;
+
+&lt;!-- Don&#39;t block any requests --&gt;
+&lt;access origin=&quot;*&quot; /&gt;
+</code></pre><p>沒有任何<code>&lt;access&gt;</code>標籤，只到<code>file://</code> Url 允許請求。 但是，預設的科爾多瓦應用程式包括<code>&lt;access origin=&quot;*&quot;&gt;</code> ，預設情況。</p>
+<p>怪癖: Android 還允許對 HTTPs://ssl.gstatic.com/accessibility/javascript/android/ 請求預設情況下，因為這是對講正常所需。</p>
+<h3 id="-">內容安全政策</h3>
+<p>網路請求的控制項 (圖像，XHRs 等) 允許 (通過 web 視圖直接)。</p>
+<p>對 Android 和 iOS，網路請求白名單 (見上文) 是不能夠過濾所有類型的請求 (例如<code>&lt;video&gt;</code> &amp; Websocket 未被阻止)。 那麼，除了白名單中，你應使用<a href="http://content-security-policy.com/">內容安全性原則</a> <code>&lt; 元 &gt;</code>標記您的所有頁面。</p>
+<p>在 android 系統，對 CSP 系統 web 視圖的支援開始奇巧 (但是是上使用 web 視圖人行橫道上的所有版本可用)。</p>
+<p>下面是一些示例 CSP 聲明為<code>.html</code>頁面:</p>
+<pre><code>&lt;!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS-&gt;native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add &#39;unsafe-inline&#39; to default-src
+        * Enable eval(): add &#39;unsafe-eval&#39; to default-src
+--&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; data: gap: https://ssl.gstatic.com; style-src &#39;self&#39; &#39;unsafe-inline&#39;; media-src *&quot;&gt;
+
+&lt;!-- Allow requests to foo.com --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; foo.com&quot;&gt;
+
+&lt;!-- Enable all requests, inline styles, and eval() --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src *; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39; &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;&gt;
+
+&lt;!-- Allow XHRs via https only --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; https:&quot;&gt;
+
+&lt;!-- Allow iframe to https://cordova.apache.org/ --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; frame-src &#39;self&#39; https://cordova.apache.org&quot;&gt;
+</code></pre>
+      </body>
+    </html>

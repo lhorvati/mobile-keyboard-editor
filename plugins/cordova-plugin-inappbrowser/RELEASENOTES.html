@@ -1,0 +1,266 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>RELEASENOTES.md</title>
+      </head>
+      <body>
+        <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+-->
+<h1 id="release-notes">Release Notes</h1>
+<h3 id="1-3-0-feb-09-2016-">1.3.0 (Feb 09, 2016)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-3360">CB-3360</a> Set custom inappbrowser user agent for android</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10538">CB-10538</a> cordova-plugin-inappbrowser timeout issue</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10395">CB-10395</a> InAppBrowser&#39;s WebView not storing cookies reliable on Android</li>
+<li>Edit package.json license to match SPDX id</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10305">CB-10305</a> Gray bar appears in the wrong place on iOS</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7786">CB-7786</a> Support mediaPlaybackRequiresUserAction on Android</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7500">CB-7500</a> executeScript with callback kills/blurs inAppBrowser window on Android</li>
+</ul>
+<h3 id="1-2-1-feb-02-2016-">1.2.1 (Feb 02, 2016)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-10407">CB-10407</a> InAppBrowser not firing loadstart event on android</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10428">CB-10428</a> Fix syntax error when browserifying inAppBrowser plugin</li>
+<li>handle app store urls in system browser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6702">CB-6702</a> InAppBrowser hangs when opening more than one instance</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10456">CB-10456</a> InAppBrowser is not closed if I close it programmatically on Android</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10451">CB-10451</a> InAppBrowser: loadstart event is not triggered on Windows</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10452">CB-10452</a> InAppBrowser: &#39;exit&#39; event is not triggered on Windows</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10454">CB-10454</a> InAppBrowser: &#39;loaderror&#39; event does not have code and message on Windows</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10450">CB-10450</a> InAppBrowser: Unable to get property &#39;canGoBack&#39; of undefined on Windows</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10441">CB-10441</a> Add auto tests for InAppBrowser plugin</li>
+</ul>
+<h3 id="1-2-0-jan-15-2016-">1.2.0 (Jan 15, 2016)</h3>
+<ul>
+<li>CB-8180: Changing methods of interception in <code>WebViewClient</code> class</li>
+<li>CB-10009 Improve <code>InAppBrowser</code> toolbar look and feel on <strong>Windows</strong></li>
+<li>Open a new window on the <strong>Browser</strong> platform</li>
+</ul>
+<h3 id="1-1-1-dec-10-2015-">1.1.1 (Dec 10, 2015)</h3>
+<ul>
+<li>CB-9445 Improves executeScript callbacks on iOS</li>
+<li>CB-10035 Incremented plugin version.</li>
+<li>CB-10040 - re-fix: backwards compatible with cordova-ios &lt; 4.0</li>
+<li>CB-8534: Allow plugins to respond to onReceivedHttpAuthRequest. This closes #82</li>
+<li>CB-3750: Fixes spinner on iOS. This closes #89</li>
+<li>CB-7696 Document target=_self behavior for Windows</li>
+<li>CB-10040 - Compile Error in InAppBrowser Plugin for iOS - No known instance method for selector &#39;URLIsWhitelisted:&#39;</li>
+</ul>
+<h3 id="1-1-0-nov-18-2015-">1.1.0 (Nov 18, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-10035">CB-10035</a> Updated <code>RELEASENOTES</code> to be newest to oldest</li>
+<li>Invoke webview if using local file</li>
+<li>Fixed <code>zIndex</code> issue on <strong>Windows 8</strong>, **8.188 where InAppBrowser opens behind default app.</li>
+<li>fix <code>async</code> self usage</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9150">CB-9150</a> Fix InAppBrowser <code>executeScript</code> crash on <strong>Windows</strong> if no data returned</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-10008">CB-10008</a> Fix InAppBrowser popup layout on <strong>Windows</strong></li>
+<li>Setting <code>setStatusBarStyle</code> to <code>-1</code> causes <code>CGContextSaveGState</code>.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9167">CB-9167</a> Fix crash on <strong>browser</strong> window close </li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9799">CB-9799</a> Fixed <code>javaDoc</code> errors.</li>
+<li>Fixing contribute link.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9760">CB-9760</a> InAppBrowser: fallback to default <code>window.open</code> behavior on <strong>Ripple</strong></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9378">CB-9378</a> Fix InAppBrowser not taking whole screen on <strong>Windows</strong></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-9158">CB-9158</a> - InAppBrowser <code>zoomControls</code> are always set to true</li>
+</ul>
+<h3 id="1-0-1-jun-17-2015-">1.0.1 (Jun 17, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-9128">CB-9128</a> cordova-plugin-inappbrowser documentation translation: cordova-plugin-inappbrowser</li>
+<li>fix npm md issue</li>
+</ul>
+<h3 id="1-0-0-apr-15-2015-">1.0.0 (Apr 15, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-8746">CB-8746</a> gave plugin major version bump</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7689">CB-7689</a> Adds insertCSS support for windows platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4930">CB-4930</a> - (prefix) InAppBrowser should take into account the status bar</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8635">CB-8635</a> Improves UX on windows platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8661">CB-8661</a> Return executed script result on Windows</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8683">CB-8683</a> updated wp and browser specific references of old id to new id</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8683">CB-8683</a> changed plugin-id to pacakge-name</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> properly updated translated docs to use new id</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> updated translated docs to use new id</li>
+<li>Use TRAVIS_BUILD_DIR, install paramedic by npm</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8432">CB-8432</a> Correct styles for browser wrapper to display it correctly on some pages</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8659">CB-8659</a> - Update InAppBrowser to support both cordova-ios 4.0.x and 3.x (closes #93)</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7961">CB-7961</a> Add cordova-plugin-inappbrowser support for browser platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8653">CB-8653</a> Updated Readme</li>
+<li>Update docs for Android zoom=no option</li>
+<li>Added option to disable/enable zoom controls</li>
+<li>updated docs, set hardwareback default to true</li>
+<li>Add a hardwareback option to allow for the hardware back button to go back.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8570">CB-8570</a> Integrate TravisCI</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8438">CB-8438</a> cordova-plugin-inappbrowser documentation translation: cordova-plugin-inappbrowser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8538">CB-8538</a> Added package.json file</li>
+<li>Keep external android pages in a single tab. (close #61)</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8444">CB-8444</a> Add a clobber for <code>cordova.InAppBrowser.open</code> (close #80)</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-8444">CB-8444</a> Don&#39;t clobber <code>window.open</code> - Add new symbol/clobber to access open function (<code>cordova.InAppBrowser.open</code>) - Change existing tests to use new symbol (i.e. don&#39;t rely on plugin clobber of <code>window.open</code>) - Add tests to use <code>window.open</code> via manual replace with new symbol - Update docs to deprecate plugin clobber of <code>window.open</code></li>
+</ul>
+<h3 id="0-6-0-feb-04-2015-">0.6.0 (Feb 04, 2015)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-8270">CB-8270</a> ios: Remove usage of <code>[arr JSONString]</code>, since it&#39;s been renamed to <code>cdv_JSONString</code></li>
+<li>ubuntu: implement <code>inject*</code> functions</li>
+<li>ubuntu: port to oxide</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7897">CB-7897</a> ios, android: Update to work with whilelist plugins in Cordova 4.x</li>
+</ul>
+<h3 id="0-5-4-dec-02-2014-">0.5.4 (Dec 02, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-7784">CB-7784</a> Exit event is not fired after <code>InAppBrowser</code> closing</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7697">CB-7697</a> Add <code>locationBar</code> support to <code>InAppBrowser</code> <strong>Windows</strong> platform version</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7690">CB-7690</a> <code>InAppBrowser</code> <code>loadstart/loadstop</code> events issues</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7695">CB-7695</a> Fix <code>InAppBrowser</code> <code>injectScriptFile</code> for <strong>Windows 8.1</strong> / <strong>Windows Phone 8.1</strong></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7692">CB-7692</a> <code>InAppBrowser</code> local url opening bug in 8.1</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7688">CB-7688</a> <code>Alert</code> is not supported in <code>InAppBrowser</code> on <strong>Windows</strong> platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7977">CB-7977</a> Mention <code>deviceready</code> in plugin docs</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7876">CB-7876</a> change test target to avoid undesired redirects</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7712">CB-7712</a> remove references to <code>closebuttoncaption</code></li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7850">CB-7850</a> clarify role of whitelist</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7720">CB-7720</a> check if event is null since OK string from success callback was removed</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7471">CB-7471</a> cordova-plugin-inappbrowser documentation translation: cordova-plugin-inappbrowser</li>
+</ul>
+<h3 id="0-5-3-oct-03-2014-">0.5.3 (Oct 03, 2014)</h3>
+<ul>
+<li>Windows implementation fixes and improvements</li>
+<li>zIndex fixed</li>
+<li>renamed InAppBrowser back to inappbrowser for case sensitive operating systems</li>
+<li>Update french translation</li>
+<li>Update doc to add Windows 8</li>
+<li>Update windows proxy to be both compatible with windows 8 and 8.1</li>
+<li>Rename windows81 by windows8 in src directory</li>
+<li>Append Windows 8.1 platform configuration in plugin.xml</li>
+<li>Append Windows 8.1 proxy using x-ms-webview</li>
+</ul>
+<h3 id="0-5-2-sep-17-2014-">0.5.2 (Sep 17, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-7471">CB-7471</a> cordova-plugin-inappbrowser documentation translation: cordova-plugin-inappbrowser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7490">CB-7490</a> Fixes InAppBrowser manual tests crash on windows platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7249">CB-7249</a> cordova-plugin-inappbrowser documentation translation: cordova-plugin-inappbrowser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7424">CB-7424</a> Wrong docs: anchor tags are not supported by the InAppBrowser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7133">CB-7133</a> clarify that anchor1 doesn&#39;t exist</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7133">CB-7133</a> more fixup of tests on Android</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7133">CB-7133</a> fix up the tests for Android</li>
+<li>Add just a bit more logging</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-7133">CB-7133</a> port inappbrowser to plugin-test-framework</li>
+<li>phonegap events supported for _blank target</li>
+<li>inappbrowser _blank target position is fixed</li>
+<li>amazon-fireos related changes.</li>
+</ul>
+<h3 id="0-5-1-aug-06-2014-">0.5.1 (Aug 06, 2014)</h3>
+<ul>
+<li>ubuntu: support qt 5.2</li>
+<li><strong>FFOS</strong> update InAppBrowserProxy.js</li>
+<li><strong>FFOS</strong> app needs to be privileged</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6127">CB-6127</a> Updated translations for docs</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6769">CB-6769</a> ios: Fix statusbar color reset wasn&#39;t working on iOS7+</li>
+</ul>
+<h3 id="0-5-0-jun-05-2014-">0.5.0 (Jun 05, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-6127">CB-6127</a> Spanish and rench Translations added. Github close #23</li>
+<li>Clean up whitespace (mainly due to no newline at eof warning)</li>
+<li>Adding permission info</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6806">CB-6806</a> Add license</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6491">CB-6491</a> add CONTRIBUTING.md</li>
+<li>Add necessary capability so the plugin works on its own</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6474">CB-6474</a> InAppBrowser. Add data urls support to WP8</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6482">CB-6482</a> InAppBrowser calls incorrect callback on WP8</li>
+<li>Fixed use of iOS 6 deprecated methods</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6360">CB-6360</a> - improvement: feature detection instead of iOS version detection</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5649">CB-5649</a> - InAppBrowser overrides App&#39;s orientation</li>
+<li>refactoring fixed</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6396">CB-6396</a> [Firefox OS] Adding basic support</li>
+</ul>
+<h3 id="0-4-0-apr-17-2014-">0.4.0 (Apr 17, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-6360">CB-6360</a>: [ios] Fix for crash on iOS &lt; 6.0 (closes #37)</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-3324">CB-3324</a>: [WP8] Add support for back-button inappbrowser [WP8] if there is no history -&gt; InAppBrowser is closed</li>
+<li>[WP] await async calls, resolve warnings</li>
+<li>[WP] Make InAppBrowser work with embedded files, using system behavior</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6402">CB-6402</a>: [WP8] pass empty string instead of null for [optional] windowFeatures string</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6422">CB-6422</a>: [windows8] use cordova/exec/proxy</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6389">CB-6389</a> <a href="https://issues.apache.org/jira/browse/CB-3617">CB-3617</a>: Add clearcache and clearsessioncache options to iOS (like Android)</li>
+<li>Doc update: event name and example param (closes #31)</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6253">CB-6253</a>: [WP] Add Network Capability to WMAppManifest.xml</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6212">CB-6212</a>: [iOS] fix warnings compiled under arm64 64-bit</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6218">CB-6218</a>: Update docs for BB10</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6460">CB-6460</a>: Update license headers</li>
+</ul>
+<h3 id="0-3-3-mar-5-2014-">0.3.3 (Mar 5, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5534">CB-5534</a> Fix video/audio does not stop playing when browser is closed</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6172">CB-6172</a> Fix broken install on case-sensitive file-systems</li>
+</ul>
+<h3 id="0-3-2-feb-26-2014-">0.3.2 (Feb 26, 2014)</h3>
+<ul>
+<li>Validate that callbackId is correctly formed</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-6035">CB-6035</a> Move js-module so it is not loaded on unsupported platforms</li>
+<li>Removed some iOS6 Deprecations</li>
+</ul>
+<h3 id="0-3-1-feb-05-2014-">0.3.1 (Feb 05, 2014)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5756">CB-5756</a>: Android: Use WebView.evaluateJavascript for script injection on Android 4.4+</li>
+<li>Didn&#39;t test on ICS or lower, getDrawable isn&#39;t supported until Jellybean</li>
+<li>add ubuntu platform</li>
+<li>Adding drawables to the inAppBrowser.  This doesn&#39;t look quite right, but it&#39;s a HUGE improvement over the previous settings</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5756">CB-5756</a>: Android: Use WebView.evaluateJavascript for script injection on Android 4.4+</li>
+<li>Remove alive from InAppBrowser.js since it didn&#39;t catch the case where the browser is closed by the user.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5733">CB-5733</a> Fix IAB.close() not working if called before show() animation is done</li>
+</ul>
+<h3 id="0-2-5-dec-4-2013-">0.2.5 (Dec 4, 2013)</h3>
+<ul>
+<li>Remove merge conflict tag</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4724">CB-4724</a> fixed UriFormatException</li>
+<li>add ubuntu platform</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-3420">CB-3420</a> WP feature hidden=yes implemented</li>
+<li>Added amazon-fireos platform. Change to use amazon-fireos as the platform if user agent string contains &#39;cordova-amazon-fireos&#39;</li>
+</ul>
+<h3 id="0-2-4-oct-28-2013-">0.2.4 (Oct 28, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-5128">CB-5128</a>: added repo + issue tag to plugin.xml for inappbrowser plugin</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4995">CB-4995</a> Fix crash when WebView is quickly opened then closed.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4930">CB-4930</a> - iOS - InAppBrowser should take into account the status bar</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5010">CB-5010</a> Incremented plugin version on dev branch.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5010">CB-5010</a> Updated version and RELEASENOTES.md for release 0.2.3</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4858">CB-4858</a> - Run IAB methods on the UI thread.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4858">CB-4858</a> Convert relative URLs to absolute URLs in JS</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-3747">CB-3747</a> Fix back button having different dismiss logic from the close button.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5021">CB-5021</a> Expose closeDialog() as a public function and make it safe to call multiple times.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-5021">CB-5021</a> Make it safe to call close() multiple times</li>
+</ul>
+<h3 id="0-2-3-oct-9-2013-">0.2.3 (Oct 9, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-4915">CB-4915</a> Incremented plugin version on dev branch.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4926">CB-4926</a> Fixes inappbrowser plugin loading for windows8</li>
+</ul>
+<h3 id="0-2-2-sept-25-2013-">0.2.2 (Sept 25, 2013)</h3>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/CB-4889">CB-4889</a> bumping&amp;resetting version</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4788">CB-4788</a>: Modified the onJsPrompt to warn against Cordova calls</li>
+<li>[windows8] commandProxy was moved</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4788">CB-4788</a>: Modified the onJsPrompt to warn against Cordova calls</li>
+<li>[windows8] commandProxy was moved</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4889">CB-4889</a> renaming core references</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4889">CB-4889</a> renaming org.apache.cordova.core.inappbrowser to org.apache.cordova.inappbrowser</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4864">CB-4864</a>, <a href="https://issues.apache.org/jira/browse/CB-4865">CB-4865</a>: Minor improvements to InAppBrowser</li>
+<li>Rename CHANGELOG.md -&gt; RELEASENOTES.md</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4792">CB-4792</a> Added keepCallback to the show function.</li>
+<li><a href="https://issues.apache.org/jira/browse/CB-4752">CB-4752</a> Incremented plugin version on dev branch.</li>
+</ul>
+
+      </body>
+    </html>

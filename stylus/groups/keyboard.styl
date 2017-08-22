@@ -70,7 +70,7 @@ button:focus:not(:active)::after
 
     .keyboard-spacer
         width: 2px
-        height: 50%
+        height: 70%
         background: #D9D9D9
 
     .keyboard-item
@@ -90,13 +90,13 @@ button:focus:not(:active)::after
                 width: 30px
 
 
-        &:nth-child(1),
-        &:nth-child(2)
+        &:nth-child(13),
+        &:nth-child(14)
             svg
                 width: 24px
                 height: 24px
 
-        &:nth-child(3)
+        &:nth-child(1)
             svg
                 width: 18px
                 height: 18px
@@ -116,11 +116,11 @@ button:focus:not(:active)::after
         .pressed-wrap
             display: none
             background: url(../images/btn-press.svg)
-            background-size: 118px 200px
-            width: 118px
-            height: 200px
+            background-size: 100px 150px
+            width: 100px
+            height: 150px
             position: absolute
-            margin-top: -75px
+            margin-top: -56px
 
             &.pressed
                 display: flex
@@ -129,7 +129,7 @@ button:focus:not(:active)::after
 
             .pressed-item
                 position: absolute
-                font-size: 26px
+                font-size: 20px
                 font-weight: 900
                 color: #757575
                 font-family: Arial, Helvetica, sans-serif
@@ -143,25 +143,25 @@ button:focus:not(:active)::after
                 &:hover,
                 &.selected
                     color: colorWhite
-                    font-size: 30px
+                    font-size: 26px
                     text-shadow: 0 0 10px colorBlack
 
                 &:nth-child(1)
-                    top: 10px
+                    top: 6px
                     left: 10px
 
                 &:nth-child(2)
-                    top: 10px
+                    top: 6px
                     right: 10px
 
                 &:nth-child(3)
-                    top: 46px
-                    left: 46px
+                    top: 34px
+                    left: 36px
 
                 &:nth-child(4)
-                    bottom: 90px
+                    bottom: 60px
                     left: 10px
 
                 &:nth-child(5)
-                    bottom: 90px
+                    bottom: 60px
                     right: 10px

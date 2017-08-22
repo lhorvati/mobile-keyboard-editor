@@ -1,0 +1,235 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="google-sign-in-cordova-phonegap-plugin">Google Sign-In Cordova/PhoneGap Plugin</h1>
+<p>by <a href="http://twitter.com/eddyverbruggen">Eddy Verbruggen</a>,
+with great assistance from Sam Muggleworth (<a href="https://github.com/PointSource">PointSource, LLC</a>)</p>
+<h2 id="0-index">0. Index</h2>
+<ol>
+<li><a href="#1-description">Description</a></li>
+<li><a href="#2-screenshots">Screenshots</a></li>
+<li><a href="#3-google-api-setup">Google API setup</a></li>
+<li><a href="#4-installation-phonegap-cli--cordova-cli">Installation (CLI / Plugman)</a></li>
+<li><a href="#5-installation-phonegap-build">Installation (PhoneGap Build)</a></li>
+<li><a href="#6-usage">Usage</a></li>
+<li><a href="#7-exchanging-the-idtoken">Exchanging the <code>idToken</code></a></li>
+<li><a href="#8-exchanging-the-serverauthcode">Exchanging the <code>serverAuthCode</code></a></li>
+<li><a href="#9-troubleshooting">Troubleshooting</a></li>
+<li><a href="#10-changelog">Changelog</a></li>
+</ol>
+<h2 id="1-description">1. Description</h2>
+<p>This plugin allows you to authenticate and identify users with <a href="https://developers.google.com/identity/">Google Sign-In</a> on <a href="https://developers.google.com/identity/sign-in/ios/">iOS</a> and <a href="https://developers.google.com/identity/sign-in/android/">Android</a>.
+Out of the box, you&#39;ll get email, display name, given name, family name, profile picture url, and user id.
+You can also configure it to get an <a href="#7-exchanging-the-idtoken">idToken</a> and <a href="#8-exchanging-the-serverauthcode">serverAuthCode</a>.</p>
+<p>This plugin only wraps access to the Google Sign-In API. Further API access should be implemented per use-case, per developer.</p>
+<h2 id="2-screenshots">2. Screenshots</h2>
+<p>Android</p>
+<p><img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/Android1.png" width="235" height="400"/>&nbsp;
+<img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/Android2.png" width="235" height="400"/>&nbsp;
+<img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/Android3.png" width="235" height="400"/></p>
+<p> iOS</p>
+<p><img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/iOS1.png" width="235" height="417"/>&nbsp;
+<img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/iOS2.png" width="235" height="417"/>&nbsp;
+<img src="https://raw.githubusercontent.com/EddyVerbruggen/cordova-plugin-googleplus/master/screenshots/iOS3.png" width="235" height="417"/>&nbsp;</p>
+<h2 id="3-google-api-setup">3. Google API setup</h2>
+<p>To communicate with Google you need to do some tedious setup, sorry.</p>
+<p>It is (strongly) recommended that you use the same project for both iOS and Android.</p>
+<h3 id="before-you-proceed">Before you proceed</h3>
+<p>Go into your <code>config.xml</code> and make sure that your package name (i.e. the app ID) is what you want it to be. Use this package name when setting up iOS and Android in the following steps! If you don&#39;t, you will likely get a 12501, &#39;user cancelled&#39; error despite never cancelling the log in process.</p>
+<p>This step is <em>especially</em> important if you are using a framework such as Ionic to scaffold out your project. When you create the project, the <code>config.xml</code> has a placeholder packagename, e.g. com.ionic.*, so you can start developing right away.</p>
+<pre><code class="lang-xml">&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;widget id=&quot;** REPLACE THIS VALUE **&quot; ...&gt;
+...
+&lt;/widget&gt;
+</code></pre>
+<h3 id="ios">iOS</h3>
+<p>To get your iOS <code>REVERSED_CLIENT_ID</code>, <a href="https://developers.google.com/mobile/add?platform=ios&amp;cntapi=signin">generate a configuration file here</a>.
+This <code>GoogleService-Info.plist</code> file contains the <code>REVERSED_CLIENT_ID</code> you&#39;ll need during installation. <em>This value is only needed for iOS.</em></p>
+<p>The <code>REVERSED_CLIENT_ID</code> is also known as the &quot;iOS URL Scheme&quot; on the Developer&#39;s Console.</p>
+<p>Login on iOS takes the user to a <a href="https://developer.apple.com/library/ios/documentation/SafariServices/Reference/SFSafariViewController_Ref/">SafariViewController</a> through the Google SDK, instead of the separate Safari browser.</p>
+<h3 id="android">Android</h3>
+<p>To configure Android, <a href="https://developers.google.com/mobile/add?platform=android&amp;cntapi=signin">generate a configuration file here</a>. Once Google Sign-In is enabled Google will automatically create necessary credentials in Developer Console. There is no need to add the generated google-services.json file into your cordova project.</p>
+<p>Make sure you execute the <code>keytool</code> steps as explained <a href="https://developers.google.com/android/guides/client-auth">here</a> or authentication will fail.</p>
+<p>IMPORTANT:</p>
+<ul>
+<li>The step above, about <code>keytool</code>, show 2 types of certificate fingerprints, the <strong>Release</strong> and the <strong>Debug</strong>, when generating the configuration file, it&#39;s better to use the <strong>Debug</strong> certificate fingerprint, after that, you have to go on <a href="https://console.developers.google.com/apis/credentials">Google Credentials Manager</a>, and manually create a credential for <strong>OAuth2 client</strong> with your <strong>Release</strong> certificate fingerprint. This is necessary to your application work on both Development and Production releases.</li>
+<li>Ensure that you are using the correct alias name while generating the fingerprint.<pre><code>$ keytool -exportcert -keystore &lt;path-to-debug-or-production-keystore&gt; -list -v -alias &lt;alias-name&gt;
+</code></pre>Login on Android will use the accounts signed in on the user&#39;s device.</li>
+</ul>
+<h3 id="web-client-id">Web Client Id</h3>
+<p>If you want to get an <code>idToken</code> or <code>serverAuthCode</code> back from the Sign In Process, you will need to pass the client ID for your project&#39;s web application. This can be found on your project&#39;s API credentials page on the <a href="https://console.developers.google.com/">Google Developer&#39;s Console</a>.</p>
+<h2 id="4-installation-phonegap-cli-cordova-cli-">4. Installation (PhoneGap CLI / Cordova CLI)</h2>
+<p>This plugin is compatible with:</p>
+<ul>
+<li><a href="https://github.com/apache/cordova-plugman">Cordova Plugman</a></li>
+<li><a href="http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features">PhoneGap 3.0 CLI</a></li>
+<li><a href="http://ionic.io/">Ionic</a> <strong><em>(must use the Cordova CLI)</em></strong></li>
+</ul>
+<p>Here&#39;s how it works (backup your project first!):</p>
+<p>Using the Cordova CLI and <a href="https://www.npmjs.com/package/cordova-plugin-googleplus">npm</a>:</p>
+<pre><code>$ cordova plugin add cordova-plugin-googleplus --save --variable REVERSED_CLIENT_ID=myreversedclientid
+$ cordova prepare
+</code></pre><p>Using the Cordova CLI to fetch the latest version from GitHub:</p>
+<pre><code>$ cordova plugin add https://github.com/EddyVerbruggen/cordova-plugin-googleplus --save --variable REVERSED_CLIENT_ID=myreversedclientid
+$ cordova prepare
+</code></pre><p>IMPORTANT:</p>
+<ul>
+<li><p><em>Please note that <code>myreversedclientid</code> is a place holder for the reversed clientId you find in your iOS configuration file. Do not surround this value with quotes. <strong>(iOS only Applications)</strong></em></p>
+</li>
+<li><p><em>If you are building a hybrid application <strong>(iOS and Android)</strong>, or an Android application, you have to replace <code>myreversedclientid</code> with the reverse value of Client ID in your <strong>Release</strong> credential generated on step 3, on <a href="https://console.developers.google.com/">Google Developer&#39;s Console</a>, this will be: <strong>&quot;com.googleusercontent.apps.<code>uniqueId</code>&quot;</strong>, without quotes.</em></p>
+</li>
+</ul>
+<p>GooglePlus.js is brought in automatically. There is no need to change or add anything in your html.</p>
+<h2 id="5-installation-phonegap-build-">5. Installation (PhoneGap Build)</h2>
+<p>Add this to your config.xml:</p>
+<p>For the NPM Version:</p>
+<pre><code class="lang-xml">&lt;gap:plugin name=&quot;cordova-plugin-googleplus&quot; source=&quot;npm&quot;&gt;
+  &lt;param name=&quot;REVERSED_CLIENT_ID&quot; value=&quot;myreversedclientid&quot; /&gt;
+&lt;/gap:plugin&gt;
+</code></pre>
+<p>For the Git version:</p>
+<pre><code class="lang-xml">&lt;gap:plugin spec=&quot;https://github.com/EddyVerbruggen/cordova-plugin-googleplus.git&quot; source=&quot;git&quot;&gt;
+    &lt;param name=&quot;REVERSED_CLIENT_ID&quot; value=&quot;myreversedclientid&quot; /&gt;
+&lt;/gap:plugin&gt;
+</code></pre>
+<h2 id="6-usage">6. Usage</h2>
+<p>Check the <a href="demo">demo app</a> to get you going quickly, or hurt yourself and follow these steps.</p>
+<p>Note that none of these methods should be called before <a href="https://cordova.apache.org/docs/en/latest/cordova/events/events.deviceready.html"><code>deviceready</code></a> has fired.</p>
+<p>Example:</p>
+<pre><code class="lang-javascript">document.addEventListener(&#39;deviceready&#39;, deviceReady, false);
+
+function deviceReady() {
+    //I get called when everything&#39;s ready for the plugin to be called!
+    console.log(&#39;Device is ready!&#39;);
+    window.plugins.googleplus.trySilentLogin(...);
+}
+</code></pre>
+<h3 id="isavailable">isAvailable</h3>
+<p>3/31/16: This method is no longer required to be checked first. It is kept for code orthoganality.</p>
+<h3 id="login">Login</h3>
+<p>The login function walks the user through the Google Auth process. All parameters are optional, however there are a few caveats.</p>
+<p>To get an <code>idToken</code> on Android, you <strong><em>must</em></strong> pass in your <code>webClientId</code>. On iOS, the <code>idToken</code> is included in the sign in result by default.</p>
+<p>To get a <code>serverAuthCode</code>, you must pass in your <code>webClientId</code> <em>and</em> set <code>offline</code> to true. If offline is true, but no webClientId is provided, the <code>serverAuthCode</code> will <em><strong>NOT</strong></em> be requested.</p>
+<p>The default scopes requested are <code>profile</code> and <code>email</code> (always requested). To request other scopes, add them as a <strong>space-separated list</strong> to the <code>scopes</code> parameter. They will be requested exactly as passed in. Refer to the <a href="https://developers.google.com/identity/protocols/googlescopes">Google Scopes</a> documentation for info on valid scopes that can be requested. For example, <code>&#39;scope&#39;: &#39;https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/tasks&#39;</code>.</p>
+<p>Naturally, in order to use any additional scopes or APIs, they will need to be activated in your project Developer&#39;s Console.</p>
+<h5 id="usage">Usage</h5>
+<pre><code class="lang-javascript">window.plugins.googleplus.login(
+    {
+      &#39;scopes&#39;: &#39;... &#39;, // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+      &#39;webClientId&#39;: &#39;client id of the web app/server side&#39;, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+      &#39;offline&#39;: true, // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+    },
+    function (obj) {
+      alert(JSON.stringify(obj)); // do something useful instead of alerting
+    },
+    function (msg) {
+      alert(&#39;error: &#39; + msg);
+    }
+);
+</code></pre>
+<p>The success callback (second argument) gets a JSON object with the following contents, with example data of my Google account:</p>
+<pre><code class="lang-javascript"> obj.email          // &#39;eddyverbruggen@gmail.com&#39;
+ obj.userId         // user id
+ obj.displayName    // &#39;Eddy Verbruggen&#39;
+ obj.familyName     // &#39;Verbruggen&#39;
+ obj.givenName      // &#39;Eddy&#39;
+ obj.imageUrl       // &#39;http://link-to-my-profilepic.google.com&#39;
+ obj.idToken        // idToken that can be exchanged to verify user identity.
+ obj.serverAuthCode // Auth code that can be exchanged for an access token and refresh token for offline access
+</code></pre>
+<p>Additional user information is available by use case. Add the scopes needed to the scopes option then return the info to the result object being created in the <code>handleSignInResult</code> and <code>didSignInForUser</code> functions on Android and iOS, respectively.</p>
+<p>On Android, the error callback (third argument) receives an error status code if authentication was not successful. A description of those status codes can be found on Google&#39;s android developer website at <a href="https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes">GoogleSignInStatusCodes</a>.</p>
+<p>On iOS, the error callback will include an <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/">NSError localizedDescription</a>.</p>
+<h3 id="try-silent-login">Try silent login</h3>
+<p>You can call <code>trySilentLogin</code> to check if they&#39;re already signed in to the app and sign them in silently if they are.</p>
+<p>If it succeeds you will get the same object as the <code>login</code> function gets,
+but if it fails it will not show the authentication dialog to the user.</p>
+<p>Calling <code>trySilentLogin</code> is done the same as <code>login</code>, except for the function name.</p>
+<pre><code class="lang-javascript">window.plugins.googleplus.trySilentLogin(
+    {
+      &#39;scopes&#39;: &#39;... &#39;, // optional - space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+      &#39;webClientId&#39;: &#39;client id of the web app/server side&#39;, // optional - clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+      &#39;offline&#39;: true, // Optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+    },
+    function (obj) {
+      alert(JSON.stringify(obj)); // do something useful instead of alerting
+    },
+    function (msg) {
+      alert(&#39;error: &#39; + msg);
+    }
+);
+</code></pre>
+<p>It is strongly recommended that trySilentLogin is implemented with the same options as login, to avoid any potential complications.</p>
+<h3 id="logout">logout</h3>
+<p>This will clear the OAuth2 token.</p>
+<pre><code class="lang-javascript">window.plugins.googleplus.logout(
+    function (msg) {
+      alert(msg); // do something useful instead of alerting
+    }
+);
+</code></pre>
+<h3 id="disconnect">disconnect</h3>
+<p>This will clear the OAuth2 token, forget which account was used to login, and disconnect that account from the app. This will require the user to allow the app access again next time they sign in. Be aware that this effect is not always instantaneous. It can take time to completely disconnect.</p>
+<pre><code class="lang-javascript">window.plugins.googleplus.disconnect(
+    function (msg) {
+      alert(msg); // do something useful instead of alerting
+    }
+);
+</code></pre>
+<h2 id="7-exchanging-the-idtoken-">7. Exchanging the <code>idToken</code></h2>
+<p>Google Documentation for Authenticating with a Backend Server</p>
+<ul>
+<li><a href="https://developers.google.com/identity/sign-in/web/backend-auth">Web</a></li>
+<li><a href="https://developers.google.com/identity/sign-in/android/backend-auth">Android</a></li>
+<li><a href="https://developers.google.com/identity/sign-in/ios/backend-auth">iOS</a></li>
+</ul>
+<p>As the above articles mention, the <code>idToken</code> can be exchanged for user information to confirm the users identity.</p>
+<p><em>Note: Google does not want user identity data sent directly to a server. The idToken is their preferred method to send that data securely and safely, as it must be verified through their servers in order to unpack.</em></p>
+<p>This has several uses. On the client-side, it can be a way to get doubly confirm the user identity, or it can be used to get details such as the email host domain. The server-side is where the <code>idToken</code> really hits its stride. It is an easy way to confirm the users identity before allowing them access to that servers resources or before exchaning the <code>serverAuthCode</code> for an access and refresh token (see the next section).</p>
+<p>If your server-side only needs identity, and not additional account access, this is a secure and simple way to supply that information.</p>
+<h2 id="8-exchanging-the-serverauthcode-">8. Exchanging the <code>serverAuthCode</code></h2>
+<p>Google Documentation for Enabling Server-Side Access</p>
+<ul>
+<li><a href="https://developers.google.com/identity/protocols/OAuth2WebServer#handlingresponse">Web</a></li>
+<li><a href="https://developers.google.com/identity/sign-in/android/offline-access">Android</a></li>
+<li><a href="https://developers.google.com/identity/sign-in/ios/offline-access">iOS</a></li>
+</ul>
+<p>As the above articles mention, the <code>serverAuthCode</code> is an item that can be exchanged for an access and refresh token. Unlike the <code>idToken</code>, this allows the server-side to have direct access to the users Google account.</p>
+<p>You have a couple options when it comes to this exchange: you can use the Google REST Apis to get those in the hybrid app itself or you can send the code to your backend server to be exchanged there, using whatever method necessary (Google provides examples for Java, Python, and JS/HTTP).</p>
+<p>As stated before, this plugin is all about user authentication and identity, so any use of the user&#39;s account beyond that needs to be implemented per use case, per application.</p>
+<h2 id="9-troubleshooting">9. Troubleshooting</h2>
+<ul>
+<li>Q: I can&#39;t get authentication to work on Android. And why is there no ANDROID API KEY?</li>
+<li><p>A: On Android you need to execute the <code>keytool</code> steps, see the installation instructions for details.</p>
+</li>
+<li><p>Q: OMG $@#*! the Android build is failing</p>
+</li>
+<li><p>A: You need to have <em>Android Support Repository</em> and <em>Android Support Library</em> installed in the Android SDK manager. Make sure you&#39;re using a fairly up to date version of those.</p>
+</li>
+<li><p>Q: Why isn&#39;t this working on my Android Emulator???</p>
+</li>
+<li>A: Make sure you are using a Virtual Device running with a <strong>Google APIs target and/or a Google APIs CPU</strong>!</li>
+</ul>
+<h2 id="10-changelog">10. Changelog</h2>
+<ul>
+<li>5.0.3: Added the convenience method <code>getSigningCertificateFingerprint</code> to retrieve the Android cert fingerprint which is required in the Google Developer Console.</li>
+<li>5.0.2: Require linking against <code>SafariServices</code> and <code>CoreText</code> frameworks on iOS as per Google&#39;s recommendation. Added <code>loginHint</code> on iOS.</li>
+<li>5.0.0: Android GoogleSignIn SDK (See #193), iOS SDK 4.0.0, iOS compatibility with Facebook authentication plugins, added <code>familyName</code> and <code>givenName</code>.</li>
+<li>4.0.8: Fix for Android 6 where it would crash while asking for permission. Thx #166!</li>
+<li>4.0.7: Re-added a missing framework for iOS. Thx #168!</li>
+<li>4.0.6: Updated iOS GoogleSignIn SDK to 2.4.0. Thx #153!</li>
+<li>4.0.5: Fixed a broken import on iOS.</li>
+<li>4.0.4: Using framework tags again for Android</li>
+<li>4.0.3: On iOS <code>isAvailable</code> always returns try since that should be fine with the new Google Sign-In framework. Re-added imageUrl to the result of Sign-In on iOS.</li>
+<li>4.0.1: Login on Android would crash the app if <code>isAvailable</code> was invoked beforehand.</li>
+<li>4.0.0: Removed the need for <code>iosApiKey</code>, reverted Android to Google playservices framework for wider compatibility, documented scopes feature a bit.</li>
+<li>3.0.0: Using Google Sign-In for iOS, instead of Google+.</li>
+<li>1.1.0: Added <code>isAvailable</code>, for issue <a href="https://github.com/EddyVerbruggen/cordova-plugin-googleplus/issues/37">#37</a></li>
+<li>1.0.0: Initial version supporting iOS and Android.</li>
+</ul>
+
+      </body>
+    </html>

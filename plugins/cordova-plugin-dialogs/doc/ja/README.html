@@ -1,0 +1,246 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-dialogs">cordova-plugin-dialogs</h1>
+<p><a href="https://travis-ci.org/apache/cordova-plugin-dialogs"><img src="https://travis-ci.org/apache/cordova-plugin-dialogs.svg" alt="Build Status"></a></p>
+<p>このプラグインは、グローバル <code>navigator.notification</code> オブジェクトを介していくつかネイティブ ダイアログの UI 要素へのアクセスを提供します。</p>
+<p>オブジェクトは、グローバル スコープの <code>ナビゲーター</code> に添付、それがないまで <code>deviceready</code> イベントの後。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.notification);
+}
+</code></pre><h2 id="-">インストール</h2>
+<pre><code>cordova plugin add cordova-plugin-dialogs
+</code></pre><h2 id="-">メソッド</h2>
+<ul>
+<li><code>navigator.notification.alert</code></li>
+<li><code>navigator.notification.confirm</code></li>
+<li><code>navigator.notification.prompt</code></li>
+<li><code>navigator.notification.beep</code></li>
+</ul>
+<h2 id="navigator-notification-alert">navigator.notification.alert</h2>
+<p>カスタムの警告またはダイアログ ボックスが表示されます。 ほとんどコルドバ ネイティブ] ダイアログ ボックスの使用この機能がいくつかのプラットフォームは通常小さいカスタマイズ可能なブラウザーの <code>警告</code> 機能を使用します。</p>
+<pre><code>navigator.notification.alert(message, alertCallback, [title], [buttonName])
+</code></pre><ul>
+<li><p><strong>メッセージ</strong>: ダイアログ メッセージ。<em>(文字列)</em></p>
+</li>
+<li><p><strong>alertCallback</strong>: 警告ダイアログが閉じられたときに呼び出すコールバック。<em>(機能)</em></p>
+</li>
+<li><p><strong>タイトル</strong>: ダイアログのタイトル。<em>(文字列)</em>(省略可能、既定値は<code>Alert</code>)</p>
+</li>
+<li><p><strong>buttonName</strong>: ボタンの名前。<em>(文字列)</em>(省略可能、既定値は<code>OK</code>)</p>
+</li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>function alertDismissed() {
+    // do something
+}
+
+navigator.notification.alert(
+    &#39;You are the winner!&#39;,  // message
+    alertDismissed,         // callback
+    &#39;Game Over&#39;,            // title
+    &#39;Done&#39;                  // buttonName
+);
+</code></pre><h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>ブラックベリー 10</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 と 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 と 8 癖</h3>
+<ul>
+<li><p>組み込みのブラウザー警告がない呼び出しを次のように 1 つをバインドすることができます <code>alert()</code> 、グローバル スコープで。</p>
+<pre><code>window.alert = navigator.notification.alert;
+</code></pre></li>
+</ul>
+<ul>
+<li>両方の <code>alert</code> と <code>confirm</code> は非ブロッキング呼び出し、結果は非同期的にのみ利用できます。</li>
+</ul>
+<h3 id="firefox-os-">Firefox OS 互換:</h3>
+<p>ネイティブ ブロック <code>window.alert()</code> と非ブロッキング <code>navigator.notification.alert()</code> があります。</p>
+<h3 id="-10-">ブラックベリー 10 癖</h3>
+<p><code>navigator.notification.alert (&#39;text&#39; コールバック &#39;title&#39;、&#39;text&#39;)</code> コールバック パラメーターは数 1 に渡されます。</p>
+<h2 id="navigator-notification-confirm">navigator.notification.confirm</h2>
+<p>カスタマイズ可能な確認のダイアログ ボックスが表示されます。</p>
+<pre><code>navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+</code></pre><ul>
+<li><p><strong>メッセージ</strong>: ダイアログ メッセージ。<em>(文字列)</em></p>
+</li>
+<li><p><strong>confirmCallback</strong>: インデックス (1、2、または 3) を押されたボタンまたはダイアログ ボックスは、ボタンを押す （0） なしに解雇されたときに呼び出すコールバック。<em>(機能)</em></p>
+</li>
+<li><p><strong>タイトル</strong>: ダイアログのタイトル。<em>(文字列)</em>(省略可能、既定値は<code>Confirm</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>: ボタンのラベルを指定する文字列の配列。<em>(配列)</em>(省略可能、既定値は [ <code>OK,Cancel</code> ])</p>
+</li>
+</ul>
+<h3 id="confirmcallback">confirmCallback</h3>
+<p><code>confirmCallback</code> は、いずれかの確認ダイアログ ボックスでボタンを押したときに実行します。</p>
+<p>コールバックは、引数 <code>buttonIndex</code> <em>（番号）</em> は、押されたボタンのインデックス。 インデックスがインデックス 1 ベースので、値は <code>1</code>、<code>2</code>、<code>3</code> などに注意してください。</p>
+<h3 id="-">例</h3>
+<pre><code>function onConfirm(buttonIndex) {
+    alert(&#39;You selected button &#39; + buttonIndex);
+}
+
+navigator.notification.confirm(
+    &#39;You are the winner!&#39;, // message
+     onConfirm,            // callback to invoke with index of button pressed
+    &#39;Game Over&#39;,           // title
+    [&#39;Restart&#39;,&#39;Exit&#39;]     // buttonLabels
+);
+</code></pre><h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>ブラックベリー 10</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 と 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 と 8 癖</h3>
+<ul>
+<li><p>組み込みブラウザーの機能はありません <code>window.confirm</code> が割り当てることによってバインドすることができます。</p>
+<pre><code>window.confirm = navigator.notification.confirm;
+</code></pre></li>
+</ul>
+<ul>
+<li>呼び出しを <code>alert</code> と <code>confirm</code> では非ブロッキング、結果は非同期的にのみ使用できます。</li>
+</ul>
+<h3 id="windows-">Windows の癖</h3>
+<ul>
+<li><p>Windows8/8.1 の MessageDialog インスタンスを 3 つ以上のボタンを追加することはできません。</p>
+</li>
+<li><p>Windows Phone 8.1 に 2 つ以上のボタンを持つダイアログを表示することはできません。</p>
+</li>
+</ul>
+<h3 id="firefox-os-">Firefox OS 互換:</h3>
+<p>ネイティブ ブロック <code>window.confirm()</code> と非ブロッキング <code>navigator.notification.confirm()</code> があります。</p>
+<h2 id="navigator-notification-prompt">navigator.notification.prompt</h2>
+<p>ブラウザーの <code>プロンプト</code> 機能より詳細にカスタマイズはネイティブのダイアログ ボックスが表示されます。</p>
+<pre><code>navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+</code></pre><ul>
+<li><p><strong>メッセージ</strong>: ダイアログ メッセージ。<em>(文字列)</em></p>
+</li>
+<li><p><strong>promptCallback</strong>: インデックス (1、2、または 3) を押されたボタンまたはダイアログ ボックスは、ボタンを押す （0） なしに解雇されたときに呼び出すコールバック。<em>(機能)</em></p>
+</li>
+<li><p><strong>title</strong>: タイトル <em>(String)</em> (省略可能、既定 <code>プロンプト</code> ダイアログ)</p>
+</li>
+<li><p><strong>buttonLabels</strong>: ボタンのラベル <em>(配列)</em> (省略可能、既定値 <code>[&quot;OK&quot;、「キャンセル」]</code> を指定する文字列の配列)</p>
+</li>
+<li><p><strong>defaultText</strong>: 既定テキスト ボックスの入力値 (<code>文字列</code>) (省略可能、既定: 空の文字列)</p>
+</li>
+</ul>
+<h3 id="promptcallback">promptCallback</h3>
+<p><code>promptCallback</code> は、プロンプト ダイアログ ボックス内のボタンのいずれかを押したときに実行します。コールバックに渡される <code>results</code> オブジェクトには、次のプロパティが含まれています。</p>
+<ul>
+<li><p><strong>buttonIndex</strong>: 押されたボタンのインデックス。<em>(数)</em>インデックスがインデックス 1 ベースので、値は <code>1</code>、<code>2</code>、<code>3</code> などに注意してください。</p>
+</li>
+<li><p><strong>input1</strong>: プロンプト ダイアログ ボックスに入力したテキスト。<em>(文字列)</em></p>
+</li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>function onPrompt(results) {
+    alert(&quot;You selected button number &quot; + results.buttonIndex + &quot; and entered &quot; + results.input1);
+}
+
+navigator.notification.prompt(
+    &#39;Please enter your name&#39;,  // message
+    onPrompt,                  // callback to invoke
+    &#39;Registration&#39;,            // title
+    [&#39;Ok&#39;,&#39;Exit&#39;],             // buttonLabels
+    &#39;Jane Doe&#39;                 // defaultText
+);
+</code></pre><h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>Firefox の OS</li>
+<li>iOS</li>
+<li>Windows Phone 7 と 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="android-">Android の癖</h3>
+<ul>
+<li><p>Android は最大 3 つのボタンをサポートしているし、それ以上無視します。</p>
+</li>
+<li><p>アンドロイド 3.0 と後、ホロのテーマを使用するデバイスを逆の順序でボタンが表示されます。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows の癖</h3>
+<ul>
+<li>Windows プロンプト ダイアログは html ベースのようなネイティブ api の不足のためです。</li>
+</ul>
+<h3 id="firefox-os-">Firefox OS 互換:</h3>
+<p>ネイティブ ブロック <code>window.prompt()</code> と非ブロッキング <code>navigator.notification.prompt()</code> があります。</p>
+<h2 id="navigator-notification-beep">navigator.notification.beep</h2>
+<p>デバイス サウンドをビープ音を再生します。</p>
+<pre><code>navigator.notification.beep(times);
+</code></pre><ul>
+<li><strong>times</strong>: ビープ音を繰り返す回数。<em>(数)</em></li>
+</ul>
+<h3 id="-">例</h3>
+<pre><code>// Beep twice!
+navigator.notification.beep(2);
+</code></pre><h3 id="-">サポートされているプラットフォーム</h3>
+<ul>
+<li>アマゾン火 OS</li>
+<li>アンドロイド</li>
+<li>ブラックベリー 10</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 と 8</li>
+<li>Windows 8</li>
+</ul>
+<h3 id="-os-">アマゾン火 OS 癖</h3>
+<ul>
+<li>アマゾン火 OS デフォルト <strong>設定/表示 ＆ サウンド</strong> パネルの下に指定した <strong>通知音</strong> を果たしています。</li>
+</ul>
+<h3 id="android-">Android の癖</h3>
+<ul>
+<li>アンドロイド デフォルト <strong>通知着信音</strong> <strong>設定/サウンド ＆ ディスプレイ</strong> パネルの下に指定を果たしています。</li>
+</ul>
+<h3 id="windows-phone-7-8-">Windows Phone 7 と 8 癖</h3>
+<ul>
+<li>コルドバ分布からジェネリック ビープ音ファイルに依存します。</li>
+</ul>
+<h3 id="tizen-">Tizen の癖</h3>
+<ul>
+<li><p>Tizen は、メディア API 経由でオーディオ ファイルを再生してビープ音を実装します。</p>
+</li>
+<li><p>ビープ音ファイル短い、<code>sounds</code> アプリケーションのルート ディレクトリのサブディレクトリである必要があり。、<code>beep.wav</code> という名前である必要があります。.</p>
+</li>
+</ul>
+
+      </body>
+    </html>

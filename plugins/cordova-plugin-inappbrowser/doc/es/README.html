@@ -1,0 +1,347 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-inappbrowser">cordova-plugin-inappbrowser</h1>
+<p><a href="https://travis-ci.org/apache/cordova-plugin-inappbrowser"><img src="https://travis-ci.org/apache/cordova-plugin-inappbrowser.svg" alt="Build Status"></a></p>
+<p>Este plugin proporciona una vista de navegador web que se muestra cuando se llama a <code>cordova.InAppBrowser.open()</code>.</p>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><p>El <code>cordova.InAppBrowser.open()</code> función se define como un reemplazo de sobreponer para la función <code>window.Open ()</code>. Llamadas existentes <code>window.Open ()</code> pueden utilizar la ventana InAppBrowser, mediante la sustitución de window.open:</p>
+<pre><code>window.open = cordova.InAppBrowser.open;
+</code></pre><p>La ventana de InAppBrowser se comporta como un navegador web estándar y no puede acceder a Cordova APIs. Por este motivo, se recomienda la InAppBrowser si necesita cargar contenido de terceros (confianza), en lugar de que cargar en el principal webview Cordova. El InAppBrowser no está sujeta a la lista blanca, ni va a abrir enlaces en el navegador del sistema.</p>
+<p>El InAppBrowser proporciona por defecto sus propios controles GUI para el usuario (atras, adelante, hacer).</p>
+<p>Para atrás compatibilidad, este plugin también ganchos <code>window.open</code>. Sin embargo, el gancho de <code>window.open</code> plugin instalado puede tener efectos secundarios no deseados (especialmente si este plugin está incluido únicamente como una dependencia de otro plugin). El gancho de <code>window.open</code> se quitará en una versión futura de principal. Hasta que el gancho se ha extraído el plugin, aplicaciones pueden restaurar manualmente el comportamiento por defecto:</p>
+<pre><code>delete window.open // Reverts the call back to it&#39;s prototype&#39;s default
+</code></pre><p>Aunque <code>window.open</code> es en el ámbito global, InAppBrowser no está disponible hasta después del evento <code>deviceready</code>.</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(&quot;window.open works well&quot;);
+}
+</code></pre><h2 id="instalaci-n">Instalación</h2>
+<pre><code>cordova plugin add cordova-plugin-inappbrowser
+</code></pre><p>Si quieres todas las cargas de página en su aplicación para ir a través de la InAppBrowser, simplemente puedes conectar <code>window.open</code> durante la inicialización. Por ejemplo:</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    window.open = cordova.InAppBrowser.open;
+}
+</code></pre><h2 id="cordova-inappbrowser-open">cordova.InAppBrowser.open</h2>
+<p>Se abre una dirección URL en una nueva instancia de <code>InAppBrowser</code>, en la instancia actual del navegador o el navegador del sistema.</p>
+<pre><code>var ref = cordova.InAppBrowser.open(url, target, options);
+</code></pre><ul>
+<li><p><strong>ref</strong>: referencia a la <code>InAppBrowser</code> ventana. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>url</strong>: el URL para cargar <em>(String)</em>. Llame a <code>encodeURI()</code> en esto si la URL contiene caracteres Unicode.</p>
+</li>
+<li><p><strong>target</strong>: el objetivo en el que se carga la URL, un parámetro opcional que se utiliza de forma predeterminada <code>_self</code>. <em>(String)</em></p>
+<ul>
+<li><code>_self</code>: se abre en el Cordova WebView si la URL está en la lista blanca, de lo contrario se abre en el <code>InAppBrowser</code>.</li>
+<li><code>_blank</code>: abre en el <code>InAppBrowser</code>.</li>
+<li><code>_system</code>: se abre en el navegador del sistema.</li>
+</ul>
+</li>
+<li><p><strong>options</strong>: opciones para el <code>InAppBrowser</code>. Opcional, contumaz a: <code>location=yes</code>. <em>(String)</em></p>
+<p>La cadena de <code>options</code> no debe contener ningún espacio en blanco, y los pares de nombre y valor de cada característica deben estar separados por una coma. Los nombres de función son minúsculas. Todas las plataformas admiten el valor siguiente:</p>
+<ul>
+<li><strong>location</strong>: se establece en <code>yes</code> o <code>no</code> para activar o desactivar la barra de ubicación de la <code>InAppBrowser</code>.</li>
+</ul>
+<p>Sólo Android:</p>
+<ul>
+<li><strong>oculta</strong>: a <code>yes</code> para crear el navegador y cargar la página, pero no lo demuestra. El evento loadstop se desencadena cuando termine la carga. Omitir o a <code>no</code> (por defecto) para que el navegador abra y carga normalmente.</li>
+<li><strong>clearcache</strong>: a <code>yes</code> para que el navegador es caché de galleta despejado antes de que se abra la nueva ventana</li>
+<li><strong>clearsessioncache</strong>: a <code>yes</code> que la caché de cookie de sesión despejado antes de que se abra la nueva ventana</li>
+<li><strong>zoom</strong>: establezca en <code>sí</code> para mostrar los controles de zoom del navegador de Android, a <code>no</code> para ocultarlas. El valor predeterminado es <code>sí</code>.</li>
+<li><strong>hardwareback</strong>: se establece en <code>sí</code> para utilizar el botón back de hardware para navegar hacia atrás a través de la historia de la <code>InAppBrowser</code>. Si no hay ninguna página anterior, se cerrará el <code>InAppBrowser</code> . El valor predeterminado es <code>sí</code>, por lo que se debe establecer en <code>no</code> si desea que el botón back para simplemente cerrar el InAppBrowser.</li>
+</ul>
+<p>Sólo iOS:</p>
+<ul>
+<li><strong>closebuttoncaption</strong>: establecer una cadena para usar como título del botón <strong>hecho</strong> . Tenga en cuenta que necesitas localizar este valor por sí mismo.</li>
+<li><strong>disallowoverscroll</strong>: A <code>yes</code> o <code>no</code> (valor por defecto es <code>no</code> ). Activa/desactiva la propiedad UIWebViewBounce.</li>
+<li><strong>oculta</strong>: a <code>yes</code> para crear el navegador y cargar la página, pero no lo demuestra. El evento loadstop se desencadena cuando termine la carga. Omitir o a <code>no</code> (por defecto) para que el navegador abra y carga normalmente.</li>
+<li><strong>clearcache</strong>: a <code>yes</code> para que el navegador es caché de galleta despejado antes de que se abra la nueva ventana</li>
+<li><strong>clearsessioncache</strong>: a <code>yes</code> que la caché de cookie de sesión despejado antes de que se abra la nueva ventana</li>
+<li><strong>barra de herramientas</strong>: a <code>yes</code> o <code>no</code> para activar la barra de herramientas on u off para el InAppBrowser (por defecto<code>yes</code>)</li>
+<li><strong>enableViewportScale</strong>: Set a <code>yes</code> o <code>no</code> para evitar viewport escalar a través de una etiqueta meta (por defecto a <code>no</code>).</li>
+<li><strong>mediaPlaybackRequiresUserAction</strong>: Set a <code>yes</code> o <code>no</code> para evitar HTML5 audio o vídeo de reproducción automática (por defecto a <code>no</code>).</li>
+<li><strong>allowInlineMediaPlayback</strong>: A <code>yes</code> o <code>no</code> para permitir la reproducción de los medios de comunicación en línea HTML5, mostrando en la ventana del navegador en lugar de una interfaz específica del dispositivo de reproducción. Elemento <code>video</code> de HTML también debe incluir el atributo de <code>webkit-playsinline</code> (por defecto a <code>no</code>)</li>
+<li><strong>keyboardDisplayRequiresUserAction</strong>: se establece en <code>yes</code> o <code>no</code> para abrir el teclado cuando elementos de formulario reciben el foco mediante llamada de JavaScript de <code>focus()</code> (por defecto a <code>yes</code>).</li>
+<li><strong>suppressesIncrementalRendering</strong>: se establece en <code>yes</code> o <code>no</code> para esperar hasta que todos los nuevos contenidos de vista se recibieron antes de ser prestados (por defecto a <code>no</code>).</li>
+<li><strong>presentationstyle</strong>: se establece en <code>pagesheet</code>, <code>formsheet</code> o <code>fullscreen</code> para definir el <a href="http://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalPresentationStyle">estilo de la presentación</a> (por defecto a <code>fullscreen</code>).</li>
+<li><strong>transitionstyle</strong>: se establece en <code>fliphorizontal</code>, <code>crossdissolve</code> o <code>coververtical</code> para definir el <a href="http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalTransitionStyle">estilo de transición</a> (por defecto <code>coververtical</code>).</li>
+<li><strong>toolbarposition</strong>: A <code>top</code> o <code>bottom</code> (valor por defecto es <code>bottom</code> ). Hace que la barra de herramientas en la parte superior o inferior de la ventana.</li>
+</ul>
+<p>Sólo Windows:</p>
+<ul>
+<li><strong>oculta</strong>: a <code>yes</code> para crear el navegador y cargar la página, pero no lo demuestra. El evento loadstop se desencadena cuando termine la carga. Omitir o a <code>no</code> (por defecto) para que el navegador abra y carga normalmente.</li>
+<li><strong>fullscreen</strong>: se establece en <code>sí</code> para crear el control del navegador sin un borde alrededor de él. Por favor tenga en cuenta que si <strong>location=no</strong> también se especifica, no habrá ningún control presentado al usuario para cerrar la ventana IAB.</li>
+</ul>
+</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Windows Phone 7 y 8</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var ref2 = cordova.InAppBrowser.open(encodeURI(&#39;http://ja.m.wikipedia.org/wiki/ハングル&#39;), &#39;_blank&#39;, &#39;location=yes&#39;);
+</code></pre><h3 id="firefox-os-rarezas">Firefox OS rarezas</h3>
+<p>Como plugin no cumplir cualquier diseño es necesario añadir algunas reglas CSS si abre con <code>target = &#39;_blank&#39;</code>. Las reglas pueden parecerse a estos</p>
+<pre><code class="lang-css">.inAppBrowserWrap {
+  background-color: rgba(0,0,0,0.75);
+  color: rgba(235,235,235,1.0);
+}
+.inAppBrowserWrap menu {
+  overflow: auto;
+  list-style-type: none;
+  padding-left: 0;
+}
+.inAppBrowserWrap menu li {
+  font-size: 25px;
+  height: 25px;
+  float: left;
+  margin: 0 10px;
+  padding: 3px 10px;
+  text-decoration: none;
+  color: #ccc;
+  display: block;
+  background: rgba(30,30,30,0.50);
+}
+.inAppBrowserWrap menu li.disabled {
+    color: #777;
+}
+</code></pre>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<p>Similar al comportamiento visual de la ventana de Firefox OS IAB puede anularse mediante <code>inAppBrowserWrap</code>/<code>inAppBrowserWrapFullscreen</code> clases CSS</p>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li><p>Plugin se implementa mediante iframe,</p>
+</li>
+<li><p>Historial de navegación (botones<code>atrás</code> y <code>adelante</code> en LocationBar) no está implementado.</p>
+</li>
+</ul>
+<h2 id="inappbrowser">InAppBrowser</h2>
+<p>El objeto devuelto desde una llamada a <code>cordova.InAppBrowser.open</code>.</p>
+<h3 id="m-todos">Métodos</h3>
+<ul>
+<li>addEventListener</li>
+<li>removeEventListener</li>
+<li>close</li>
+<li>show</li>
+<li>executeScript</li>
+<li>insertCSS</li>
+</ul>
+<h2 id="addeventlistener">addEventListener</h2>
+<blockquote>
+<p>Añade un detector para un evento de la <code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.addEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: referencia a la ventana de <code>InAppBrowser</code> <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>eventName</strong>: el evento para escuchar <em>(String)</em></p>
+<ul>
+<li><strong>loadstart</strong>: evento se desencadena cuando el <code>InAppBrowser</code> comienza a cargar una dirección URL.</li>
+<li><strong>loadstop</strong>: evento desencadena cuando los acabados <code>InAppBrowser</code> cargar una dirección URL.</li>
+<li><strong>loaderror</strong>: evento se desencadena cuando el <code>InAppBrowser</code> encuentra un error al cargar una dirección URL.</li>
+<li><strong>exit</strong>: evento se desencadena cuando se cierra la ventana de <code>InAppBrowser</code>.</li>
+</ul>
+</li>
+<li><p><strong>callback</strong>: la función que se ejecuta cuando se desencadene el evento. La función se pasa un objeto <code>InAppBrowserEvent</code> como un parámetro.</p>
+</li>
+</ul>
+<h3 id="inappbrowserevent-propiedades">InAppBrowserEvent propiedades</h3>
+<ul>
+<li><p><strong>type</strong>: eventname, <code>loadstart</code>, <code>loadstop</code>, <code>loaderror</code> o <code>exit</code>. <em>(String)</em></p>
+</li>
+<li><p><strong>url</strong>: la URL que se cargó. <em>(String)</em></p>
+</li>
+<li><p><strong>code</strong>: el código de error, sólo en el caso de <code>loaderror</code>. <em>(Número)</em></p>
+</li>
+<li><p><strong>message</strong>: el mensaje de error, sólo en el caso de <code>loaderror</code>. <em>(String)</em></p>
+</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Windows Phone 7 y 8</li>
+<li>Explorador</li>
+</ul>
+<h3 id="navegador-rarezas">Navegador rarezas</h3>
+<p>eventos <code>loadstart</code> y <code>loaderror</code> no son alimentados.</p>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstart&#39;, function(event) { alert(event.url); });
+</code></pre><h2 id="removeeventlistener">removeEventListener</h2>
+<blockquote>
+<p>Elimina un detector para un evento de la <code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.removeEventListener(eventname, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: referencia a la ventana de <code>InAppBrowser</code>. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>eventName</strong>: dejar de escuchar para el evento. <em>(String)</em></p>
+<ul>
+<li><strong>loadstart</strong>: evento se desencadena cuando el <code>InAppBrowser</code> comienza a cargar una dirección URL.</li>
+<li><strong>loadstop</strong>: evento desencadena cuando los acabados <code>InAppBrowser</code> cargar una dirección URL.</li>
+<li><strong>loaderror</strong>: evento se desencadena cuando el <code>InAppBrowser</code> se encuentra con un error al cargar una dirección URL.</li>
+<li><strong>exit</strong>: evento se desencadena cuando se cierra la ventana de <code>InAppBrowser</code>.</li>
+</ul>
+</li>
+<li><p><strong>callback</strong>: la función a ejecutar cuando se desencadene el evento. La función se pasa un objeto <code>InAppBrowserEvent</code>.</p>
+</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Windows Phone 7 y 8</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+var myCallback = function(event) { alert(event.url); }
+ref.addEventListener(&#39;loadstart&#39;, myCallback);
+ref.removeEventListener(&#39;loadstart&#39;, myCallback);
+</code></pre><h2 id="close">close</h2>
+<blockquote>
+<p>Cierra la ventana de <code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.close();
+</code></pre><ul>
+<li><strong>ref</strong>: referencia a la ventana de <code>InAppBrowser</code> <em>(InAppBrowser)</em></li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Windows Phone 7 y 8</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.close();
+</code></pre><h2 id="show">show</h2>
+<blockquote>
+<p>Muestra una ventana InAppBrowser que abrió sus puertas ocultada. Esto no tiene efecto si el InAppBrowser ya era visible.</p>
+</blockquote>
+<pre><code>ref.show();
+</code></pre><ul>
+<li><strong>ref</strong>: referencia a la (ventana) InAppBrowser<code>InAppBrowser</code>)</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;hidden=yes&#39;);
+// some time later...
+ref.show();
+</code></pre><h2 id="executescript">executeScript</h2>
+<blockquote>
+<p>Inyecta código JavaScript en la ventana de <code>InAppBrowser</code></p>
+</blockquote>
+<pre><code>ref.executeScript(details, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: referencia a la ventana de <code>InAppBrowser</code>. <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>: detalles de la secuencia de comandos para ejecutar, o especificar un <code>file</code> o <code>code</code> clave. <em>(Objeto)</em></p>
+<ul>
+<li><strong>file</strong>: URL del script para inyectar.</li>
+<li><strong>code</strong>: texto de la escritura para inyectar.</li>
+</ul>
+</li>
+<li><p><strong>devolución de llamada</strong>: la función que se ejecuta después de inyecta el código JavaScript.</p>
+<ul>
+<li>Si el script inyectado es del tipo de <code>code</code>, la devolución de llamada se ejecuta con un solo parámetro, que es el valor devuelto del guión, envuelto en una <code>Array</code>. Para scripts multilíneas, este es el valor devuelto de la última declaración, o la última expresión evaluada.</li>
+</ul>
+</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows 8 y 8.1</li>
+<li>Explorador</li>
+</ul>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.executeScript({file: &quot;myscript.js&quot;});
+});
+</code></pre><h3 id="navegador-rarezas">Navegador rarezas</h3>
+<ul>
+<li>sólo <strong>code</strong> es compatible.</li>
+</ul>
+<h3 id="windows-rarezas">Windows rarezas</h3>
+<p>Debido a la <a href="https://msdn.microsoft.com/en-us/library/windows.ui.xaml.controls.webview.invokescriptasync.aspx">documentación MSDN</a> el script invocado puede devolver únicamente valores de cadena, de lo contrario el parámetro, pasa al <strong>callback</strong> será <code>[null]</code>.</p>
+<h2 id="insertcss">insertCSS</h2>
+<blockquote>
+<p>Inyecta CSS en la ventana de <code>InAppBrowser</code>.</p>
+</blockquote>
+<pre><code>ref.insertCSS(details, callback);
+</code></pre><ul>
+<li><p><strong>ref</strong>: referencia a la ventana de <code>InAppBrowser</code> <em>(InAppBrowser)</em></p>
+</li>
+<li><p><strong>injectDetails</strong>: detalles de la secuencia de comandos para ejecutar, o especificar un <code>file</code> o <code>code</code> clave. <em>(Objeto)</em></p>
+<ul>
+<li><strong>file</strong>: URL de la hoja de estilos para inyectar.</li>
+<li><strong>code</strong>: texto de la hoja de estilos para inyectar.</li>
+</ul>
+</li>
+<li><p><strong>callback</strong>: la función que se ejecuta después de inyectar el CSS.</p>
+</li>
+</ul>
+<h3 id="plataformas-soportadas">Plataformas soportadas</h3>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>iOS</li>
+<li>Windows</li>
+</ul>
+<h3 id="ejemplo-r-pido">Ejemplo rápido</h3>
+<pre><code>var ref = cordova.InAppBrowser.open(&#39;http://apache.org&#39;, &#39;_blank&#39;, &#39;location=yes&#39;);
+ref.addEventListener(&#39;loadstop&#39;, function() {
+    ref.insertCSS({file: &quot;mystyles.css&quot;});
+});
+</code></pre>
+      </body>
+    </html>

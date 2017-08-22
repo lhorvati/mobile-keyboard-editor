@@ -1,0 +1,630 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-globalization">cordova-plugin-globalization</h1>
+<p>這個外掛程式獲取的資訊，並執行操作特定于使用者的地區設定、 語言和時區。 注意到地區設定和語言之間的區別： 數位、 日期和時間的顯示方式為一個區域，雖然語言確定什麼語言文本的地區設定控制項顯示為，與地區設定無關。 開發人員經常使用的地區設定來設置這兩個設置，但使用者不能將她的語言設置為&quot;英語&quot;沒有理由但地區設定為&quot;法語&quot;這樣的文本顯示在英語但日期、 時間等，同時會顯示他們是在法國。 不幸的是，大多數移動平臺目前不做這些設置之間的區別。</p>
+<p>這個外掛程式定義全球 <code>navigator.globalization</code> 物件。</p>
+<p>雖然在全球範圍內，它不可用直到 <code>deviceready</code> 事件之後。</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.globalization);
+}
+</code></pre><h2 id="-">安裝</h2>
+<pre><code>cordova plugin add cordova-plugin-globalization
+</code></pre><h2 id="-">物件</h2>
+<ul>
+<li>GlobalizationError</li>
+</ul>
+<h2 id="-">方法</h2>
+<ul>
+<li>navigator.globalization.getPreferredLanguage</li>
+<li>navigator.globalization.getLocaleName</li>
+<li>navigator.globalization.dateToString</li>
+<li>navigator.globalization.stringToDate</li>
+<li>navigator.globalization.getDatePattern</li>
+<li>navigator.globalization.getDateNames</li>
+<li>navigator.globalization.isDayLightSavingsTime</li>
+<li>navigator.globalization.getFirstDayOfWeek</li>
+<li>navigator.globalization.numberToString</li>
+<li>navigator.globalization.stringToNumber</li>
+<li>navigator.globalization.getNumberPattern</li>
+<li>navigator.globalization.getCurrencyPattern</li>
+</ul>
+<h2 id="navigator-globalization-getpreferredlanguage">navigator.globalization.getPreferredLanguage</h2>
+<p>獲取用戶端的當前語言的 BCP 47 語言標記。</p>
+<pre><code>navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+</code></pre><h3 id="-">說明</h3>
+<p>BCP 47 相容的語言識別項標記作為參數返回 <code>successCallback</code> 與 <code>屬性</code> 物件。 該物件應該具有 <code>value</code> 值的 <code>String</code> 屬性。</p>
+<p>如果獲取語言時出錯，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器的作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>EN-US）</code> 語言時，此時應顯示彈出一個對話方塊文本 <code>語言： EN-US</code>：</p>
+<pre><code>navigator.globalization.getPreferredLanguage(
+    function (language) {alert(&#39;language: &#39; + language.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting language\n&#39;);}
+);
+</code></pre><h3 id="android-">Android 的怪癖</h3>
+<ul>
+<li>返回的 ISO 639-1 雙字母語言代碼、 大寫 ISO 3166-1 國家代碼和由連字號分隔的變形。例子：&quot;en&quot;、&quot;EN-US&quot;，&quot;美國&quot;</li>
+</ul>
+<h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li>返回 ISO 639-1 兩個字母語言代碼和相應的設置，由連字號分隔的&quot;語言&quot;區域變形的 ISO 3166-1 國家代碼。</li>
+<li>請注意的區域變體是的&quot;語言&quot;設置的屬性，並不由 Windows Phone 上的無關的&quot;國家/地區&quot;設置決定的。</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>返回 ISO 639-1 兩個字母語言代碼和相應的設置，由連字號分隔的&quot;語言&quot;區域變形的 ISO 3166-1 國家代碼。</li>
+</ul>
+<h2 id="navigator-globalization-getlocalename">navigator.globalization.getLocaleName</h2>
+<p>返回用戶端的目前範圍設置的 BCP 47 相容標記。</p>
+<pre><code>navigator.globalization.getLocaleName(successCallback, errorCallback);
+</code></pre><h3 id="-">說明</h3>
+<p>BCP 47 相容的地區設定識別碼字串作為參數返回 <code>successCallback</code> 與 <code>屬性</code> 物件。 該物件應該具有 <code>value</code> 值的 <code>String</code> 屬性。 Locale 標記將由兩個字母小寫語言代碼和兩個字母大寫國家/地區代碼，（未指定） 的變數代碼，由連字號分隔。</p>
+<p>如果獲取地區設定時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>EN-US</code> 地區設定時，這將顯示彈出一個對話方塊文本 <code>地區設定： EN-US</code>.</p>
+<pre><code>navigator.globalization.getLocaleName(
+    function (locale) {alert(&#39;locale: &#39; + locale.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting locale\n&#39;);}
+);
+</code></pre><h3 id="android-">Android 的怪癖</h3>
+<ul>
+<li>JAVA 不區分一集的&quot;語言&quot;和設置&quot;地區設定&quot;，所以這種方法本質上是相同的 <code>navigator.globalizatin.getPreferredLanguage()</code>.</li>
+</ul>
+<h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li>返回 ISO 639-1 兩個字母的語言代碼和 ISO 3166-1 國家/地區代碼的區域的 variant 類型的值對應于&quot;區域格式&quot;設置，由連字號分隔。</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>在控制台中時鐘、 語言和區域-&gt; 格式，格式區域-&gt; 和-&gt; 區域的格式在 Windows Phone 8.1 上的地區設定中，可以更改地區設定。</li>
+</ul>
+<h2 id="navigator-globalization-datetostring">navigator.globalization.dateToString</h2>
+<p>返回一個日期格式設置為一個字串，根據用戶端的地區設定和時區。</p>
+<pre><code>navigator.globalization.dateToString(date, successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>可從該物件作為參數傳遞給 <code>successCallback</code> 訪問通過 <code>value</code> 屬性返回格式化的日期 <code>String</code>.</p>
+<p>入站的 <code>date</code> 參數應該是 <code>Date</code> 類型.</p>
+<p>如果格式化日期時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的且其預設值：</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p><code>options.formatLength</code> 可以 <code>short</code>、 <code>medium</code>、 <code>long</code>、 或 <code>full</code>.</p>
+<p><code>options.selector</code> 可以是 <code>date</code>、 <code>time</code> 或 <code>date and time</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>如果瀏覽器設置為 <code>en_US</code> 地區設定，這將顯示彈出一個對話方塊文本類似于 <code>日期： 2012/9/25 4:21 下午</code> 使用預設選項：</p>
+<pre><code>navigator.globalization.dateToString(
+    new Date(),
+    function (date) { alert(&#39;date: &#39; + date.value + &#39;\n&#39;); },
+    function () { alert(&#39;Error getting dateString\n&#39;); },
+    { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+);
+</code></pre><h3 id="android-">Android 的怪癖</h3>
+<ul>
+<li>預設選項 <code>formatLenght</code> 取決於使用者所選的日期格式內 <0>設置-&gt; 系統-&gt; 日期和時間-&gt; 選擇日期格式</0>，<0>年</0> 模式僅提供 4 位數位，不 2 位數。 預設選項 <code>short</code> 取決於使用者所選的日期格式內 <code>設置-&gt; 系統-&gt; 日期和時間-&gt; 選擇日期格式</code>，<code>年</code> 模式僅提供 4 位數位，不 2 位數。 這意味著它不完全對齊與 <a href="http://demo.icu-project.org/icu-bin/locexp?d_=en_US&amp;_=en_US">ICU</a>.</li>
+</ul>
+<h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p>日期和時間的選擇器模式一直是一種完整的日期時間格式。</p>
+</li>
+<li><p>返回的值可能取決於使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p>日期和時間的選擇器模式一直是一種完整的日期時間格式。</p>
+</li>
+<li><p>返回的值可能取決於使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h3 id="-">火狐瀏覽器作業系統的怪癖</h3>
+<ul>
+<li><code>formatLength</code> 不區分 <code>long</code> 和 <code>full</code> </li>
+<li>顯示日期 （沒有 <code>long</code> 或 <code>full</code> 的版本） 的唯一方法</li>
+</ul>
+<h2 id="navigator-globalization-getcurrencypattern">navigator.globalization.getCurrencyPattern</h2>
+<p>返回一個模式字串格式化和解析貨幣值根據用戶端的使用者首選項和 ISO 4217 貨幣代碼。</p>
+<pre><code> navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
+</code></pre><h3 id="-">說明</h3>
+<p>返回到 <code>successCallback</code> 與 <code>屬性</code> 物件作為參數的模式。該物件應包含以下屬性：</p>
+<ul>
+<li><p><strong>pattern</strong>： 要格式化和解析貨幣值的貨幣模式。 模式遵循<a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode 技術標準 #35</a>。 <em>（字串）</em></p>
+</li>
+<li><p><strong>code</strong>： 模式的 ISO 4217 貨幣代碼。<em>（字串）</em></p>
+</li>
+<li><p><strong>fraction</strong>： 解析和貨幣的格式時要使用的小數位數的數目。<em>（數）</em></p>
+</li>
+<li><p><strong>rounding</strong>： 舍入增量解析和格式時要使用。<em>（數）</em></p>
+</li>
+<li><p><strong>decimal</strong>： 小數點符號用於分析和格式設置。<em>（字串）</em></p>
+</li>
+<li><p><strong>grouping</strong>： 分組符號用於分析和格式設置。<em>（字串）</em></p>
+</li>
+</ul>
+<p>入站的 <code>currencyCode</code> 參數應該是一個 <code>字串</code> 的 ISO 4217 貨幣代碼，例如 &#39;美元&#39; 之一。</p>
+<p>如果獲取模式時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>安卓系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定，所選的幣種是美元時，此示例顯示彈出一個對話方塊文本類似于遵循的效果：</p>
+<pre><code>navigator.globalization.getCurrencyPattern(
+    &#39;USD&#39;,
+    function (pattern) {
+        alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+              &#39;code: &#39;     + pattern.code     + &#39;\n&#39; +
+              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+              &#39;grouping: &#39; + pattern.grouping);
+    },
+    function () { alert(&#39;Error getting pattern\n&#39;); }
+);
+</code></pre><p>預期的結果：</p>
+<pre><code>pattern: $#,##0.##;($#,##0.##)
+code: USD
+fraction: 2
+rounding: 0
+decimal: .
+grouping: ,
+</code></pre><h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>支援的唯一的 &#39;code&#39; 和 &#39;fraction&#39; 屬性</li>
+</ul>
+<h2 id="navigator-globalization-getdatenames">navigator.globalization.getDateNames</h2>
+<p>返回陣列的各月的名稱或一周，具體取決於用戶端的使用者首選項和日曆天。</p>
+<pre><code>navigator.globalization.getDateNames(successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>返回到 <code>successCallback</code> 與 <code>properties</code> 物件的名稱的陣列作為參數。 該物件包含帶有 <code>value</code> 值的 <code>Array</code> 的 <code>String</code> 屬性。 陣列特徵名稱從任一開始一年或一周，具體取決於所選的選項的第一天中的第一個月。</p>
+<p>如果獲得名稱時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的且其預設值：</p>
+<pre><code>{type:&#39;wide&#39;, item:&#39;months&#39;}
+</code></pre><p><code>options.type</code> 值可以 <code>narrow</code> 或 <code>wide</code>.</p>
+<p><code>options.item</code> 的值可以是 <code>months</code> 或 <code>days</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>安卓系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器的作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，本示例顯示一系列的十二個彈出對話方塊，每個月，與類似的文本一 <code>個月： 1 月</code>：</p>
+<pre><code>navigator.globalization.getDateNames(
+    function (names) {
+        for (var i = 0; i &lt; names.value.length; i++) {
+            alert(&#39;month: &#39; + names.value[i] + &#39;\n&#39;);
+        }
+    },
+    function () { alert(&#39;Error getting names\n&#39;); },
+    { type: &#39;wide&#39;, item: &#39;months&#39; }
+);
+</code></pre><h3 id="-">火狐瀏覽器作業系統的怪癖</h3>
+<ul>
+<li><code>options.type</code> 支援 <code>genitive</code> 的價值，對於某些語言重要</li>
+</ul>
+<h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li>月份的陣列包含 13 個元素。</li>
+<li>返回的陣列可能根據使用者的地區設定與 ICU 不完全對齊。</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>月份的陣列包含 12 種元素。</li>
+<li>返回的陣列可能根據使用者的地區設定與 ICU 不完全對齊。</li>
+</ul>
+<h2 id="navigator-globalization-getdatepattern">navigator.globalization.getDatePattern</h2>
+<p>返回一個模式字串格式化和解析日期根據用戶端的使用者首選項。</p>
+<pre><code>navigator.globalization.getDatePattern(successCallback, errorCallback, options);
+</code></pre><h3 id="-">描述</h3>
+<p>返回到 <code>successCallback</code> 的模式。作為一個參數傳遞進來的物件包含以下屬性：</p>
+<ul>
+<li><p><strong>pattern</strong>： 要格式化和解析日期的日期和時間模式。 模式遵循<a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode 技術標準 #35</a>。 <em>（字串）</em></p>
+</li>
+<li><p><strong>timezone</strong>： 在用戶端上的時區的縮寫的名稱。<em>（字串）</em></p>
+</li>
+<li><p><strong>utc_offset</strong>： 用戶端時區的時間和協調通用時間以秒為單位的當前區別。<em>（數）</em></p>
+</li>
+<li><p><strong>dst_offset</strong>： 用戶端的非夏令時之間的秒數的當前的日光節約時間偏移量的時區和用戶端的夏時制節約的時區。<em>（數）</em></p>
+</li>
+</ul>
+<p>如果獲取模式時發生錯誤，則 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的並且預設為以下值：</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p><code>options.formatLength</code> 可以 <code>short</code>、 <code>medium</code>、 <code>long</code>、 或 <code>full</code> <code>options.selector</code> 可以是 <code>date</code>、 <code>time</code> 或 <code>date and time</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，本示例顯示彈出一個對話方塊文本如 <code>模式： 按/yyyy h:mm</code>：</p>
+<pre><code>function checkDatePattern() {
+    navigator.globalization.getDatePattern(
+        function (date) { alert(&#39;pattern: &#39; + date.pattern + &#39;\n&#39;); },
+        function () { alert(&#39;Error getting pattern\n&#39;); },
+        { formatLength: &#39;short&#39;, selector: &#39;date and time&#39; }
+    );
+}
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p><code>pattern</code> 的 <code>date and time</code> 模式返回只完整的日期時間格式。</p>
+</li>
+<li><p><code>timezone</code> 返回完整時區名稱。</p>
+</li>
+<li><p><code>dst_offset</code> 屬性不受支援，並且始終返回零。</p>
+</li>
+<li><p>該模式可能根據使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p><code>pattern</code> 的 <code>date and time</code> 模式返回只完整的日期時間格式。</p>
+</li>
+<li><p><code>timezone</code> 返回完整時區名稱。</p>
+</li>
+<li><p><code>dst_offset</code> 屬性不受支援，並且始終返回零。</p>
+</li>
+<li><p>該模式可能根據使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-getfirstdayofweek">navigator.globalization.getFirstDayOfWeek</h2>
+<p>返回根據用戶端的使用者首選項和日曆周的第一天。</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
+</code></pre><h3 id="-">說明</h3>
+<p>星期數編號從 1，這裡假設 1 是星期日。 返回一天到 <code>successCallback</code> 與 <code>properties</code> 物件作為一個參數。 該物件應該具有 <code>value</code> 值的 <code>String</code> 屬性。</p>
+<p>如果獲取模式時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，這將顯示彈出一個對話方塊文本類似于 <code>的一天： 1</code>.</p>
+<pre><code>navigator.globalization.getFirstDayOfWeek(
+    function (day) {alert(&#39;day: &#39; + day.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting day\n&#39;);}
+);
+</code></pre><h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li>對 Windows 8.0/8.1 所示的值取決於使用者的日曆首選項。在 Windows Phone 8.1 的值取決於當前的地區設定。</li>
+</ul>
+<h2 id="navigator-globalization-getnumberpattern">navigator.globalization.getNumberPattern</h2>
+<p>返回一個模式字串格式化和解析數位根據用戶端的使用者首選項。</p>
+<pre><code>navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>返回到 <code>successCallback</code> 與 <code>屬性</code> 物件作為參數的模式。該物件包含以下屬性：</p>
+<ul>
+<li><p><strong>pattern</strong>： 要格式化和解析數位的數位模式。 模式遵循<a href="http://unicode.org/reports/tr35/tr35-4.html">Unicode 技術標準 #35</a>。 <em>（字串）</em></p>
+</li>
+<li><p><strong>symbol</strong>： 要使用時格式化和解析，例如，%或貨幣符號的符號。<em>（字串）</em></p>
+</li>
+<li><p><strong>fraction</strong>： 解析和貨幣的格式時要使用的小數位數的數目。<em>（數）</em></p>
+</li>
+<li><p><strong>rounding</strong>： 舍入增量解析和格式時要使用。<em>（數）</em></p>
+</li>
+<li><p><strong>positive</strong>： 要為正數時分析和格式設置使用的符號。<em>（字串）</em></p>
+</li>
+<li><p><strong>negative</strong>： 要為負數時分析和格式設置使用的符號。<em>（字串）</em></p>
+</li>
+<li><p><strong>decimal</strong>： 小數點符號用於分析和格式設置。<em>（字串）</em></p>
+</li>
+<li><p><strong>grouping</strong>： 分組符號用於分析和格式設置。<em>（字串）</em></p>
+</li>
+</ul>
+<p>如果獲取模式時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.PATTERN_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的且其預設值：</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p><code>options.type</code> 可以是 <code>decimal</code>、 <code>percent</code> 或 <code>currency</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>安卓系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，此時應顯示彈出一個對話方塊文本類似于遵循的效果：</p>
+<pre><code>navigator.globalization.getNumberPattern(
+    function (pattern) {alert(&#39;pattern: &#39;  + pattern.pattern  + &#39;\n&#39; +
+                              &#39;symbol: &#39;   + pattern.symbol   + &#39;\n&#39; +
+                              &#39;fraction: &#39; + pattern.fraction + &#39;\n&#39; +
+                              &#39;rounding: &#39; + pattern.rounding + &#39;\n&#39; +
+                              &#39;positive: &#39; + pattern.positive + &#39;\n&#39; +
+                              &#39;negative: &#39; + pattern.negative + &#39;\n&#39; +
+                              &#39;decimal: &#39;  + pattern.decimal  + &#39;\n&#39; +
+                              &#39;grouping: &#39; + pattern.grouping);},
+    function () {alert(&#39;Error getting pattern\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><p>結果：</p>
+<pre><code>pattern: #,##0.###
+symbol: .
+fraction: 0
+rounding: 0
+positive:
+negative: -
+decimal: .
+grouping: ,
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li><p><code>pattern</code> 屬性不受支援，並返回一個空字串。</p>
+</li>
+<li><p><code>fraction</code> 屬性不受支援，並返回零。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><code>pattern</code> 屬性不受支援，並返回一個空字串。</li>
+</ul>
+<h2 id="navigator-globalization-isdaylightsavingstime">navigator.globalization.isDayLightSavingsTime</h2>
+<p>指示是否夏令時實際上是針對給定的日期，使用客戶機的時區和日曆。</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime(date, successCallback, errorCallback);
+</code></pre><h3 id="-">描述</h3>
+<p>指示夏令時實際上是 <code>successCallback</code> 與作為參數的 <code>屬性</code> 物件。 該物件應該具有 <code>Boolean</code> 值的 <code>dst</code> 屬性。 <code>true</code> 值表示日光節約時間實際上是在給定的日期和事件 ； <code>false</code> 指示它不是。</p>
+<p>傳入的參數 【 <code>date</code> 應該是 <code>Date</code> 類型.</p>
+<p>如果閱讀日期時發生錯誤，然後 <code>errorCallback</code> 執行。預期的錯誤碼是 <code>GlobalizationError.UNKNOWN_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>在夏季，如果瀏覽器設置為啟用 DST 的時區，這應該顯示彈出一個對話方塊文本類似于 <code>dst： 真正</code>：</p>
+<pre><code>navigator.globalization.isDayLightSavingsTime(
+    new Date(),
+    function (date) {alert(&#39;dst: &#39; + date.dst + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting names\n&#39;);}
+);
+</code></pre><h2 id="navigator-globalization-numbertostring">navigator.globalization.numberToString</h2>
+<p>返回一個數位的格式設置為根據用戶端的使用者首選項的字串。</p>
+<pre><code>navigator.globalization.numberToString(number, successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>返回帶格式的數位字串到 <code>successCallback</code> 與 <code>屬性</code> 物件作為一個參數。 該物件應該具有 <code>value</code> 值的 <code>String</code> 屬性。</p>
+<p>如果格式數時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.FORMATTING_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的且其預設值：</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p><code>options.type</code> 可以 &#39;decimal&#39;、 &#39;percent&#39; 或 &#39;currency&#39;。</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，這將顯示彈出一個對話方塊文本類似于 <code>號碼： 3.142</code>：</p>
+<pre><code>navigator.globalization.numberToString(
+    3.1415926,
+    function (number) {alert(&#39;number: &#39; + number.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting number\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p>Windows 8.0 不支援數位舍入，因此值，不會自動四捨五入。</p>
+</li>
+<li><p>Windows 8.1 和 Windows Phone 8.1 小數部分會被截斷而不是圓形時 <code>percent</code> 數位類型因此小數位數計數設置為 0。</p>
+</li>
+<li><p><code>percent</code> 數位不進行分組，他們無法分析在 stringToNumber 如果分組。</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-stringtodate">navigator.globalization.stringToDate</h2>
+<p>分析日期格式設置為一個字串，根據用戶端的使用者首選項和日曆使用時區的用戶端，並返回對應的 date 物件。</p>
+<pre><code>navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>作為一個參數與 <code>properties</code> 物件的成功回檔返回的日期。該物件應具有以下屬性：</p>
+<ul>
+<li><p><strong>year</strong>： 四位數表示的年份。<em>（數）</em></p>
+</li>
+<li><p><strong>month</strong>： （0-11) 個月。<em>（數）</em></p>
+</li>
+<li><p><strong>day</strong>： 從 （1-31) 天。<em>（數）</em></p>
+</li>
+<li><p><strong>hour</strong>： 從 （0-23） 小時。<em>（數）</em></p>
+</li>
+<li><p><strong>minute</strong>： 從 （0-59) 分鐘。<em>（數）</em></p>
+</li>
+<li><p><strong>second</strong>： 的第二位 （0-59)。<em>（數）</em></p>
+</li>
+<li><p><strong>milisecond</strong>： 的毫秒數 （從 0-999），在所有平臺上不可用。<em>（數）</em></p>
+</li>
+</ul>
+<p>入站的 <code>dateString</code> 參數應該是 <code>String</code> 類型.</p>
+<p><code>options</code> 參數是可選的並且預設為以下值：</p>
+<pre><code>{formatLength:&#39;short&#39;, selector:&#39;date and time&#39;}
+</code></pre><p><code>options.formatLength</code> 可以 <code>short</code>、 <code>medium</code>、 <code>long</code>、 或 <code>full</code> <code>options.selector</code> 可以是 <code>date</code>、 <code>time</code> 或 <code>date and time</code>.</p>
+<p>如果解析日期字串時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.PARSING_ERROR</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，這將顯示彈出一個對話方塊文本類似于 <code>月： 8 天： 25 年： 2012 年</code>。 請注意，整數是一個月小於字串，作為月整數表示陣列索引。</p>
+<pre><code>navigator.globalization.stringToDate(
+    &#39;9/25/2012&#39;,
+    function (date) {alert(&#39;month:&#39; + date.month +
+                           &#39; day:&#39;  + date.day   +
+                           &#39; year:&#39; + date.year  + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting date\n&#39;);},
+    {selector: &#39;date&#39;}
+);
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p>日期和時間的選擇器模式一直是一種完整的日期時間格式。</p>
+</li>
+<li><p>入站的 <code>dateString</code> 參數應根據返回的 getDatePattern 模式形成。這種模式可能根據使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p><code>formatLength</code> 選項支援只有 <code>short</code> 和 <code>full</code> 的值。</p>
+</li>
+<li><p>日期和時間的選擇器模式一直是一種完整的日期時間格式。</p>
+</li>
+<li><p>入站的 <code>dateString</code> 參數應根據返回的 getDatePattern 模式形成。這種模式可能根據使用者的地區設定與 ICU 不完全對齊。</p>
+</li>
+</ul>
+<h2 id="navigator-globalization-stringtonumber">navigator.globalization.stringToNumber</h2>
+<p>分析的數位格式化為根據用戶端的使用者首選項的字串並返回相應的數位。</p>
+<pre><code>navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
+</code></pre><h3 id="-">說明</h3>
+<p>返回到 <code>successCallback</code> 與 <code>properties</code> 物件作為參數的數。該物件應該具有 <code>value</code> 值的 <code>Number</code> 屬性。</p>
+<p>如果分析數位字串時發生錯誤，然後 <code>errorCallback</code> 執行同一個 <code>GlobalizationError</code> 物件作為一個參數。 預期的錯誤碼是 <code>GlobalizationError.PARSING_ERROR</code>.</p>
+<p><code>options</code> 參數是可選的並且預設為以下值：</p>
+<pre><code>{type:&#39;decimal&#39;}
+</code></pre><p><code>options.type</code> 可以是 <code>decimal</code>、 <code>percent</code> 或 <code>currency</code>.</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當瀏覽器設置為 <code>en_US</code> 地區設定時，此時應顯示彈出一個對話方塊文本類似于 <code>號碼： 1234.56</code>：</p>
+<pre><code>navigator.globalization.stringToNumber(
+    &#39;1234.56&#39;,
+    function (number) {alert(&#39;number: &#39; + number.value + &#39;\n&#39;);},
+    function () {alert(&#39;Error getting number\n&#39;);},
+    {type:&#39;decimal&#39;}
+);
+</code></pre><h3 id="windows-phone-8-">Windows Phone 8 怪癖</h3>
+<ul>
+<li>在 <code>percent</code> 類型發生時返回的值不被除以 100。</li>
+</ul>
+<h3 id="windows-">Windows 的怪癖</h3>
+<ul>
+<li><p>該字串必須嚴格符合地區設定格式。例如，百分比符號就應該用 EN-US 地區設定的空間分隔，如果類型參數是 &#39;%&#39;。</p>
+</li>
+<li><p>不必須分組 <code>percent</code> 數位正確解析。</p>
+</li>
+</ul>
+<h2 id="globalizationerror">GlobalizationError</h2>
+<p>從全球化的 API 表示一個錯誤的物件。</p>
+<h3 id="-">屬性</h3>
+<ul>
+<li><strong>code</strong>： 表示錯誤類型的以下代碼之一 <em>（數）</em> <ul>
+<li>GlobalizationError.UNKNOWN_ERROR: 0</li>
+<li>GlobalizationError.FORMATTING_ERROR: 1</li>
+<li>GlobalizationError.PARSING_ERROR: 2</li>
+<li>GlobalizationError.PATTERN_ERROR: 3</li>
+</ul>
+</li>
+<li><strong>message</strong>： 文本消息，包括有關錯誤的解釋，和/或詳細說明 <em>（字串）</em></li>
+</ul>
+<h3 id="-">說明</h3>
+<p>此物件創建和填充的科爾多瓦，並返回到出現錯誤時的回檔。</p>
+<h3 id="-">支援的平臺</h3>
+<ul>
+<li>亞馬遜火 OS</li>
+<li>Android 系統</li>
+<li>黑莓 10</li>
+<li>火狐瀏覽器作業系統</li>
+<li>iOS</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="-">示例</h3>
+<p>當以下錯誤回檔執行時，它會顯示彈出一個對話方塊文本類似于 <code>code: 3</code> 和 <code>message:</code></p>
+<pre><code>function errorCallback(error) {
+    alert(&#39;code: &#39; + error.code + &#39;\n&#39; +
+          &#39;message: &#39; + error.message + &#39;\n&#39;);
+};
+</code></pre>
+      </body>
+    </html>

@@ -1,0 +1,152 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-network-information">cordova-plugin-network-information</h1>
+<p>Этот плагин обеспечивает реализацию старой версии <a href="http://www.w3.org/TR/2011/WD-netinfo-api-20110607/">API Сетевой информации</a>. Он предоставляет информацию о сотовых и Wi-Fi подключениях устройства, и информацию имеет ли устройство подключение к Интернету.</p>
+<h2 id="-">Установка</h2>
+<pre><code>cordova plugin add cordova-plugin-network-information
+</code></pre><h2 id="-">Поддерживаемые платформы</h2>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Браузер</li>
+<li>iOS</li>
+<li>Windows Phone 7 и 8</li>
+<li>Tizen</li>
+<li>Windows 8</li>
+<li>Firefox OS</li>
+</ul>
+<h1 id="connection">Connection</h1>
+<blockquote>
+<p>Объект <code>connection</code>, доступный через <code>navigator.connection</code>, предоставляет информацию о сотовых и wifi подключениях устройства.</p>
+</blockquote>
+<h2 id="-">Свойства</h2>
+<ul>
+<li>connection.type</li>
+</ul>
+<h2 id="-">Константы</h2>
+<ul>
+<li>Connection.UNKNOWN</li>
+<li>Connection.ETHERNET</li>
+<li>Connection.WIFI</li>
+<li>Connection.CELL_2G</li>
+<li>Connection.CELL_3G</li>
+<li>Connection.CELL_4G</li>
+<li>Connection.CELL</li>
+<li>Connection.NONE</li>
+</ul>
+<h2 id="connection-type">connection.type</h2>
+<p>Это свойство предоставляет быстрый способ для определения состояния подключения устройства к сети и тип этого подключения.</p>
+<h3 id="-">Краткий пример</h3>
+<pre><code>function checkConnection() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN]  = &#39;Unknown connection&#39;;
+    states[Connection.ETHERNET] = &#39;Ethernet connection&#39;;
+    states[Connection.WIFI]     = &#39;WiFi connection&#39;;
+    states[Connection.CELL_2G]  = &#39;Cell 2G connection&#39;;
+    states[Connection.CELL_3G]  = &#39;Cell 3G connection&#39;;
+    states[Connection.CELL_4G]  = &#39;Cell 4G connection&#39;;
+    states[Connection.CELL]     = &#39;Cell generic connection&#39;;
+    states[Connection.NONE]     = &#39;No network connection&#39;;
+
+    alert(&#39;Connection type: &#39; + states[networkState]);
+}
+
+checkConnection();
+</code></pre><h3 id="-api">Изменения в API</h3>
+<p>До Cordova 2.3.0 объект <code>Connection</code> был доступен через <code>navigator.network.connection</code>, после чего это свойство было изменено на <code>navigator.connection</code> в соответствии со спецификацией консорциума W3C. Он все еще доступен в его исходном расположении, но это расположение является устаревшим и в конечном итоге будет удалено.</p>
+<h3 id="-ios">Особенности iOS</h3>
+<ul>
+<li>iOS не может определить тип подключения к сотовой сети. <ul>
+<li><code>navigator.connection.type</code> имеет значение <code>Connection.CELL</code> для всех сотовых данных.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-windows-phone">Особенности Windows Phone</h3>
+<ul>
+<li><p>Когда работает в эмуляторе, тип подключения всегда определяется <code>navigator.connection.type</code> как <code>Connection.UNKNOWN</code>.</p>
+</li>
+<li><p>Windows Phone не может определить тип подключения к сотовой сети.</p>
+<ul>
+<li><code>navigator.connection.type</code> имеет значение <code>Connection.CELL</code> для всех сотовых данных.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-tizen">Особенности Tizen</h3>
+<ul>
+<li>Tizen может обнаружить только соединения Wi-Fi или наличие сотовой связи. <ul>
+<li><code>navigator.connection.type</code> имеет значение <code>Connection.CELL_2G</code> для всех сотовых данных.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-firefox-os">Особенности Firefox OS</h3>
+<ul>
+<li>Firefox OS не может определить тип подключения к сотовой сети. <ul>
+<li><code>navigator.connection.type</code> имеет значение <code>Connection.CELL</code> для всех сотовых данных.</li>
+</ul>
+</li>
+</ul>
+<h1 id="-">События, связанные с сетью</h1>
+<h2 id="offline">offline</h2>
+<p>Событие возникает, когда приложение переходит в автономный режим, и устройство не подключено к сети Интернет.</p>
+<pre><code>document.addEventListener(&quot;offline&quot;, yourCallbackFunction, false);
+</code></pre><h3 id="-">Подробности</h3>
+<p>Событие <code>offline</code> возникает, когда ранее подключенное устройство теряет подключение к сети, так что приложение больше не может получить доступ к Интернет. Он опирается на ту же информацию, что и Connection API и срабатывает, когда значение <code>connection.type</code> становится равным <code>NONE</code>.</p>
+<p>Приложения обычно должно использовать <code>window.addEventListener</code> чтобы добавить обработчик события после того как произойдет событие <code>deviceready</code>.</p>
+<h3 id="-">Краткий пример</h3>
+<pre><code>document.addEventListener(&quot;offline&quot;, onOffline, false);
+
+function onOffline() {
+    // Handle the offline event
+}
+</code></pre><h3 id="-ios">Особенности iOS</h3>
+<p>Во время первоначального запуска первому событию offline (если применимо) требуется по крайней мере секунду на срабатывание.</p>
+<h3 id="-windows-phone-7">Особенности Windows Phone 7</h3>
+<p>Когда работает в эмуляторе, <code>connection.status</code> всегда неизвестен, так что это событие <em>не</em> срабатывает.</p>
+<h3 id="-windows-phone-8">Особенности Windows Phone 8</h3>
+<p>Эмулятор сообщает тип подключения как <code>Cellular</code> , которое не меняется, поэтому событие не <em>не</em> срабатывает.</p>
+<h2 id="online">online</h2>
+<p>Это событие возникает, когда приложение выходит в онлайн, и устройство подключается к Интернету.</p>
+<pre><code>document.addEventListener(&quot;online&quot;, yourCallbackFunction, false);
+</code></pre><h3 id="-">Подробности</h3>
+<p>Событие <code>online</code> возникает, когда ранее не подключенное к сети устройство получает сетевое подключение, разрешающее приложению доступ к Интернету. Оно опирается на ту же информацию, Connection API и вызывается когда <code>connection.type</code> меняется с <code>NONE</code> в любое другое значение.</p>
+<p>Приложения обычно должны использовать <code>window.addEventListener</code> чтобы добавить обработчик события после того как произойдет событие <code>deviceready</code>.</p>
+<h3 id="-">Краткий пример</h3>
+<pre><code>document.addEventListener(&quot;online&quot;, onOnline, false);
+
+function onOnline() {
+    // Handle the online event
+}
+</code></pre><h3 id="-ios">Особенности iOS</h3>
+<p>Во время первоначального запуска первое событие <code>online</code> (если применимо) занимает по меньшей мере секунду на срабатывание, до этого момента <code>connection.type</code> является равным <code>UNKNOWN</code>.</p>
+<h3 id="-windows-phone-7">Особенности Windows Phone 7</h3>
+<p>Когда работает в эмуляторе, <code>connection.status</code> всегда неизвестен, так что это событие <em>не</em> срабатывает.</p>
+<h3 id="-windows-phone-8">Особенности Windows Phone 8</h3>
+<p>Эмулятор сообщает тип подключения как <code>Cellular</code> , которое не меняется, поэтому событие не <em>не</em> срабатывает.</p>
+
+      </body>
+    </html>

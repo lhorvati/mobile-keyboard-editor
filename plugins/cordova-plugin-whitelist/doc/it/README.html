@@ -1,0 +1,128 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-whitelist">cordova-plugin-whitelist</h1>
+<p>Questo plugin attua una politica di whitelist per spostarsi all&#39;interno dell&#39;applicazione webview in Cordova 4.0</p>
+<h2 id="piattaforme-supportate-cordova">Piattaforme supportate Cordova</h2>
+<ul>
+<li>Android 4.0.0 o superiore</li>
+<li>iOS 4.0.0 o superiore</li>
+</ul>
+<h2 id="navigazione-whitelist">Navigazione Whitelist</h2>
+<p>Controlla quali URL WebView stessa può essere esplorato. Si applica al solo primo livello navigazioni.</p>
+<p>Stranezze: su Android vale anche per gli iframe per non-schemi di http (s).</p>
+<p>Per impostazione predefinita, navigazioni solo agli URL <code>file://</code> , sono ammessi. Per consentire altri altri URL, è necessario aggiungere <code>&lt;allow-navigation&gt;</code> tag per il tuo <code>config. XML</code>:</p>
+<pre><code>&lt;!-- Allow links to example.com --&gt;
+&lt;allow-navigation href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-navigation href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- A wildcard can be used to whitelist the entire network,
+     over HTTP and HTTPS.
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-navigation href=&quot;*&quot; /&gt;
+
+&lt;!-- The above is equivalent to these three declarations --&gt;
+&lt;allow-navigation href=&quot;http://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;https://*/*&quot; /&gt;
+&lt;allow-navigation href=&quot;data:*&quot; /&gt;
+</code></pre><h2 id="whitelist-intento">Whitelist intento</h2>
+<p>Controlla quali URL app è consentito richiedere il sistema di apertura. Per impostazione predefinita, nessun esterno URL sono ammessi.</p>
+<p>Su Android, ciò equivale all&#39;invio di un intento di tipo BROWSEABLE.</p>
+<p>Questa whitelist non si applica ai plugin, solo i collegamenti ipertestuali e chiamate a <code>Window</code>.</p>
+<p>In <code>config. XML</code>, aggiungere tag <code>&lt;allow-intent&gt;</code> , simile al seguente:</p>
+<pre><code>&lt;!-- Allow links to web pages to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://*/*&quot; /&gt;
+&lt;allow-intent href=&quot;https://*/*&quot; /&gt;
+
+&lt;!-- Allow links to example.com to open in a browser --&gt;
+&lt;allow-intent href=&quot;http://example.com/*&quot; /&gt;
+
+&lt;!-- Wildcards are allowed for the protocol, as a prefix
+     to the host, or as a suffix to the path --&gt;
+&lt;allow-intent href=&quot;*://*.example.com/*&quot; /&gt;
+
+&lt;!-- Allow SMS links to open messaging app --&gt;
+&lt;allow-intent href=&quot;sms:*&quot; /&gt;
+
+&lt;!-- Allow tel: links to open the dialer --&gt;
+&lt;allow-intent href=&quot;tel:*&quot; /&gt;
+
+&lt;!-- Allow geo: links to open maps --&gt;
+&lt;allow-intent href=&quot;geo:*&quot; /&gt;
+
+&lt;!-- Allow all unrecognized URLs to open installed apps
+     *NOT RECOMMENDED* --&gt;
+&lt;allow-intent href=&quot;*&quot; /&gt;
+</code></pre><h2 id="rete-richiesta-whitelist">Rete richiesta Whitelist</h2>
+<p>Controlli che le richieste di rete (immagini, XHRs, ecc.) sono consentiti (tramite ganci nativo di cordova).</p>
+<p>Nota: Si consiglia di che utilizzare un criterio di protezione contenuti (Vedi sotto), che è più sicuro. La whitelist è principalmente storico per visualizzazioni Web che non supportano la CSP.</p>
+<p>In <code>config. XML</code>, aggiungere tag <code>&lt; access &gt;</code> , simile al seguente:</p>
+<pre><code>&lt;!-- Allow images, xhrs, etc. to google.com --&gt;
+&lt;access origin=&quot;http://google.com&quot; /&gt;
+&lt;access origin=&quot;https://google.com&quot; /&gt;
+
+&lt;!-- Access to the subdomain maps.google.com --&gt;
+&lt;access origin=&quot;http://maps.google.com&quot; /&gt;
+
+&lt;!-- Access to all the subdomains on google.com --&gt;
+&lt;access origin=&quot;http://*.google.com&quot; /&gt;
+
+&lt;!-- Enable requests to content: URLs --&gt;
+&lt;access origin=&quot;content:///*&quot; /&gt;
+
+&lt;!-- Don&#39;t block any requests --&gt;
+&lt;access origin=&quot;*&quot; /&gt;
+</code></pre><p>Senza qualsiasi tag <code>&lt; access &gt;</code> , sono consentite solo le richieste di URL <code>file://</code> . Tuttavia, l&#39;applicazione di Cordova predefinito include <code>&lt; access origin = &quot;*&quot; &gt;</code> per impostazione predefinita.</p>
+<p>Stranezza: Android consente anche alle richieste di <a href="https://ssl.gstatic.com/accessibility/javascript/android/">https://ssl.gstatic.com/accessibility/javascript/android/</a> per impostazione predefinita, poiché questa operazione è necessaria per TalkBack funzionare correttamente.</p>
+<h3 id="politica-di-sicurezza-del-contenuto">Politica di sicurezza del contenuto</h3>
+<p>Controlli che le richieste di rete (immagini, XHRs, ecc.) possono essere effettuate (via webview direttamente).</p>
+<p>Su Android e iOS, la rete richiesta whitelist (Vedi sopra) non è in grado di filtrare tutti i tipi di richieste (ad esempio non sono bloccate <code>&lt; video &gt;</code> &amp; WebSockets). Così, oltre alla whitelist, è necessario utilizzare un tag <code>&lt; meta &gt;</code> <a href="http://content-security-policy.com/">Content Security Policy</a> su tutte le pagine.</p>
+<p>Su Android, supporto per CSP all&#39;interno webview sistema inizia con KitKat (ma è disponibile su tutte le versioni usando Crosswalk WebView).</p>
+<p>Ecco alcuni esempi di dichiarazioni di CSP per le pagine <code>HTML</code> :</p>
+<pre><code>&lt;!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS-&gt;native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add &#39;unsafe-inline&#39; to default-src
+        * Enable eval(): add &#39;unsafe-eval&#39; to default-src
+--&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; data: gap: https://ssl.gstatic.com; style-src &#39;self&#39; &#39;unsafe-inline&#39;; media-src *&quot;&gt;
+
+&lt;!-- Allow requests to foo.com --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; foo.com&quot;&gt;
+
+&lt;!-- Enable all requests, inline styles, and eval() --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src *; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39; &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;&gt;
+
+&lt;!-- Allow XHRs via https only --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39; https:&quot;&gt;
+
+&lt;!-- Allow iframe to https://cordova.apache.org/ --&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; frame-src &#39;self&#39; https://cordova.apache.org&quot;&gt;
+</code></pre>
+      </body>
+    </html>

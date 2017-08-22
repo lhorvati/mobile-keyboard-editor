@@ -1,0 +1,207 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <p align="right">
+    <a href="https://github.com/katzer/cordova-plugin-background-mode/tree/example">EXAMPLE :point_right:</a>
+</p>
+
+<h1 id="cordova-background-plug-in">Cordova Background Plug-in</h1>
+<p><a href="https://cordova.apache.org">Cordova</a> plugin to prevent the app from going to sleep while in background.</p>
+<p>Most mobile operating systems are multitasking capable, but most apps dont need to run while in background and not present for the user. Therefore they pause the app in background mode and resume the app before switching to foreground mode.
+The system keeps all network connections open while in background, but does not deliver the data until the app resumes.</p>
+<h3 id="plugin-s-purpose">Plugin&#39;s Purpose</h3>
+<p>This cordova plug-in can be used for applications, who rely on continuous network communication independent of from direct user interactions and remote push notifications.</p>
+<h3 id="-bangbang-store-compliance-bangbang-">:bangbang: Store Compliance :bangbang:</h3>
+<p>The plugin focuses on enterprise-only distribution and may not compliant with all public store vendors.</p>
+<p><strong>Update:</strong> The plugin ID has changed to cordova-plugin-background-mode and is available under npm. An updated version comes later!</p>
+<h2 id="overview">Overview</h2>
+<ol>
+<li><a href="#supported-platforms">Supported Platforms</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#changelog">ChangeLog</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#platform-specifics">Platform specifics</a></li>
+</ol>
+<h2 id="supported-platforms">Supported Platforms</h2>
+<ul>
+<li><strong>iOS</strong> (<em>including iOS8</em>)</li>
+<li><strong>Android</strong> <em>(SDK &gt;=11)</em></li>
+<li><strong>WP8</strong></li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>The plugin can either be installed from git repository, from local file system through the <a href="http://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-line%20Interface">Command-line Interface</a>. Or cloud based through <a href="http://docs.build.phonegap.com/en_US/index.html">PhoneGap Build</a>.</p>
+<h3 id="local-development-environment">Local development environment</h3>
+<p>From master:</p>
+<pre><code class="lang-bash"># ~~ from master branch ~~
+cordova plugin add https://github.com/katzer/cordova-plugin-background-mode.git
+</code></pre>
+<p>from a local folder:</p>
+<pre><code class="lang-bash"># ~~ local folder ~~
+cordova plugin add de.appplant.cordova.plugin.background-mode --searchpath path
+</code></pre>
+<p>or to use the last stable version:</p>
+<pre><code class="lang-bash"># ~~ stable version ~~
+cordova plugin add de.appplant.cordova.plugin.background-mode@0.6.3
+</code></pre>
+<p>To remove the plug-in, run the following command:</p>
+<pre><code class="lang-bash">cordova plugin rm de.appplant.cordova.plugin.background-mode
+</code></pre>
+<h3 id="phonegap-build">PhoneGap Build</h3>
+<p>Add the following xml to your config.xml to always use the latest version of this plugin:</p>
+<pre><code class="lang-xml">&lt;gap:plugin name=&quot;de.appplant.cordova.plugin.background-mode&quot; version=&quot;0.6.3&quot; /&gt;
+</code></pre>
+<p>More informations can be found <a href="https://build.phonegap.com/plugins/2056">here</a>.</p>
+<h2 id="changelog">ChangeLog</h2>
+<h4 id="version-0-6-4-03-03-2015-">Version 0.6.4 (03.03.2015)</h4>
+<ul>
+<li>Resolve possibly dependency conflict</li>
+</ul>
+<h4 id="version-0-6-3-01-01-2015-">Version 0.6.3 (01.01.2015)</h4>
+<ul>
+<li>[feature:] Silent mode for Android</li>
+</ul>
+<h4 id="version-0-6-2-14-12-2014-">Version 0.6.2 (14.12.2014)</h4>
+<ul>
+<li>[bugfix:] Type error</li>
+<li>[bugfix:] Wrong default values for <code>isEnabled</code> and <code>isActive</code>.</li>
+</ul>
+<h4 id="further-informations">Further informations</h4>
+<ul>
+<li>The former <code>plugin.backgroundMode</code> namespace has been deprecated and will be removed with the next major release.</li>
+<li>See <a href="CHANGELOG.md">CHANGELOG.md</a> to get the full changelog for the plugin.</li>
+</ul>
+<h4 id="known-issues">Known issues</h4>
+<ul>
+<li>Plug-in is broken on Windows Phone 8.1 platform.</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>The plugin creates the object <code>cordova.plugins.backgroundMode</code> with  the following methods:</p>
+<ol>
+<li><a href="#prevent-the-app-from-going-to-sleep-in-background">backgroundMode.enable</a></li>
+<li><a href="#pause-the-app-while-in-background">backgroundMode.disable</a></li>
+<li><a href="#receive-if-the-background-mode-is-enabled">backgroundMode.isEnabled</a></li>
+<li><a href="#receive-if-the-background-mode-is-active">backgroundMode.isActive</a></li>
+<li><a href="#android-customization">backgroundMode.getDefaults</a></li>
+<li><a href="#android-customization">backgroundMode.setDefaults</a></li>
+<li><a href="#modify-the-currently-displayed-notification">backgroundMode.configure</a></li>
+<li><a href="#get-informed-when-the-background-mode-has-been-activated">backgroundMode.onactivate</a></li>
+<li><a href="#get-informed-when-the-background-mode-has-been-deactivated">backgroundMode.ondeactivate</a></li>
+<li><a href="#get-informed-when-the-background-mode-could-not-been-activated">backgroundMode.onfailure</a></li>
+</ol>
+<h3 id="plugin-initialization">Plugin initialization</h3>
+<p>The plugin and its methods are not available before the <em>deviceready</em> event has been fired.</p>
+<pre><code class="lang-javascript">document.addEventListener(&#39;deviceready&#39;, function () {
+    // cordova.plugins.backgroundMode is now available
+}, false);
+</code></pre>
+<h3 id="prevent-the-app-from-going-to-sleep-in-background">Prevent the app from going to sleep in background</h3>
+<p>To prevent the app from being paused while in background, the <code>backroundMode.enable</code> interface has to be called.</p>
+<h4 id="further-informations">Further informations</h4>
+<ul>
+<li>The background mode will be activated once the app has entered the background and will be deactivated after the app has entered the foreground.</li>
+<li>To activate the background mode the app needs to be in foreground.</li>
+</ul>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.enable();
+</code></pre>
+<h3 id="pause-the-app-while-in-background">Pause the app while in background</h3>
+<p>The background mode can be disabled through the <code>backgroundMode.disable</code> interface.</p>
+<h4 id="further-informations">Further informations</h4>
+<ul>
+<li>Once the background mode has been disabled, the app will be paused when in background.</li>
+</ul>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.disable();
+</code></pre>
+<h3 id="receive-if-the-background-mode-is-enabled">Receive if the background mode is enabled</h3>
+<p>The <code>backgroundMode.isEnabled</code> interface can be used to get the information if the background mode is enabled or disabled.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.isEnabled(); // =&gt; boolean
+</code></pre>
+<h3 id="receive-if-the-background-mode-is-active">Receive if the background mode is active</h3>
+<p>The <code>backgroundMode.isActive</code> interface can be used to get the information if the background mode is active.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.isActive(); // =&gt; boolean
+</code></pre>
+<h3 id="get-informed-when-the-background-mode-has-been-activated">Get informed when the background mode has been activated</h3>
+<p>The <code>backgroundMode.onactivate</code> interface can be used to get notified when the background mode has been activated.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.onactivate = function() {};
+</code></pre>
+<h3 id="get-informed-when-the-background-mode-has-been-deactivated">Get informed when the background mode has been deactivated</h3>
+<p>The <code>backgroundMode.ondeactivate</code> interface can be used to get notified when the background mode has been deactivated.</p>
+<h4 id="further-informations">Further informations</h4>
+<ul>
+<li>Once the mode has been deactivated the app will be paused soon after the callback has been fired.</li>
+</ul>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.ondeactivate = function() {};
+</code></pre>
+<h3 id="get-informed-when-the-background-mode-could-not-been-activated">Get informed when the background mode could not been activated</h3>
+<p>The <code>backgroundMode.onfailure</code> interface can be used to get notified when the background mode could not been activated.</p>
+<p>The listener has to be a function and takes the following arguments:</p>
+<ul>
+<li>errorCode: Error code which describes the error</li>
+</ul>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.onfailure = function(errorCode) {};
+</code></pre>
+<h2 id="examples">Examples</h2>
+<p>The following example demonstrates how to enable the background mode after device is ready. The mode itself will be activated when the app has entered the background.</p>
+<pre><code class="lang-javascript">document.addEventListener(&#39;deviceready&#39;, function () {
+    // Android customization
+    cordova.plugins.backgroundMode.setDefaults({ text:&#39;Doing heavy tasks.&#39;});
+    // Enable background mode
+    cordova.plugins.backgroundMode.enable();
+
+    // Called when background mode has been activated
+    cordova.plugins.backgroundMode.onactivate = function () {
+        setTimeout(function () {
+            // Modify the currently displayed notification
+            cordova.plugins.backgroundMode.configure({
+                text:&#39;Running in background for more than 5s now.&#39;
+            });
+        }, 5000);
+    }
+}, false);
+</code></pre>
+<h2 id="platform-specifics">Platform specifics</h2>
+<h3 id="android-customization">Android customization</h3>
+<p>To indicate that the app is executing tasks in background and being paused would disrupt the user, the plug-in has to create a notification while in background - like a download progress bar.</p>
+<h4 id="override-defaults">Override defaults</h4>
+<p>The title, ticker and text for that notification can be customized as follows:</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.setDefaults({
+    title:  String,
+    ticker: String,
+    text:   String
+})
+</code></pre>
+<p>By default the app will come to foreground when taping on the notification. That can be changed also.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.setDefaults({
+    resume: false
+})
+</code></pre>
+<h4 id="modify-the-currently-displayed-notification">Modify the currently displayed notification</h4>
+<p>It&#39;s also possible to modify the currently displayed notification while in background.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.configure({
+    title: String,
+    ...
+})
+</code></pre>
+<h4 id="run-in-background-without-notification">Run in background without notification</h4>
+<p>In silent mode the plugin will not display a notification - which is not the default. Be aware that Android recommends adding a notification otherwise the OS may pause the app.</p>
+<pre><code class="lang-javascript">cordova.plugins.backgroundMode.configure({
+    silent: true
+})
+</code></pre>
+<h2 id="contributing">Contributing</h2>
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am &#39;Add some feature&#39;</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+<h2 id="license">License</h2>
+<p>This software is released under the <a href="http://opensource.org/licenses/Apache-2.0">Apache 2.0 License</a>.</p>
+<p>© 2013-2014 appPlant UG, Inc. All rights reserved</p>
+
+      </body>
+    </html>

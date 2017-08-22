@@ -1,0 +1,115 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>index.md</title>
+      </head>
+      <body>
+        <!---
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<h1 id="cordova-plugin-device-motion">cordova-plugin-device-motion</h1>
+<p>Este plugin proporciona acceso a acelerómetro del dispositivo. El acelerómetro es un sensor de movimiento que detecta el cambio (<em>delta</em>) en movimiento con respecto a la orientación actual del dispositivo, en tres dimensiones sobre el eje <em>x</em>, <em>y</em>y <em>z</em> .</p>
+<p>El acceso es por un global <code>navigator.accelerometer</code> objeto.</p>
+<p>Aunque el objeto está unido al ámbito global <code>navigator</code> , no estará disponible hasta después de la <code>deviceready</code> evento.</p>
+<pre><code>document.addEventListener (&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {console.log(navigator.accelerometer)};
+</code></pre><h2 id="instalaci-n">Instalación</h2>
+<pre><code>Cordova plugin añade cordova-plugin-device-movimiento
+</code></pre><h2 id="plataformas-soportadas">Plataformas soportadas</h2>
+<ul>
+<li>Amazon fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Explorador</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 8</li>
+<li>Windows</li>
+</ul>
+<h2 id="m-todos">Métodos</h2>
+<ul>
+<li>navigator.accelerometer.getCurrentAcceleration</li>
+<li>navigator.accelerometer.watchAcceleration</li>
+<li>navigator.accelerometer.clearWatch</li>
+</ul>
+<h2 id="objetos">Objetos</h2>
+<ul>
+<li>Acceleration</li>
+</ul>
+<h2 id="navigator-accelerometer-getcurrentacceleration">navigator.accelerometer.getCurrentAcceleration</h2>
+<p>Tienes la aceleración actual a lo largo de los ejes <em>x</em>, <em>y</em>y <em>z</em> .</p>
+<p>Estos valores de aceleración son devueltos a la <code>accelerometerSuccess</code> función de callback.</p>
+<pre><code>navigator.accelerometer.getCurrentAcceleration (accelerometerSuccess, accelerometerError);
+</code></pre><h3 id="ejemplo">Ejemplo</h3>
+<pre><code>function onSuccess(acceleration) {alert (&#39;Aceleración X:&#39; + acceleration.x + &#39;\n&#39; + &#39;Aceleración Y:&#39; + acceleration.y + &#39;\n&#39; + &#39;Aceleración Z:&#39; + acceleration.z + &#39;\n&#39; + &#39; Timestamp: &#39; + acceleration.timestamp + &#39;\n&#39;);};
+
+función onError() {alert(&#39;onError!&#39;);};
+
+navigator.accelerometer.getCurrentAcceleration (onSuccess, onError);
+</code></pre><h3 id="navegador-rarezas">Navegador rarezas</h3>
+<p>Los valores para X, Y, movimiento Z son todo generada aleatoriamente en orden para simular el acelerómetro.</p>
+<h3 id="ios-rarezas">iOS rarezas</h3>
+<ul>
+<li><p>iOS no reconoce el concepto de conseguir la aceleración actual en cualquier momento dado.</p>
+</li>
+<li><p>Debes ver la aceleración y capturar los datos en determinados intervalos de tiempo.</p>
+</li>
+<li><p>Así, la función de <code>getCurrentAcceleration</code> rinde el último valor informado de una llamada de <code>watchAccelerometer</code>.</p>
+</li>
+</ul>
+<h2 id="navigator-accelerometer-watchacceleration">navigator.accelerometer.watchAcceleration</h2>
+<p>Recupera el dispositivo actual de <code>Acceleration</code> a intervalos regulares, ejecutar el <code>accelerometerSuccess</code> función callback cada vez. Especificar el intervalo en milisegundos mediante la <code>acceleratorOptions</code> del objeto <code>frequency</code> parámetro.</p>
+<p>El vuelto ver referencias ID intervalo del acelerómetro reloj y puede ser utilizado con <code>navigator.accelerometer.clearWatch</code> para dejar de ver el acelerómetro.</p>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration (accelerometerSuccess, accelerometerError, accelerometerOptions);
+</code></pre><ul>
+<li><strong>accelerometerOptions</strong>: Un objeto con las llaves opcionales siguientes: <ul>
+<li><strong>periodo</strong>: periodo solicitado de llamadas a accelerometerSuccess con los datos de aceleración en milisegundos. <em>(Número)</em> (Por defecto: 10000)</li>
+</ul>
+</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<pre><code>function onSuccess(acceleration) {alert (&#39;Aceleración X:&#39; + acceleration.x + &#39;\n&#39; + &#39;Aceleración Y:&#39; + acceleration.y + &#39;\n&#39; + &#39;Aceleración Z:&#39; + acceleration.z + &#39;\n&#39; + &#39; Timestamp: &#39; + acceleration.timestamp + &#39;\n&#39;);};
+
+función onError() {alert(&#39;onError!&#39;);};
+
+var opciones = { frequency: 3000 };  Actualizar cada 3 segundos var watchID = navigator.accelerometer.watchAcceleration (onSuccess, onError, opciones);
+</code></pre><h3 id="ios-rarezas">iOS rarezas</h3>
+<p>La API llama a la función de devolución de llamada de éxito en el intervalo solicitado, pero restringe la gama de solicitudes que el dispositivo entre 40ms y 1000ms. Por ejemplo, si usted solicita un intervalo de 3 segundos, (3000ms), la API solicita datos desde el dispositivo cada 1 segundo, pero sólo ejecuta el callback de éxito cada 3 segundos.</p>
+<h2 id="navigator-accelerometer-clearwatch">navigator.accelerometer.clearWatch</h2>
+<p>Dejar de mirar el <code>Acceleration</code> referenciado por el <code>watchID</code> parámetro.</p>
+<pre><code>navigator.accelerometer.clearWatch(watchID);
+</code></pre><ul>
+<li><strong>watchID</strong>: el identificador devuelto por<code>navigator.accelerometer.watchAcceleration</code>.</li>
+</ul>
+<h3 id="ejemplo">Ejemplo</h3>
+<pre><code>var watchID = navigator.accelerometer.watchAcceleration (onSuccess, onError, opciones);
+
+... adelante... navigator.accelerometer.clearWatch(watchID);
+</code></pre><h2 id="acceleration">Acceleration</h2>
+<p>Contiene <code>Accelerometer</code> datos capturados en un punto específico en el tiempo. Valores de aceleración incluyen el efecto de la gravedad (9,81 m/s ^ 2), de modo que cuando se encuentra un dispositivo plano y hacia arriba, <em>x</em>, <em>y</em>, y <em>z</em> valores devueltos deben ser <code>,</code> , y<code>9.81</code>.</p>
+<h3 id="propiedades">Propiedades</h3>
+<ul>
+<li><strong>x</strong>: Cantidad de aceleración en el eje X. (en m/s^2) <em>(Number)</em></li>
+<li><strong>y</strong>: Cantidad de aceleración en el eje Y. (en m/s^2) <em>(Number)</em></li>
+<li><strong>z</strong>: Cantidad de aceleración en el eje Z. (en m/s^2) <em>(Number)</em></li>
+<li><strong>timestamp</strong>: Momento de la captura en milisegundos.<em>(DOMTimeStamp)</em></li>
+</ul>
+
+      </body>
+    </html>

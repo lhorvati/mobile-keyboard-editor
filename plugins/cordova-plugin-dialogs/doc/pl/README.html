@@ -1,0 +1,246 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
+-->
+<h1 id="cordova-plugin-dialogs">cordova-plugin-dialogs</h1>
+<p><a href="https://travis-ci.org/apache/cordova-plugin-dialogs"><img src="https://travis-ci.org/apache/cordova-plugin-dialogs.svg" alt="Build Status"></a></p>
+<p>Ten plugin umożliwia dostęp do niektórych rodzimych okna dialogowego elementy interfejsu użytkownika za pośrednictwem obiektu globalnego <code>navigator.notification</code>.</p>
+<p>Mimo, że obiekt jest dołączony do globalnego zakresu <code>navigator</code>, to nie dostępne dopiero po zdarzeniu <code>deviceready</code>.</p>
+<pre><code>document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() {
+    console.log(navigator.notification);
+}
+</code></pre><h2 id="instalacja">Instalacja</h2>
+<pre><code>cordova plugin add cordova-plugin-dialogs
+</code></pre><h2 id="metody">Metody</h2>
+<ul>
+<li><code>navigator.notification.alert</code></li>
+<li><code>navigator.notification.confirm</code></li>
+<li><code>navigator.notification.prompt</code></li>
+<li><code>navigator.notification.beep</code></li>
+</ul>
+<h2 id="navigator-notification-alert">navigator.notification.alert</h2>
+<p>Pokazuje niestandardowe wpisu lub okno dialogowe. Większość implementacji Cordova używać rodzimych okno dialogowe dla tej funkcji, ale niektóre platformy używać przeglądarki <code>alert</code> funkcji, która jest zazwyczaj mniej konfigurowalny.</p>
+<pre><code>navigator.notification.alert(message, alertCallback, [title], [buttonName])
+</code></pre><ul>
+<li><p><strong>wiadomość</strong>: komunikat okna dialogowego. <em>(String)</em></p>
+</li>
+<li><p><strong>alertCallback</strong>: wywołanie zwrotne do wywołania, gdy okno dialogowe alert jest oddalona. <em>(Funkcja)</em></p>
+</li>
+<li><p><strong>tytuł</strong>: okno tytuł. <em>(String)</em> (Opcjonalna, domyślnie<code>Alert</code>)</p>
+</li>
+<li><p><strong>buttonName</strong>: Nazwa przycisku. <em>(String)</em> (Opcjonalna, domyślnie<code>OK</code>)</p>
+</li>
+</ul>
+<h3 id="przyk-ad">Przykład</h3>
+<pre><code>function alertDismissed() {
+    // do something
+}
+
+navigator.notification.alert(
+    &#39;You are the winner!&#39;,  // message
+    alertDismissed,         // callback
+    &#39;Game Over&#39;,            // title
+    &#39;Done&#39;                  // buttonName
+);
+</code></pre><h3 id="obs-ugiwane-platformy">Obsługiwane platformy</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 i 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-i-8-dziwactwa">Windows Phone 7 i 8 dziwactwa</h3>
+<ul>
+<li><p>Istnieje wpis nie wbudowana przeglądarka, ale można powiązać w następujący sposób na wywołanie <code>alert()</code> w globalnym zasięgu:</p>
+<pre><code>window.alert = navigator.notification.alert;
+</code></pre></li>
+</ul>
+<ul>
+<li>Zarówno <code>alert</code> i <code>confirm</code> są bez blokowania połączeń, których wyniki są tylko dostępne asynchronicznie.</li>
+</ul>
+<h3 id="firefox-os-dziwactwa-">Firefox OS dziwactwa:</h3>
+<p>Dostępne są zarówno rodzimych blokuje <code>window.alert()</code> i bez blokowania <code>navigator.notification.alert()</code>.</p>
+<h3 id="je-yna-10-dziwactwa">Jeżyna 10 dziwactwa</h3>
+<p>parametr wywołania zwrotnego <code>Navigator.Notification.alert (&quot;tekst&quot;, wywołanie zwrotne, &#39;tytuł&#39;, &#39;tekst&#39;)</code> jest przekazywana numer 1.</p>
+<h2 id="navigator-notification-confirm">navigator.notification.confirm</h2>
+<p>Wyświetla okno dialogowe potwierdzenia konfigurowalny.</p>
+<pre><code>navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+</code></pre><ul>
+<li><p><strong>wiadomość</strong>: komunikat okna dialogowego. <em>(String)</em></p>
+</li>
+<li><p><strong>confirmCallback</strong>: wywołanie zwrotne do wywołania z indeksu z przycisku (1, 2 lub 3), lub gdy okno jest zwolniony bez naciśnij przycisk (0). <em>(Funkcja)</em></p>
+</li>
+<li><p><strong>tytuł</strong>: okno tytuł. <em>(String)</em> (Opcjonalna, domyślnie<code>Confirm</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>: tablica ciągów, określając etykiety przycisków. <em>(Tablica)</em> (Opcjonalna, domyślnie [ <code>OK,Cancel</code> ])</p>
+</li>
+</ul>
+<h3 id="confirmcallback">confirmCallback</h3>
+<p><code>confirmCallback</code> wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym potwierdzenia.</p>
+<p>Wywołanie zwrotne wymaga argumentu <code>buttonIndex</code> <em>(numer)</em>, który jest indeksem wciśnięty przycisk. Należy zauważyć, że indeks używa, na podstawie jednego indeksowania, więc wartością jest <code>1</code>, <code>2</code>, <code>3</code> itd.</p>
+<h3 id="przyk-ad">Przykład</h3>
+<pre><code>function onConfirm(buttonIndex) {
+    alert(&#39;You selected button &#39; + buttonIndex);
+}
+
+navigator.notification.confirm(
+    &#39;You are the winner!&#39;, // message
+     onConfirm,            // callback to invoke with index of button pressed
+    &#39;Game Over&#39;,           // title
+    [&#39;Restart&#39;,&#39;Exit&#39;]     // buttonLabels
+);
+</code></pre><h3 id="obs-ugiwane-platformy">Obsługiwane platformy</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 i 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="windows-phone-7-i-8-dziwactwa">Windows Phone 7 i 8 dziwactwa</h3>
+<ul>
+<li><p>Istnieje funkcja wbudowana przeglądarka nie <code>window.confirm</code> , ale można go powiązać przypisując:</p>
+<pre><code>window.confirm = navigator.notification.confirm;
+</code></pre></li>
+</ul>
+<ul>
+<li>Wzywa do <code>alert</code> i <code>confirm</code> są bez blokowania, więc wynik jest tylko dostępnych asynchronicznie.</li>
+</ul>
+<h3 id="windows-dziwactwa">Windows dziwactwa</h3>
+<ul>
+<li><p>Na Windows8/8.1 to nie można dodać więcej niż trzy przyciski do instancji MessageDialog.</p>
+</li>
+<li><p>Na Windows Phone 8.1 nie jest możliwe wyświetlić okno dialogowe z więcej niż dwoma przyciskami.</p>
+</li>
+</ul>
+<h3 id="firefox-os-dziwactwa-">Firefox OS dziwactwa:</h3>
+<p>Dostępne są zarówno rodzimych blokuje <code>window.confirm()</code> i bez blokowania <code>navigator.notification.confirm()</code>.</p>
+<h2 id="navigator-notification-prompt">navigator.notification.prompt</h2>
+<p>Wyświetla okno dialogowe macierzystego, który bardziej niż przeglądarki <code>prompt</code> funkcja.</p>
+<pre><code>navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+</code></pre><ul>
+<li><p><strong>wiadomość</strong>: komunikat okna dialogowego. <em>(String)</em></p>
+</li>
+<li><p><strong>promptCallback</strong>: wywołanie zwrotne do wywołania z indeksu z przycisku (1, 2 lub 3), lub gdy okno jest zwolniony bez naciśnij przycisk (0). <em>(Funkcja)</em></p>
+</li>
+<li><p><strong>title</strong>: okno tytuł <em>(String)</em> (opcjonalna, domyślnie <code>polecenia</code>)</p>
+</li>
+<li><p><strong>buttonLabels</strong>: tablica ciągów, określając przycisk etykiety <em>(tablica)</em> (opcjonalna, domyślnie <code>[&quot;OK&quot;, &quot;Anuluj&quot;]</code>)</p>
+</li>
+<li><p><strong>defaultText</strong>: domyślnie pole tekstowe wprowadzania wartości (<code>String</code>) (opcjonalna, domyślnie: pusty ciąg)</p>
+</li>
+</ul>
+<h3 id="promptcallback">promptCallback</h3>
+<p><code>promptCallback</code> wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym polecenia. Obiektu <code>results</code> przekazane do wywołania zwrotnego zawiera następujące właściwości:</p>
+<ul>
+<li><p><strong>buttonIndex</strong>: indeks wciśnięty przycisk. <em>(Liczba)</em> Należy zauważyć, że indeks używa, na podstawie jednego indeksowania, więc wartością jest <code>1</code>, <code>2</code>, <code>3</code> itd.</p>
+</li>
+<li><p><strong>input1</strong>: Tekst wprowadzony w oknie polecenia. <em>(String)</em></p>
+</li>
+</ul>
+<h3 id="przyk-ad">Przykład</h3>
+<pre><code>function onPrompt(results) {
+    alert(&quot;You selected button number &quot; + results.buttonIndex + &quot; and entered &quot; + results.input1);
+}
+
+navigator.notification.prompt(
+    &#39;Please enter your name&#39;,  // message
+    onPrompt,                  // callback to invoke
+    &#39;Registration&#39;,            // title
+    [&#39;Ok&#39;,&#39;Exit&#39;],             // buttonLabels
+    &#39;Jane Doe&#39;                 // defaultText
+);
+</code></pre><h3 id="obs-ugiwane-platformy">Obsługiwane platformy</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>Firefox OS</li>
+<li>iOS</li>
+<li>Windows Phone 7 i 8</li>
+<li>Windows 8</li>
+<li>Windows</li>
+</ul>
+<h3 id="dziwactwa-androida">Dziwactwa Androida</h3>
+<ul>
+<li><p>Android obsługuje maksymalnie trzy przyciski i więcej niż to ignoruje.</p>
+</li>
+<li><p>Android 3.0 i nowszych przyciski są wyświetlane w kolejności odwrotnej do urządzenia, które używają tematu Holo.</p>
+</li>
+</ul>
+<h3 id="windows-dziwactwa">Windows dziwactwa</h3>
+<ul>
+<li>W systemie Windows wierzyciel okno jest oparte na języku html, ze względu na brak takich natywnego api.</li>
+</ul>
+<h3 id="firefox-os-dziwactwa-">Firefox OS dziwactwa:</h3>
+<p>Dostępne są zarówno rodzimych blokuje <code>window.prompt()</code> i bez blokowania <code>navigator.notification.prompt()</code>.</p>
+<h2 id="navigator-notification-beep">navigator.notification.beep</h2>
+<p>Urządzenie odtwarza sygnał ciągły dźwięk.</p>
+<pre><code>navigator.notification.beep(times);
+</code></pre><ul>
+<li><strong>times</strong>: liczba powtórzeń po sygnale. <em>(Liczba)</em></li>
+</ul>
+<h3 id="przyk-ad">Przykład</h3>
+<pre><code>// Beep twice!
+navigator.notification.beep(2);
+</code></pre><h3 id="obs-ugiwane-platformy">Obsługiwane platformy</h3>
+<ul>
+<li>Amazon Fire OS</li>
+<li>Android</li>
+<li>BlackBerry 10</li>
+<li>iOS</li>
+<li>Tizen</li>
+<li>Windows Phone 7 i 8</li>
+<li>Windows 8</li>
+</ul>
+<h3 id="amazon-ogie-os-dziwactwa">Amazon ogień OS dziwactwa</h3>
+<ul>
+<li>Amazon ogień OS gra domyślny <strong>Dźwięk powiadomienia</strong> określone w panelu <strong>ekranu/ustawienia i dźwięk</strong>.</li>
+</ul>
+<h3 id="dziwactwa-androida">Dziwactwa Androida</h3>
+<ul>
+<li>Android gra domyślnie <strong>dzwonek powiadomienia</strong> określone w panelu <strong>ustawień/dźwięk i wyświetlacz</strong>.</li>
+</ul>
+<h3 id="windows-phone-7-i-8-dziwactwa">Windows Phone 7 i 8 dziwactwa</h3>
+<ul>
+<li>Opiera się na pliku rodzajowego sygnał z rozkładu Cordova.</li>
+</ul>
+<h3 id="dziwactwa-tizen">Dziwactwa Tizen</h3>
+<ul>
+<li><p>Tizen implementuje dźwięków przez odtwarzania pliku audio za pośrednictwem mediów API.</p>
+</li>
+<li><p>Plik dźwiękowy muszą być krótkie, musi znajdować się w podkatalogu <code>dźwięki</code> w katalogu głównym aplikacji i musi być o nazwie <code>beep.wav</code>.</p>
+</li>
+</ul>
+
+      </body>
+    </html>
