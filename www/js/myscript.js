@@ -88,13 +88,13 @@ var initEditorKeyboard = function initEditorKeyboard(pluginEl, callback) {
         else 
           selected(1);
       }
-      else if(currentPoint[0]> borders.r) {
+      else if(currentPoint[0]> borders.l) {
         if(currentPoint[1] < startPoint[1])
           selected(1)
         else
           selected(3);
       }
-      else if(currentPoint[0] < borders.l) {
+      else if(currentPoint[0] < borders.r) {
         if(currentPoint[1] < startPoint[1])
           selected(2)
         else
