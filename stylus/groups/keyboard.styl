@@ -100,6 +100,9 @@ button:focus:not(:active)::after
     .keyboard-item.special
         overflow: visible
 
+        &.pressed
+            background: rgba(0, 0, 0, .1)
+
         &.pressed .pressed-wrap
             display: flex !important
 
@@ -107,14 +110,18 @@ button:focus:not(:active)::after
             width: 30px
             height: 30px
 
+
+        // Pressed wrap =====================
         .pressed-wrap
             display: none
-            background: url(../images/btn-press.svg)
-            background-size: 100px 150px
+            background: #eceff1
             width: 100px
-            height: 150px
+            height: 100px
             position: absolute
-            margin-top: -56px
+            margin-top: -80px
+            box-shadow(0 0 10px colorBlack03)
+            border-radius(2px)
+            noselect()
 
             &.pressed
                 display: flex
@@ -128,34 +135,34 @@ button:focus:not(:active)::after
                 color: #757575
                 font-family: Arial, Helvetica, sans-serif
                 transition(.2s)
-                width: 30px
-                height: 30px
+                width: 40px
+                height: 40px
                 flexbox()
                 justify-content: center
                 align-items: center
+                noselect()
 
                 &:hover,
                 &.selected
-                    color: colorWhite
-                    font-size: 26px
-                    text-shadow: 0 0 10px colorBlack
+                    background: rgba(0, 0, 0, .1)
+                    border-radius(2px)
 
                 &:nth-child(1)
-                    top: 6px
-                    left: 10px
+                    top: 0
+                    left: 0
 
                 &:nth-child(2)
-                    top: 6px
-                    right: 10px
+                    top: 0
+                    right: 0
 
                 &:nth-child(3)
-                    top: 34px
-                    left: 36px
+                    top: 30px
+                    left: 30px
 
                 &:nth-child(4)
-                    bottom: 60px
-                    left: 10px
+                    bottom: 0
+                    left: 0
 
                 &:nth-child(5)
-                    bottom: 60px
-                    right: 10px
+                    bottom: 0
+                    right: 0
