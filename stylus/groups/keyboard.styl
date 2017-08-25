@@ -4,7 +4,8 @@ body
     width: 100vw
     height: 100vh
     flexbox()
-    flex-center()
+    justify-content: center
+    align-items: center
     background: #666
 
 
@@ -78,9 +79,13 @@ button:focus:not(:active)::after
         height: 35px
         border-radius(5px)
         flexbox()
-        flex-center()
+        justify-content: center
+        align-items: center
         overflow: hidden
         noselect()
+
+        &.toggled
+            background: rgba(0, 0, 0, .1)
 
         &.undo,
         &.redo
@@ -92,6 +97,43 @@ button:focus:not(:active)::after
             svg
                 width: 12px
                 height: 12px
+
+
+    #tab svg
+        width: 12px
+        height: 12px
+
+    #shift svg
+        width: 12px
+        height: 12px
+
+    #ctrl svg
+        width: 26px
+        height: 26px
+
+    #alt svg
+        width: 20px
+        height: 20px
+
+    #paste svg
+        width: 16px
+        height: 16px
+
+    #up svg
+        width: 14px
+        height: 14px
+
+    #down svg
+        width: 14px
+        height: 14px
+
+    #left svg
+        width: 14px
+        height: 14px
+
+    #right svg
+        width: 14px
+        height: 14px
 
 
 
@@ -122,6 +164,7 @@ button:focus:not(:active)::after
             box-shadow(0 0 10px colorBlack03)
             border-radius(2px)
             noselect()
+            z-index: 10
 
             &.pressed
                 display: flex
